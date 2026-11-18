@@ -12,8 +12,8 @@
         "changelog": "- Nuevo color de fondo en Diseño: con el interruptor \"Personalizado\" se elige cualquier color y se aplica a toda la interfaz (Inicio, Bibliotecas, búsqueda, colecciones y Detalles). Desactivado usa el fondo del tema de Jellyfin.\n- El texto de la interfaz ajusta su contraste automáticamente, así que los fondos claros siguen siendo legibles.\n- La vista previa del panel muestra el fondo elegido junto al acento, la sombra y la transparencia.",
         "targetAbi": "12.4.0.0",
         "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.27.0/Jellyfin.PremiumUI_0.27.0.0.zip",
-        "checksum": "61a2420199cda86c63cb8d73e2128e81",
-        "timestamp": "2026-11-18T23:30:28Z"
+        "checksum": "bea7c545c4098e65b99a63642a612f3e",
+        "timestamp": "2026-11-18T23:33:19Z"
       },
       {
         "version": "0.26.2.0",
