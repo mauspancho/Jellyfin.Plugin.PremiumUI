@@ -31,6 +31,7 @@ export function applyDesign(config: PremiumUiConfig): void {
     root.dataset.puiLazy = config.performance.lazyLoading === false ? 'off' : 'on';
 
     applyAccent(root, design.accentColor);
+    applyShadowColor(root, design.shadowColor);
 }
 
 /**
@@ -55,6 +56,22 @@ function applyAccent(root: HTMLElement, value: string | undefined): void {
     root.style.setProperty('--pui-accent-contrast', color.contrast);
     // El brillo del hero y de los halos sigue al acento personalizado.
     root.style.setProperty('--pui-glow', `rgba(${color.r}, ${color.g}, ${color.b}, 0.22)`);
+}
+
+/**
+ * Aplica el color de la sombra de las tarjetas elegido en el panel. Si está
+ * vacío o no es un hex válido, se elimina el estilo en línea y manda el color
+ * del tema (negro en todos los temas actuales).
+ */
+function applyShadowColor(root: HTMLElement, value: string | undefined): void {
+    const color = parseHex(value);
+
+    if (!color) {
+        root.style.removeProperty('--pui-card-shadow-rgb');
+        return;
+    }
+
+    root.style.setProperty('--pui-card-shadow-rgb', `${color.r}, ${color.g}, ${color.b}`);
 }
 
 interface AccentColor {

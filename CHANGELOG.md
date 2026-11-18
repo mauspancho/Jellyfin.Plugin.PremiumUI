@@ -337,3 +337,17 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 ### Catálogo
 
 - El `manifest.json` publica `imageUrl` con la portada del plugin (`assets/cover.png`), así que el catálogo de complementos de Jellyfin y la lista de instalados muestran el logo de corona con play. `assets/icon.png` se usa en el README y GitHub.
+
+## 0.26.0 — Sombra global y color configurable
+
+### Añadido
+
+- Nueva opción **Color de la sombra** en *Diseño*: selector de color con "Personalizado" y vuelta al color del tema. Se publica como `--pui-card-shadow-rgb` y tiñe la sombra base y la del hover de todas las tarjetas nativas.
+- La vista previa de Diseño aplica el color de la sombra a sus tiles para comprobarlo antes de guardar.
+- El backend valida el valor como `#rrggbb` (admite `#rgb`), lo normaliza y lo expone como `shadowColor` en el bootstrap; las configuraciones antiguas quedan con el negro del tema.
+
+### Cambiado
+
+- La sombra de las tarjetas pasa a ser global: Inicio, Bibliotecas, búsqueda, colecciones y Detalles comparten la sombra base y el aumento al pasar el cursor. Se conservan la elevación, la escala, el brillo y el anillo de acento de cada vista.
+- El póster de Detalles usa el mismo color de sombra configurable que el resto de tarjetas.
+- Las pruebas .NET cubren la normalización y el contrato del nuevo campo; las smoke comprueban que el color se aplica y se actualiza en caliente.

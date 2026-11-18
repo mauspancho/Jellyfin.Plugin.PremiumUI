@@ -228,7 +228,8 @@ public sealed class PremiumUiController : ControllerBase
                 normalized.Design.CardSize,
                 normalized.Design.TransitionMs,
                 normalized.Design.HoverIntensity,
-                normalized.Design.AccentColor),
+                normalized.Design.AccentColor,
+                normalized.Design.ShadowColor),
             Home: new HomeBootstrapDto(
                 Enabled: normalized.General.EnableHome,
                 HeroEnabled: normalized.Home.HeroEnabled,
@@ -291,6 +292,7 @@ public sealed record BootstrapDto(
 /// <param name="TransitionMs">Transition duration.</param>
 /// <param name="HoverIntensity">Card hover intensity percentage (0-150).</param>
 /// <param name="AccentColor">Optional accent color override (#rrggbb), empty for the theme color.</param>
+/// <param name="ShadowColor">Optional card shadow color override (#rrggbb), empty for the theme color.</param>
 public sealed record DesignBootstrapDto(
     [property: JsonPropertyName("theme")] string Theme,
     [property: JsonPropertyName("transparency")] int Transparency,
@@ -298,7 +300,8 @@ public sealed record DesignBootstrapDto(
     [property: JsonPropertyName("cardSize")] string CardSize,
     [property: JsonPropertyName("transitionMs")] int TransitionMs,
     [property: JsonPropertyName("hoverIntensity")] int HoverIntensity,
-    [property: JsonPropertyName("accentColor")] string AccentColor);
+    [property: JsonPropertyName("accentColor")] string AccentColor,
+    [property: JsonPropertyName("shadowColor")] string ShadowColor);
 
 /// <summary>
 /// Home options for the frontend.

@@ -31,6 +31,14 @@
     --pui-hero-height: 58vh;
     --pui-card-scale: 1;
     --pui-shadow: 0 18px 44px rgba(0, 0, 0, 0.46);
+    /* Sombra de las tarjetas: visible en reposo y mucho más al pasar el cursor.
+     * Los valores son los que pidió el diseño (8/8/13/3 → 8/8/19/10) y se
+     * aplican a todas las tarjetas nativas, no solo a las de Inicio. El color
+     * vive en `--pui-card-shadow-rgb` para que el panel pueda cambiarlo sin
+     * perder los desplazamientos ni el anillo del tema de alto contraste. */
+    --pui-card-shadow-rgb: 0, 0, 0;
+    --pui-card-shadow: 8px 8px 13px 3px rgba(var(--pui-card-shadow-rgb), 0.72);
+    --pui-card-shadow-hover: 8px 8px 19px 10px rgba(var(--pui-card-shadow-rgb), 0.9);
 
     /* Transparencia: 0 = superficies opacas, 1 = cristal. `applyDesign` publica
      * un número entre 0 y 1 y aquí se convierte en el alfa de cada capa. */
@@ -89,6 +97,9 @@ html[data-pui-theme='contrast'] {
     --pui-radius-lg: 8px;
     --pui-radius-md: 4px;
     --pui-shadow: 0 0 0 1px rgba(255, 255, 255, 0.24), 0 18px 44px rgba(0, 0, 0, 0.6);
+    /* Sobre negro puro la sombra no se ve: el borde claro mantiene el relieve. */
+    --pui-card-shadow: 0 0 0 1px rgba(255, 255, 255, 0.24), 8px 8px 13px 3px rgba(var(--pui-card-shadow-rgb), 0.9);
+    --pui-card-shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.32), 8px 8px 19px 10px rgba(var(--pui-card-shadow-rgb), 0.95);
 }
 
 html[data-pui-theme='noir'] {
@@ -169,4 +180,45 @@ html[data-premiumui] .pui-hero-button:hover {
 
 html[data-premiumui] .pui-hero-button:focus-visible {
     box-shadow: 0 0 0 3px var(--pui-accent-soft), 0 0 0 1px var(--pui-accent);
+}
+
+/* ---------- Tarjetas ----------
+ * Regla global: cualquier tarjeta nativa de Jellyfin (Inicio, Bibliotecas,
+ * búsqueda, colecciones, Detalles…) recibe la sombra del tema. Al pasar el
+ * cursor o enfocar con teclado la sombra crece y se añade el halo de acento,
+ * sin sustituir el resto de efectos hover de cada vista.
+ */
+
+html[data-premiumui]:not([data-pui-state='disabled']) .card > .cardBox,
+html[data-premiumui]:not([data-pui-state='disabled']) .card > .cardScalable {
+    border-radius: var(--pui-radius-md);
+}
+
+html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer {
+    border-radius: var(--pui-radius-md);
+    box-shadow: var(--pui-card-shadow);
+    transition: box-shadow var(--pui-transition) ease;
+}
+
+html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+}
+
+@media (hover: hover) {
+    html[data-premiumui]:not([data-pui-state='disabled']) .card:hover .cardImageContainer,
+    html[data-premiumui]:not([data-pui-state='disabled']) .card:focus-visible .cardImageContainer {
+        box-shadow:
+            0 0 0 clamp(1px, calc(3px * var(--pui-hover, 1)), 6px) var(--pui-accent),
+            var(--pui-card-shadow-hover),
+            0 0 calc(32px * var(--pui-hover, 1)) var(--pui-accent-soft);
+    }
+}
+
+html[data-pui-motion='reduce'] .card .cardImageContainer {
+    transition: none;
 }

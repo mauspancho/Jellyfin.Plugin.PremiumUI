@@ -14,6 +14,7 @@ public class PluginWiringTests
         original.General.Enabled = false;
         original.Design.Theme = "midnight";
         original.Design.AccentColor = "#112233";
+        original.Design.ShadowColor = "#445566";
         original.Home.SectionOrder = ["movies", "hero"];
         original.Performance.CacheMinutes = 42;
 
@@ -28,6 +29,7 @@ public class PluginWiringTests
         Assert.False(restored.General.Enabled);
         Assert.Equal("midnight", restored.Design.Theme);
         Assert.Equal("#112233", restored.Design.AccentColor);
+        Assert.Equal("#445566", restored.Design.ShadowColor);
         Assert.Equal(["movies", "hero"], restored.Home.SectionOrder);
         Assert.Equal(42, restored.Performance.CacheMinutes);
     }

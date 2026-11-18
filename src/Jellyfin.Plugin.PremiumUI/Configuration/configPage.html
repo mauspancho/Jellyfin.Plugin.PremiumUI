@@ -85,6 +85,17 @@
                         <p class="premiumUiHint">Desactivado usa el color del tema seleccionado.</p>
                     </div>
                     <div class="premiumUiField">
+                        <label for="designShadow">Color de la sombra</label>
+                        <div class="premiumUiColorRow">
+                            <input type="color" id="designShadow" value="#000000" aria-label="Color de la sombra">
+                            <label class="premiumUiToggle premiumUiToggleInline">
+                                <input type="checkbox" id="designShadowEnabled">
+                                <span>Personalizado</span>
+                            </label>
+                        </div>
+                        <p class="premiumUiHint">Desactivado usa la sombra del tema. El color tiñe la sombra de todas las tarjetas.</p>
+                    </div>
+                    <div class="premiumUiField">
                         <label for="designCardSize">Tamaño de tarjetas</label>
                         <select id="designCardSize">
                             <option value="small">Pequeño</option>
@@ -826,7 +837,8 @@
             border: 1px solid var(--preview-border, rgba(255, 255, 255, 0.1));
             border-radius: calc(var(--preview-radius, 12px) * 0.6);
             background: var(--preview-surface, rgba(14, 17, 24, 0.6));
-            transition: background 160ms ease, border-color 160ms ease;
+            box-shadow: 0 8px 18px var(--preview-shadow, rgba(0, 0, 0, 0.72));
+            transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
         }
 
         .premiumUiThemePreviewHint {
@@ -982,6 +994,7 @@
                 order: DEFAULT_ORDER.slice(),
                 loaded: false,
                 accent: '',
+                shadow: '',
                 schemaVersion: 0,
                 studioNames: [],
                 studios: [],
@@ -1351,9 +1364,11 @@
                 var theme = THEMES[byId('designTheme').value] || THEMES.cinema;
                 var transparency = intValue('designTransparency', 55, 0, 100) / 100;
                 var accent = state.accent || theme.accent;
+                var shadow = state.shadow || '#000000';
 
                 preview.style.setProperty('--preview-accent', accent);
                 preview.style.setProperty('--preview-glow', hexToRgba(accent, 0.32));
+                preview.style.setProperty('--preview-shadow', hexToRgba(shadow, 0.72));
                 preview.style.setProperty('--preview-surface', 'rgba(' + theme.surface + ', ' + (0.95 - transparency * 0.62).toFixed(3) + ')');
                 preview.style.setProperty('--preview-strong', 'rgba(' + theme.strong + ', ' + (1 - transparency * 0.45).toFixed(3) + ')');
                 preview.style.setProperty('--preview-border', 'rgba(' + theme.border + ', ' + theme.borderAlpha + ')');
@@ -1385,6 +1400,14 @@
                 setChecked('designAccentEnabled', custom);
                 byId('designAccent').disabled = !custom;
                 previewAccent();
+            }
+
+            function syncShadowControls() {
+                var custom = state.shadow.length > 0;
+                setChecked('designShadowEnabled', custom);
+                byId('designShadow').disabled = !custom;
+                setValue('designShadow', custom ? state.shadow : '#000000');
+                previewTheme();
             }
 
             function setVersionLabel(version) {
@@ -1506,7 +1529,9 @@
                 setValue('designTransition', design.TransitionMs == null ? 220 : design.TransitionMs);
                 setValue('designHoverIntensity', design.HoverIntensity == null ? 100 : design.HoverIntensity);
                 state.accent = design.AccentColor || '';
+                state.shadow = design.ShadowColor || '';
                 syncAccentControls();
+                syncShadowControls();
 
                 setChecked('homeHeroEnabled', home.HeroEnabled !== false);
                 setValue('homeHeroSource', home.HeroSource || 'random');
@@ -1558,7 +1583,8 @@
                         CardSize: byId('designCardSize').value,
                         TransitionMs: intValue('designTransition', 220, 0, 600),
                         HoverIntensity: intValue('designHoverIntensity', 100, 0, 150),
-                        AccentColor: state.accent
+                        AccentColor: state.accent,
+                        ShadowColor: state.shadow
                     },
                     Home: {
                         HeroEnabled: byId('homeHeroEnabled').checked,
@@ -1797,6 +1823,19 @@
                     state.accent = this.checked ? byId('designAccent').value : '';
                     byId('designAccent').disabled = !this.checked;
                     previewAccent();
+                });
+
+                byId('designShadow').addEventListener('input', function () {
+                    if (state.shadow) {
+                        state.shadow = this.value;
+                        previewTheme();
+                    }
+                });
+
+                byId('designShadowEnabled').addEventListener('change', function () {
+                    state.shadow = this.checked ? byId('designShadow').value : '';
+                    byId('designShadow').disabled = !this.checked;
+                    previewTheme();
                 });
 
                 page.querySelectorAll('input, select').forEach(function (element) {

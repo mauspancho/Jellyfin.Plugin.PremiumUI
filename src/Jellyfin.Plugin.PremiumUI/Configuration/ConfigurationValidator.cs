@@ -90,7 +90,8 @@ public static class ConfigurationValidator
             CardSize = Canonical(source.CardSize, CardSizes, "medium"),
             TransitionMs = Clamp(source.TransitionMs, 0, 600),
             HoverIntensity = Clamp(source.HoverIntensity, 0, 150),
-            AccentColor = NormalizeColor(source.AccentColor)
+            AccentColor = NormalizeColor(source.AccentColor),
+            ShadowColor = NormalizeColor(source.ShadowColor)
         };
     }
 

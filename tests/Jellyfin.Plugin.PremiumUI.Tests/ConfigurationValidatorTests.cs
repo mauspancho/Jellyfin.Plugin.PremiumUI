@@ -21,6 +21,7 @@ public class ConfigurationValidatorTests
         Assert.Equal(220, result.Design.TransitionMs);
         Assert.Equal(100, result.Design.HoverIntensity);
         Assert.Equal(string.Empty, result.Design.AccentColor);
+        Assert.Equal(string.Empty, result.Design.ShadowColor);
         Assert.Equal(12, result.Home.ItemsPerSection);
         Assert.Equal(12, result.Home.RecommendationsCount);
         Assert.Equal(10, result.Performance.CacheMinutes);
@@ -269,6 +270,23 @@ public class ConfigurationValidatorTests
         var result = ConfigurationValidator.Normalize(input);
 
         Assert.Equal(expected, result.Design.AccentColor);
+    }
+
+    [Theory]
+    [InlineData("#000000", "#000000")]
+    [InlineData("112233", "#112233")]
+    [InlineData("#abc", "#aabbcc")]
+    [InlineData("#GGGGGG", "")]
+    [InlineData("gris", "")]
+    [InlineData("", "")]
+    [InlineData(null, "")]
+    public void Normalize_Design_ShadowColorIsValidHex(string? color, string expected)
+    {
+        var input = new PluginConfiguration { Design = new DesignOptions { ShadowColor = color! } };
+
+        var result = ConfigurationValidator.Normalize(input);
+
+        Assert.Equal(expected, result.Design.ShadowColor);
     }
 
     [Theory]

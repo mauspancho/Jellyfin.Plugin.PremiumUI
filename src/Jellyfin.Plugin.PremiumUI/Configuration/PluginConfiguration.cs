@@ -103,6 +103,12 @@ public sealed class DesignOptions
     /// values make the lift, ring and shadow more pronounced.
     /// </summary>
     public int HoverIntensity { get; set; } = 100;
+
+    /// <summary>
+    /// Gets or sets the optional card shadow color override in <c>#rrggbb</c> format.
+    /// Empty means the selected theme defines the shadow color (black).
+    /// </summary>
+    public string ShadowColor { get; set; } = string.Empty;
 }
 
 /// <summary>

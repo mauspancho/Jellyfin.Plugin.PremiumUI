@@ -6,6 +6,7 @@ export interface DesignConfig {
     transitionMs: number;
     hoverIntensity: number;
     accentColor: string;
+    shadowColor: string;
 }
 
 export interface StudioCollection {

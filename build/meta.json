@@ -6,7 +6,7 @@
   "owner": "mauspancho",
   "category": "General",
   "imageUrl": "https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/cover.png",
-  "version": "0.25.0.0",
+  "version": "0.26.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -14,5 +14,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Número de recomendaciones independiente: el panel tiene un campo propio (\"Recomendaciones a mostrar\", 4-20) que ya no depende del número de elementos del hero.\n- El campo del hero pasa a llamarse \"Elementos en el hero\" y sigue controlando solo la rotación del hero."
+  "changelog": "- Color de la sombra configurable en Diseño: selector con opción \"Personalizado\" que tiñe la sombra base y el hover de todas las tarjetas nativas (Inicio, Bibliotecas, búsqueda, colecciones y Detalles).\n- La sombra de las tarjetas ahora es global y aumenta al pasar el cursor, sin sustituir la elevación, la escala ni el anillo de acento existentes.\n- La vista previa de Diseño muestra el color de la sombra elegido."
 }
