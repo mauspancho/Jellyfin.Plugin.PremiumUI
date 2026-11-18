@@ -336,4 +336,4 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 
 ### Catálogo
 
-- El `manifest.json` publica `imageUrl` con el icono del plugin (`assets/icon.png`), así que el catálogo de complementos de Jellyfin y la lista de instalados muestran el logo de corona con play.
+- El `manifest.json` publica `imageUrl` con la portada del plugin (`assets/cover.png`), así que el catálogo de complementos de Jellyfin y la lista de instalados muestran el logo de corona con play. `assets/icon.png` se usa en el README y GitHub.

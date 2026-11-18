@@ -5,7 +5,7 @@
   "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
   "owner": "mauspancho",
   "category": "General",
-  "imageUrl": "https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/icon.png",
+  "imageUrl": "https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/cover.png",
   "version": "0.25.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",

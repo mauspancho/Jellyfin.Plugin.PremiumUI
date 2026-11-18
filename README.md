@@ -291,11 +291,11 @@ frontend/
 
 ## Icono
 
-`assets/icon.png` (512×512, fondo transparente) es la imagen que muestra el
-catálogo de complementos: el `manifest.json` la publica en `imageUrl` y Jellyfin
-la carga desde
-`https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/icon.png`.
-`assets/icon-1024.png` es la misma imagen a tamaño completo.
+- `assets/icon.png` (512×512, fondo transparente): logo para el README y GitHub.
+- `assets/icon-1024.png`: la misma imagen a tamaño completo.
+- `assets/cover.png` (1280×720): portada que publica el `manifest.json` en
+  `imageUrl`; el catálogo de Jellyfin la recorta a formato panorámico con
+  `background-size: cover`, así que se usa una versión ancha con el logo centrado.
 
 ## Licencia
 
