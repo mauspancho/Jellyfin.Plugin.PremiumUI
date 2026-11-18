@@ -333,3 +333,7 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - Nueva opción **Recomendaciones a mostrar** (4–20, por defecto 12) en la sección *Inicio* del panel: controla solo cuántas tarjetas aparecen en la fila de recomendaciones.
 - El campo anterior pasa a llamarse **Elementos en el hero** y sigue controlando únicamente la rotación del hero.
 - El valor viaja como `recommendationsCount` en el bootstrap y se valida en el servidor (4–20); las configuraciones antiguas heredan 12 sin romperse.
+
+### Catálogo
+
+- El `manifest.json` publica `imageUrl` con el icono del plugin (`assets/icon.png`), así que el catálogo de complementos de Jellyfin y la lista de instalados muestran el logo de corona con play.

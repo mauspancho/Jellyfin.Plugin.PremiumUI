@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" width="160" height="160" alt="Jellyfin Premium UI">
+</p>
+
 # Jellyfin Premium UI
 
 Plugin para **Jellyfin 12.4.0** que mejora únicamente la **pantalla de inicio** y las **páginas de detalles** de Jellyfin Web con una capa visual cinematográfica, sin modificar los archivos de Jellyfin ni el reproductor.
@@ -284,6 +288,14 @@ frontend/
 - `docs/PHASE2-REPORT.md`: inyección del índice, assets y evidencias de la Fase 2.
 - `docs/PHASE3-REPORT.md`: DOM verificado, alcance visual, rendimiento y limitaciones.
 - `CHANGELOG.md`: historial de cambios.
+
+## Icono
+
+`assets/icon.png` (512×512, fondo transparente) es la imagen que muestra el
+catálogo de complementos: el `manifest.json` la publica en `imageUrl` y Jellyfin
+la carga desde
+`https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/icon.png`.
+`assets/icon-1024.png` es la misma imagen a tamaño completo.
 
 ## Licencia
 
