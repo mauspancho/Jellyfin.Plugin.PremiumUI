@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.24.3.0",
+        "changelog": "- Títulos de sección alineados: \"Continuar viendo\" y \"Mis medios\" (y sus variantes) vuelven a respetar el margen nativo de Jellyfin.\n- El resto de 0.24.2: recomendaciones alineadas, Detalles desactivable, precarga y carga diferida en caliente.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.24.3/Jellyfin.PremiumUI_0.24.3.0.zip",
+        "checksum": "900851bf0269d2344a4217368ca40bf0",
+        "timestamp": "2026-11-18T03:48:13Z"
+      },
+      {
         "version": "0.24.2.0",
         "changelog": "- Recomendaciones alineada con el margen de las secciones nativas (3.3 % + safe-area) en todos los anchos, incluido el anclaje de scroll.\n- El resto de 0.24.1: Detalles realmente desactivable, precarga y carga diferida en caliente.",
         "targetAbi": "12.4.0.0",

@@ -5,7 +5,7 @@
   "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
   "owner": "mauspancho",
   "category": "General",
-  "version": "0.24.2.0",
+  "version": "0.24.3.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -13,5 +13,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Recomendaciones alineada con el margen de las secciones nativas (3.3 % + safe-area) en todos los anchos, incluido el anclaje de scroll.\n- El resto de 0.24.1: Detalles realmente desactivable, precarga y carga diferida en caliente."
+  "changelog": "- Títulos de sección alineados: \"Continuar viendo\" y \"Mis medios\" (y sus variantes) vuelven a respetar el margen nativo de Jellyfin.\n- El resto de 0.24.2: recomendaciones alineadas, Detalles desactivable, precarga y carga diferida en caliente."
 }

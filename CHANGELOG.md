@@ -318,3 +318,10 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 
 - La fila de recomendaciones era la única pegada a los laterales: su padding era fijo (1.5 rem) y, además, el anclaje de scroll la desplazaba 53 px a la izquierda al cargar. Ahora usa las clases `padded-left`/`padded-right` de Jellyfin (3.3 % + safe-area, las mismas que las filas nativas) y `scroll-padding-inline` para que el snap respete ese margen.
 - Verificado a 1600, 1280, 1024, 800 y 500 px: la primera tarjeta y el título de Recomendaciones coinciden al píxel con los de Reciente, Mis medios y las demás secciones.
+
+## 0.24.3 — Títulos de sección alineados
+
+### Corregido
+
+- "Continuar viendo", "Mis medios" y las filas de "Continuar escuchando/leyendo" ponían `padded-left` directamente en el `h2`, no en un contenedor. El estilo del plugin sobrescribía ese margen con el hueco de la barra de acento y el título quedaba pegado al borde izquierdo. Ahora esos títulos conservan el margen nativo (3.3 %) y se les suma el hueco de la barra; la barra se dibuja al inicio de ese margen.
+- Verificado con todas las filas de Inicio (incluidas las ocultas por estar vacías): el texto de todos los títulos empieza en el mismo píxel y la barra de acento también, a 1600 y 800 px de ancho.

@@ -245,11 +245,26 @@ html[data-pui-home='on'] #homeTab .sectionTitleContainer {
 html[data-pui-home='on'] #homeTab .sectionTitle {
     position: relative;
     margin: 0;
-    padding-left: 0.72em;
+    padding-inline-start: 0.72em;
     font-size: clamp(1.02rem, 0.98rem + 0.35vw, 1.38rem);
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: 0.004em;
+}
+
+/*
+ * Algunas filas nativas ("Continuar viendo", "Mis medios"…) ponen
+ * `padded-left` directamente en el h2 y no en un contenedor. Sin esto, el
+ * padding de la barra de acento pisaba el margen de Jellyfin y el título
+ * quedaba pegado al borde. Se conserva el margen nativo y se suma el hueco
+ * de la barra; la barra se dibuja al inicio de ese margen.
+ */
+html[data-pui-home='on'] #homeTab .sectionTitle.padded-left {
+    padding-inline-start: calc(3.3% + 0.72em);
+}
+
+html[data-pui-home='on'] #homeTab .sectionTitle.padded-left::before {
+    inset-inline-start: 3.3%;
 }
 
 html[data-pui-home='on'] #homeTab .sectionTitle::before {
@@ -257,7 +272,7 @@ html[data-pui-home='on'] #homeTab .sectionTitle::before {
     position: absolute;
     top: 0.14em;
     bottom: 0.14em;
-    left: 0;
+    inset-inline-start: 0;
     width: 3px;
     border-radius: 3px;
     background: var(--pui-accent);
