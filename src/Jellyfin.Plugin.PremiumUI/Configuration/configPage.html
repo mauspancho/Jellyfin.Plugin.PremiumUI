@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Jellyfin Premium UI</title>
+</head>
+<body>
+<div id="premiumUiConfigPage"
+     data-role="page"
+     class="page type-interior pluginConfigurationPage premiumUiConfigPage"
+     data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div data-role="content">
+        <div class="content-primary premiumUiContent">
+
+            <header class="premiumUiHeader">
+                <div>
+                    <p class="premiumUiEyebrow">Jellyfin Premium UI</p>
+                    <h1 class="premiumUiTitle">Configuración</h1>
+                    <p class="premiumUiSubtitle">Una capa visual cinematográfica sobre Jellyfin Web.</p>
+                </div>
+                <span class="premiumUiVersion" id="premiumUiVersion">v1.0.0.0</span>
+            </header>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiGeneralTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">tune</span>
+                    <div>
+                        <h2 id="premiumUiGeneralTitle">General</h2>
+                        <p>Activa el plugin y elige en qué pantallas se aplica.</p>
+                    </div>
+                </div>
+                <div class="premiumUiGrid">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="generalEnabled">
+                        <span>Habilitar plugin</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="generalHome">
+                        <span>Habilitar pantalla de inicio</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="generalDetails">
+                        <span>Habilitar detalles</span>
+                    </label>
+                </div>
+                <div class="premiumUiActions">
+                    <button type="button" class="premiumUiButton premiumUiButtonGhost" id="premiumUiReset">
+                        <span class="material-icons" aria-hidden="true">restart_alt</span>
+                        Restaurar configuración
+                    </button>
+                </div>
+            </section>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiDesignTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">palette</span>
+                    <div>
+                        <h2 id="premiumUiDesignTitle">Diseño</h2>
+                        <p>Tema, profundidad visual y ritmo de las transiciones.</p>
+                    </div>
+                </div>
+                <div class="premiumUiGrid premiumUiGridTwo">
+                    <div class="premiumUiField">
+                        <label for="designTheme">Tema</label>
+                        <select id="designTheme">
+                            <option value="cinema">Cinema</option>
+                            <option value="midnight">Midnight</option>
+                            <option value="amoled">AMOLED</option>
+                            <option value="contrast">Alto contraste</option>
+                        </select>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designAccent">Color de acento</label>
+                        <div class="premiumUiColorRow">
+                            <input type="color" id="designAccent" value="#e6b45e" aria-label="Color de acento">
+                            <label class="premiumUiToggle premiumUiToggleInline">
+                                <input type="checkbox" id="designAccentEnabled">
+                                <span>Personalizado</span>
+                            </label>
+                        </div>
+                        <p class="premiumUiHint">Desactivado usa el color del tema seleccionado.</p>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designCardSize">Tamaño de tarjetas</label>
+                        <select id="designCardSize">
+                            <option value="small">Pequeño</option>
+                            <option value="medium">Mediano</option>
+                            <option value="large">Grande</option>
+                        </select>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designTransparency">Transparencia <output id="designTransparencyValue">55%</output></label>
+                        <input type="range" id="designTransparency" min="0" max="100" step="1">
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designHeroHeight">Altura del Hero <output id="designHeroHeightValue">68%</output></label>
+                        <input type="range" id="designHeroHeight" min="40" max="90" step="1">
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designTransition">Velocidad de transiciones <output id="designTransitionValue">220 ms</output></label>
+                        <input type="range" id="designTransition" min="0" max="600" step="10">
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designHoverIntensity">Intensidad del hover <output id="designHoverIntensityValue">100%</output></label>
+                        <input type="range" id="designHoverIntensity" min="0" max="150" step="5">
+                        <p class="premiumUiHint">Controla la elevación, el anillo y la sombra de las tarjetas al pasar el cursor.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiHomeTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">movie</span>
+                    <div>
+                        <h2 id="premiumUiHomeTitle">Inicio</h2>
+                        <p>Hero, carruseles y orden de las secciones.</p>
+                    </div>
+                </div>
+                <div class="premiumUiGrid premiumUiGridTwo">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeHeroEnabled">
+                        <span>Habilitar Hero</span>
+                    </label>
+                    <div class="premiumUiField">
+                        <label for="homeHeroSource">Contenido destacado</label>
+                        <select id="homeHeroSource">
+                            <option value="random">Aleatorio</option>
+                            <option value="latest">Últimas incorporaciones</option>
+                            <option value="movies">Películas</option>
+                            <option value="series">Series</option>
+                        </select>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="homeItemsPerSection">Elementos por carrusel</label>
+                        <input type="number" id="homeItemsPerSection" min="4" max="20" step="1">
+                    </div>
+                </div>
+
+                <p class="premiumUiHint">El Hero aparece únicamente en Inicio: no se muestra en las bibliotecas de Películas y Series. "Aleatorio" elige películas y series de toda la biblioteca; "Películas" y "Series" hacen lo mismo limitadas a su tipo, con año y duración reales. "Últimas incorporaciones" mantiene el comportamiento clásico: solo lo recién agregado.</p>
+
+                <h3 class="premiumUiSubheading">Carruseles</h3>
+                <div class="premiumUiGrid">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeMedia">
+                        <span>Mis contenidos</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeContinue">
+                        <span>Continuar viendo</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeRecent">
+                        <span>Recién agregadas</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeMovies">
+                        <span>Películas</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeSeries">
+                        <span>Series</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeRecommendations">
+                        <span>Recomendaciones</span>
+                    </label>
+                </div>
+
+                <p class="premiumUiHint">Estas casillas muestran u ocultan las filas de Inicio. "Mis contenidos" es la fila de accesos a las bibliotecas; si la desmarcas desaparece y su espacio lo ocupa la siguiente sección. "Recomendaciones" crea una fila propia del plugin con sugerencias basadas en el historial del usuario; si aún no ha visto nada, muestra películas y series aleatorias. El Hero tiene su propia selección de contenido y sigue funcionando aunque se desmarque una fila.</p>
+
+                <h3 class="premiumUiSubheading">Colecciones por estudio</h3>
+                <div class="premiumUiGrid premiumUiGridTwo">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="homeStudiosEnabled">
+                        <span>Habilitar estudios</span>
+                    </label>
+                </div>
+
+                <div class="premiumUiField premiumUiStudiosField">
+                    <div class="premiumUiStudiosHead">
+                        <label for="homeStudiosFilter">Estudios del servidor</label>
+                        <span class="premiumUiStudiosCount" id="homeStudiosCount">0 seleccionados</span>
+                    </div>
+                    <input type="search" id="homeStudiosFilter" placeholder="Buscar entre los estudios del servidor…" autocomplete="off">
+                    <div class="premiumUiStudiosList" id="homeStudiosList" role="group" aria-label="Estudios del servidor">
+                        <p class="premiumUiStudiosMessage">Cargando estudios…</p>
+                    </div>
+                    <div class="premiumUiStudiosFoot">
+                        <span class="premiumUiStudiosMessage" id="homeStudiosStatus"></span>
+                        <button type="button" class="premiumUiButton premiumUiButtonGhost" id="homeStudiosSuggested">Usar sugeridos</button>
+                    </div>
+                </div>
+
+                <p class="premiumUiHint">Añade una fila de logos de estudios en Inicio, justo debajo del hero; al hacer clic se abre la lista completa de títulos de la colección. Los estudios que son la misma marca se agrupan en una sola entrada (por ejemplo, Disney reúne Disney Channel, Walt Disney Pictures y Walt Disney Animation) y el número junto al nombre indica cuántos estudios incluye. Al marcar el grupo se muestran todos sus títulos juntos. El plugin incluye logos en WebP y bucles de vídeo para Disney, Walt Disney Pictures, Marvel, DC, Paramount, Netflix, Pixar, Universal, Warner, Columbia, DreamWorks y Lucasfilm; los estudios sin arte incluido usan el logo del servidor. Si no marcas ninguno se usan los cinco sugeridos (Disney, Marvel, DC, Paramount y Netflix). Hasta 40 estudios.</p>
+
+                <h3 class="premiumUiSubheading">Orden de secciones</h3>
+                <ul class="premiumUiOrder" id="homeSectionOrder" aria-label="Orden de secciones"></ul>
+                <p class="premiumUiHint">El orden se aplica a las filas visibles de Inicio: "Continuar viendo" agrupa también las filas de continuar (escuchando, leyendo, "A continuación"). "Mis contenidos" se puede mover con las flechas o desmarcarse arriba. El Hero se mantiene siempre al principio y las filas propias de Jellyfin que el plugin no reconoce conservan su posición.</p>
+            </section>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiDetailsTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">info</span>
+                    <div>
+                        <h2 id="premiumUiDetailsTitle">Detalles</h2>
+                        <p>Composición de la página de películas y series.</p>
+                    </div>
+                </div>
+                <div class="premiumUiGrid">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="detailsBackdrop">
+                        <span>Backdrop panorámico</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="detailsMetadata">
+                        <span>Metadatos</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="detailsExtraInfo">
+                        <span>Información adicional</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="detailsRecommendations">
+                        <span>Contenido relacionado</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiPerformanceTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">speed</span>
+                    <div>
+                        <h2 id="premiumUiPerformanceTitle">Rendimiento</h2>
+                        <p>Ajustes de carga, caché y accesibilidad.</p>
+                    </div>
+                </div>
+                <div class="premiumUiGrid premiumUiGridTwo">
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="performancePreload">
+                        <span>Precarga de imágenes</span>
+                    </label>
+                    <label class="premiumUiToggle">
+                        <input type="checkbox" id="performanceLazy">
+                        <span>Lazy loading</span>
+                    </label>
+                    <div class="premiumUiField">
+                        <label for="performanceCache">Caché (minutos)</label>
+                        <input type="number" id="performanceCache" min="1" max="120" step="1">
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="performanceMotion">Movimiento reducido</label>
+                        <select id="performanceMotion">
+                            <option value="auto">Automático</option>
+                            <option value="on">Forzar</option>
+                            <option value="off">Desactivar</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="premiumUiCard" aria-labelledby="premiumUiDiagnosticsTitle">
+                <div class="premiumUiCardHeader">
+                    <span class="material-icons" aria-hidden="true">monitor_heart</span>
+                    <div>
+                        <h2 id="premiumUiDiagnosticsTitle">Diagnóstico</h2>
+                        <p>Estado de la integración y compatibilidad.</p>
+                    </div>
+                </div>
+                <dl class="premiumUiDiagnostics" id="premiumUiDiagnostics">
+                    <div><dt>Estado</dt><dd id="diagStatus">Cargando…</dd></div>
+                    <div><dt>Servidor</dt><dd id="diagServer">—</dd></div>
+                    <div><dt>Plugin</dt><dd id="diagPlugin">—</dd></div>
+                    <div><dt>Integración</dt><dd id="diagIntegration">—</dd></div>
+                    <div><dt>Frontend</dt><dd id="diagFrontend">—</dd></div>
+                    <div><dt>Tráfico</dt><dd id="diagTraffic">—</dd></div>
+                </dl>
+                <div class="premiumUiErrors" id="premiumUiErrors" hidden>
+                    <h3 class="premiumUiSubheading">Últimos errores</h3>
+                    <ul id="premiumUiErrorList"></ul>
+                </div>
+            </section>
+
+            <div class="premiumUiSaveBar">
+                <span id="premiumUiSaveStatus" aria-live="polite"></span>
+                <button type="button" class="premiumUiButton premiumUiButtonPrimary" id="premiumUiSave">
+                    <span class="material-icons" aria-hidden="true">save</span>
+                    Guardar cambios
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .premiumUiConfigPage {
+            --pui-bg: #0b0d12;
+            --pui-card: rgba(255, 255, 255, 0.045);
+            --pui-border: rgba(255, 255, 255, 0.1);
+            --pui-text: #f2f4f8;
+            --pui-muted: #9aa3b2;
+            --pui-accent: #e6b45e;
+            --pui-accent-soft: rgba(230, 180, 94, 0.16);
+            --pui-radius: 16px;
+            background:
+                radial-gradient(900px 420px at 12% -8%, rgba(230, 180, 94, 0.12), transparent 60%),
+                radial-gradient(700px 380px at 92% 4%, rgba(86, 120, 220, 0.12), transparent 60%),
+                var(--pui-bg);
+            color: var(--pui-text);
+            min-height: 100%;
+            padding: 28px 20px 96px;
+        }
+
+        .premiumUiContent {
+            width: min(1040px, 100%);
+            margin: 0 auto;
+        }
+
+        .premiumUiHeader {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .premiumUiEyebrow {
+            margin: 0 0 6px;
+            color: var(--pui-accent);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .premiumUiTitle {
+            margin: 0;
+            font-size: clamp(1.7rem, 3vw, 2.3rem);
+            letter-spacing: -0.02em;
+        }
+
+        .premiumUiSubtitle {
+            margin: 8px 0 0;
+            color: var(--pui-muted);
+        }
+
+        .premiumUiVersion {
+            flex: 0 0 auto;
+            padding: 6px 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 999px;
+            color: var(--pui-muted);
+            font-size: 0.78rem;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .premiumUiCard {
+            margin-bottom: 18px;
+            padding: 22px;
+            border: 1px solid var(--pui-border);
+            border-radius: var(--pui-radius);
+            background: var(--pui-card);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(10px);
+        }
+
+        .premiumUiCardHeader {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .premiumUiCardHeader .material-icons {
+            color: var(--pui-accent);
+            padding: 8px;
+            border-radius: 12px;
+            background: var(--pui-accent-soft);
+        }
+
+        .premiumUiCardHeader h2 {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .premiumUiCardHeader p {
+            margin: 4px 0 0;
+            color: var(--pui-muted);
+            font-size: 0.86rem;
+        }
+
+        .premiumUiGrid {
+            display: grid;
+            gap: 14px 22px;
+        }
+
+        .premiumUiGridTwo {
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        }
+
+        .premiumUiField {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .premiumUiField > label {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--pui-muted);
+            font-size: 0.82rem;
+        }
+
+        .premiumUiField output {
+            color: var(--pui-text);
+        }
+
+        .premiumUiField select,
+        .premiumUiField input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--pui-text);
+            font: inherit;
+        }
+
+        .premiumUiField input[type="range"] {
+            width: 100%;
+            accent-color: var(--pui-accent);
+        }
+
+        .premiumUiColorRow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .premiumUiField input[type="color"] {
+            width: 54px;
+            height: 38px;
+            padding: 2px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .premiumUiField input[type="color"]:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .premiumUiToggleInline {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 0.82rem;
+        }
+
+        .premiumUiHint {
+            margin: 0;
+            color: var(--pui-muted);
+            font-size: 0.75rem;
+        }
+
+        .premiumUiStudiosField {
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .premiumUiStudiosHead {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .premiumUiStudiosCount {
+            color: var(--pui-accent);
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .premiumUiStudiosField input[type="search"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--pui-text);
+            font: inherit;
+        }
+
+        .premiumUiStudiosList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 2px 10px;
+            max-height: 300px;
+            overflow: auto;
+            padding: 8px;
+            border: 1px solid var(--pui-border);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.22);
+            overscroll-behavior: contain;
+        }
+
+        .premiumUiStudioOption {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            color: var(--pui-text);
+            font-size: 0.82rem;
+            line-height: 1.25;
+            cursor: pointer;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 32px;
+        }
+
+        .premiumUiStudioOption:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .premiumUiStudioOption input {
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--pui-accent);
+        }
+
+        .premiumUiStudioOption span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .premiumUiStudioOption .premiumUiStudioOptionName {
+            flex: 1 1 auto;
+        }
+
+        .premiumUiStudioOption .premiumUiStudioGroupCount {
+            flex: 0 0 auto;
+            min-width: 22px;
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: var(--pui-accent-soft, rgba(122, 162, 255, 0.16));
+            color: var(--pui-accent, #7aa2ff);
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .premiumUiStudioOption.is-pseudo span::after {
+            content: ' · se resuelve por nombre';
+            color: var(--pui-accent);
+            font-size: 0.7rem;
+        }
+
+        .premiumUiStudiosFoot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .premiumUiStudiosMessage {
+            margin: 0;
+            color: var(--pui-muted);
+            font-size: 0.75rem;
+        }
+
+        .premiumUiStudiosList > .premiumUiStudiosMessage,
+        .premiumUiStudiosNotice {
+            grid-column: 1 / -1;
+        }
+
+        .premiumUiStudiosNotice {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .premiumUiToggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.18);
+            color: var(--pui-text);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .premiumUiToggle input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--pui-accent);
+        }
+
+        .premiumUiSubheading {
+            margin: 22px 0 10px;
+            font-size: 0.82rem;
+            color: var(--pui-muted);
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .premiumUiOrder {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .premiumUiOrder li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .premiumUiOrder .premiumUiOrderLabel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .premiumUiOrder .premiumUiOrderIndex {
+            width: 24px;
+            color: var(--pui-accent);
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+        }
+
+        .premiumUiOrderButton {
+            border: 1px solid var(--pui-border);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--pui-muted);
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+
+        .premiumUiOrderButton:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .premiumUiActions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .premiumUiButton {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--pui-border);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .premiumUiButton .material-icons {
+            font-size: 18px;
+        }
+
+        .premiumUiButtonPrimary {
+            border-color: transparent;
+            background: var(--pui-accent);
+            color: #16120a;
+            font-weight: 700;
+        }
+
+        .premiumUiButtonGhost {
+            background: transparent;
+            color: var(--pui-muted);
+        }
+
+        .premiumUiButton:hover {
+            filter: brightness(1.06);
+        }
+
+        .premiumUiDiagnostics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin: 0;
+        }
+
+        .premiumUiDiagnostics div {
+            padding: 12px;
+            border: 1px solid var(--pui-border);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .premiumUiDiagnostics dt {
+            color: var(--pui-muted);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .premiumUiDiagnostics dd {
+            margin: 6px 0 0;
+            font-size: 0.9rem;
+            overflow-wrap: anywhere;
+        }
+
+        .premiumUiErrors {
+            margin-top: 18px;
+        }
+
+        .premiumUiErrors ul {
+            margin: 0;
+            padding-left: 18px;
+            color: #f0a8a8;
+            font-size: 0.82rem;
+        }
+
+        .premiumUiSaveBar {
+            position: sticky;
+            bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 22px;
+            padding: 12px 16px;
+            border: 1px solid var(--pui-border);
+            border-radius: 14px;
+            background: rgba(11, 13, 18, 0.92);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(14px);
+        }
+
+        #premiumUiSaveStatus {
+            color: var(--pui-muted);
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 640px) {
+            .premiumUiConfigPage {
+                padding: 20px 12px 88px;
+            }
+
+            .premiumUiCard {
+                padding: 16px;
+            }
+
+            .premiumUiHeader {
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .premiumUiConfigPage * {
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+
+            var PLUGIN_ID = 'a15478cd-8875-46af-b528-e3c020f2cd71';
+            var PAGE_ID = 'premiumUiConfigPage';
+            var SECTION_LABELS = {
+                hero: 'Hero',
+                media: 'Mis contenidos',
+                continue: 'Continuar viendo',
+                recent: 'Recién agregadas',
+                movies: 'Películas',
+                series: 'Series',
+                recommendations: 'Recomendaciones',
+                estudios: 'Estudios'
+            };
+            var DEFAULT_ORDER = ['hero', 'estudios', 'media', 'continue', 'recent', 'movies', 'series', 'recommendations'];
+            var DEFAULT_ACCENTS = {
+                cinema: '#e6b45e',
+                midnight: '#7aa2ff',
+                amoled: '#f0c060',
+                contrast: '#ffd400'
+            };
+            var DEFAULT_STUDIOS = ['Disney', 'Marvel', 'DC', 'Paramount', 'Netflix'];
+            var MAX_STUDIOS = 40;
+            var state = {
+                order: DEFAULT_ORDER.slice(),
+                loaded: false,
+                accent: '',
+                schemaVersion: 0,
+                studioNames: [],
+                studios: [],
+                groups: [],
+                studiosLoaded: false,
+                studiosError: false,
+                studiosRequest: false
+            };
+            var page = document.getElementById(PAGE_ID);
+
+            function byId(id) {
+                return document.getElementById(id);
+            }
+
+            function intValue(id, fallback, min, max) {
+                var raw = parseInt(byId(id).value, 10);
+                if (!isFinite(raw)) {
+                    raw = fallback;
+                }
+                return Math.min(max, Math.max(min, raw));
+            }
+
+            function normalizeName(value) {
+                return String(value || '')
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase()
+                    .trim();
+            }
+
+            function sameName(left, right) {
+                return normalizeName(left) === normalizeName(right);
+            }
+
+            function normalizeStudios(list) {
+                var result = [];
+
+                (Array.isArray(list) ? list : []).forEach(function (raw) {
+                    var value = String(raw || '').trim();
+
+                    if (value.length > 0 && !result.some(function (item) { return sameName(item, value); })) {
+                        result.push(value);
+                    }
+                });
+
+                return result;
+            }
+
+            function uniqueNames(list) {
+                return normalizeStudios(Array.isArray(list) ? list : []);
+            }
+
+            function groupForName(name) {
+                return state.groups.find(function (group) {
+                    return sameName(group.name, name)
+                        || group.members.some(function (member) { return sameName(member, name); });
+                }) || null;
+            }
+
+            function selectedInGroup(group) {
+                return state.studioNames.some(function (name) {
+                    return sameName(name, group.name)
+                        || group.members.some(function (member) { return sameName(member, name); });
+                });
+            }
+
+            function renderStudioCount() {
+                var element = byId('homeStudiosCount');
+
+                if (!element) {
+                    return;
+                }
+
+                var count = state.studioNames.length;
+                element.textContent = count + (count === 1 ? ' seleccionado' : ' seleccionados');
+            }
+
+            function setStudioStatus(message) {
+                var element = byId('homeStudiosStatus');
+
+                if (element) {
+                    element.textContent = message || '';
+                }
+            }
+
+            function loadStudios(force) {
+                if (!window.ApiClient || state.studiosRequest || (state.studiosLoaded && !force)) {
+                    return;
+                }
+
+                state.studiosRequest = true;
+                state.studiosError = false;
+                renderStudios();
+
+                ApiClient.getJSON(ApiClient.getUrl('PremiumUI/Studios')).then(function (result) {
+                    var items = result && Array.isArray(result.items) ? result.items : [];
+                    state.studios = normalizeStudios(items.map(function (item) {
+                        return item && item.name;
+                    }));
+                    state.groups = Array.isArray(result && result.groups)
+                        ? result.groups.map(function (group) {
+                            return {
+                                key: String(group && group.key || ''),
+                                name: String(group && group.name || '').trim(),
+                                members: Array.isArray(group && group.members)
+                                    ? normalizeStudios(group.members.map(function (member) {
+                                        return member && member.name;
+                                    }))
+                                    : []
+                            };
+                        }).filter(function (group) {
+                            return group.name.length > 0 && group.members.length > 0;
+                        })
+                        : [];
+                    state.studiosLoaded = true;
+                    state.studiosRequest = false;
+
+                    // Adopta la ortografía real y el nombre canónico del grupo
+                    // para lo ya seleccionado (evita "Disney" + "Walt Disney").
+                    state.studioNames = uniqueNames(state.studioNames.map(function (name) {
+                        var group = groupForName(name);
+
+                        if (group) {
+                            return group.name;
+                        }
+
+                        var match = state.studios.find(function (studio) { return sameName(studio, name); });
+                        return match || name;
+                    }));
+
+                    renderStudios();
+                }).catch(function () {
+                    state.studiosRequest = false;
+                    state.studiosError = true;
+                    renderStudios();
+                });
+            }
+
+            function studioOption(option, pseudo) {
+                var name = option.name;
+                var group = option.group || null;
+                var label = document.createElement('label');
+                label.className = 'premiumUiStudioOption' + (pseudo ? ' is-pseudo' : '');
+                label.dataset.studioName = name;
+
+                var input = document.createElement('input');
+                input.type = 'checkbox';
+                input.checked = group ? selectedInGroup(group) : state.studioNames.some(function (item) {
+                    return sameName(item, name);
+                });
+                input.addEventListener('change', function () {
+                    if (input.checked) {
+                        if (state.studioNames.length >= MAX_STUDIOS) {
+                            input.checked = false;
+                            setStudioStatus('Máximo ' + MAX_STUDIOS + ' selecciones.');
+                            return;
+                        }
+
+                        if (group) {
+                            // Sustituye cualquier variante previa del grupo por
+                            // su nombre canónico: "Walt Disney" pasa a "Disney".
+                            state.studioNames = state.studioNames.filter(function (item) {
+                                return !sameName(item, group.name)
+                                    && !group.members.some(function (member) { return sameName(member, item); });
+                            });
+                            state.studioNames.push(group.name);
+                        } else if (!state.studioNames.some(function (item) { return sameName(item, name); })) {
+                            state.studioNames.push(name);
+                        }
+                    } else if (group) {
+                        state.studioNames = state.studioNames.filter(function (item) {
+                            return !sameName(item, group.name)
+                                && !group.members.some(function (member) { return sameName(member, item); });
+                        });
+                    } else {
+                        state.studioNames = state.studioNames.filter(function (item) {
+                            return !sameName(item, name);
+                        });
+                    }
+
+                    setStudioStatus('');
+                    renderStudioCount();
+                });
+
+                var text = document.createElement('span');
+                text.className = 'premiumUiStudioOptionName';
+                text.textContent = name;
+                text.title = group
+                    ? name + ': ' + group.members.join(', ')
+                    : name;
+                label.append(input, text);
+
+                if (group && group.members.length > 1) {
+                    var count = document.createElement('span');
+                    count.className = 'premiumUiStudioGroupCount';
+                    count.textContent = String(group.members.length);
+                    count.title = group.members.length + ' estudios agrupados';
+                    label.append(count);
+                }
+
+                return label;
+            }
+
+            function studiosMessage(message, retry) {
+                var paragraph = document.createElement('p');
+                paragraph.className = 'premiumUiStudiosMessage';
+                paragraph.textContent = message;
+
+                if (!retry) {
+                    return paragraph;
+                }
+
+                var wrapper = document.createElement('div');
+                wrapper.className = 'premiumUiStudiosNotice';
+                wrapper.append(paragraph);
+
+                var button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'premiumUiButton premiumUiButtonGhost';
+                button.textContent = 'Reintentar';
+                button.addEventListener('click', function () { loadStudios(true); });
+                wrapper.append(button);
+
+                return wrapper;
+            }
+
+            function renderStudios() {
+                var list = byId('homeStudiosList');
+
+                if (!list) {
+                    return;
+                }
+
+                renderStudioCount();
+                list.replaceChildren();
+
+                if (!state.studiosLoaded) {
+                    list.append(studiosMessage(
+                        state.studiosError ? 'No se pudieron cargar los estudios del servidor.' : 'Cargando estudios…',
+                        state.studiosError));
+                    return;
+                }
+
+                var options = [];
+                var groupedNames = [];
+
+                state.groups.forEach(function (group) {
+                    options.push({ name: group.name, group: group });
+                    group.members.forEach(function (member) { groupedNames.push(member); });
+                });
+
+                state.studios.forEach(function (name) {
+                    if (!groupedNames.some(function (member) { return sameName(member, name); })) {
+                        options.push({ name: name, group: null });
+                    }
+                });
+
+                options.sort(function (left, right) {
+                    return normalizeName(left.name).localeCompare(normalizeName(right.name));
+                });
+
+                var filterInput = byId('homeStudiosFilter');
+                var filter = normalizeName(filterInput ? filterInput.value : '');
+                var missing = state.studioNames.filter(function (name) {
+                    if (groupForName(name)) {
+                        return false;
+                    }
+
+                    return !state.studios.some(function (studio) { return sameName(studio, name); });
+                }).map(function (name) {
+                    return { name: name, group: null };
+                });
+
+                var visible = options.filter(function (option) {
+                    if (filter.length === 0) {
+                        return true;
+                    }
+
+                    if (normalizeName(option.name).indexOf(filter) !== -1) {
+                        return true;
+                    }
+
+                    return Boolean(option.group && option.group.members.some(function (member) {
+                        return normalizeName(member).indexOf(filter) !== -1;
+                    }));
+                });
+
+                var fragment = document.createDocumentFragment();
+
+                missing.forEach(function (option) {
+                    fragment.append(studioOption(option, true));
+                });
+
+                visible.forEach(function (option) {
+                    if (!missing.some(function (item) { return sameName(item.name, option.name); })) {
+                        fragment.append(studioOption(option, false));
+                    }
+                });
+
+                if (visible.length === 0 && missing.length === 0) {
+                    fragment.append(studiosMessage('Ningún estudio coincide con la búsqueda.'));
+                }
+
+                list.append(fragment);
+                setStudioStatus(
+                    state.studios.length + ' estudios · ' + state.groups.length + ' grupos'
+                );
+            }
+
+            function setValue(id, value) {
+                var element = byId(id);
+                if (element) {
+                    element.value = value;
+                }
+            }
+
+            function setChecked(id, value) {
+                var element = byId(id);
+                if (element) {
+                    element.checked = Boolean(value);
+                }
+            }
+
+            function hexToRgba(hex, alpha) {
+                var value = String(hex || '').replace('#', '');
+                if (value.length === 3) {
+                    value = value.split('').map(function (character) {
+                        return character + character;
+                    }).join('');
+                }
+
+                var number = parseInt(value, 16);
+                if (value.length !== 6 || isNaN(number)) {
+                    return '';
+                }
+
+                var red = (number >> 16) & 255;
+                var green = (number >> 8) & 255;
+                var blue = number & 255;
+                return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha + ')';
+            }
+
+            function themeAccent() {
+                return DEFAULT_ACCENTS[byId('designTheme').value] || DEFAULT_ACCENTS.cinema;
+            }
+
+            function previewAccent() {
+                var color = state.accent || themeAccent();
+                page.style.setProperty('--pui-accent', color);
+                page.style.setProperty('--pui-accent-soft', hexToRgba(color, 0.16));
+                setValue('designAccent', color);
+            }
+
+            function syncAccentControls() {
+                var custom = state.accent.length > 0;
+                setChecked('designAccentEnabled', custom);
+                byId('designAccent').disabled = !custom;
+                previewAccent();
+            }
+
+            function updateOutput(id, suffix) {
+                var input = byId(id);
+                var output = byId(id + 'Value');
+                if (input && output) {
+                    output.textContent = input.value + suffix;
+                }
+            }
+
+            function renderOrder() {
+                var list = byId('homeSectionOrder');
+                if (!list) {
+                    return;
+                }
+
+                list.textContent = '';
+
+                state.order.forEach(function (id, index) {
+                    var item = document.createElement('li');
+                    var label = document.createElement('span');
+                    label.className = 'premiumUiOrderLabel';
+
+                    var indexLabel = document.createElement('span');
+                    indexLabel.className = 'premiumUiOrderIndex';
+                    indexLabel.textContent = String(index + 1);
+
+                    var text = document.createElement('span');
+                    text.textContent = SECTION_LABELS[id] || id;
+
+                    label.appendChild(indexLabel);
+                    label.appendChild(text);
+
+                    var actions = document.createElement('span');
+
+                    var up = document.createElement('button');
+                    up.type = 'button';
+                    up.className = 'premiumUiOrderButton';
+                    up.textContent = '↑';
+                    up.setAttribute('aria-label', 'Subir ' + text.textContent);
+                    up.disabled = index === 0;
+                    up.addEventListener('click', function () {
+                        move(index, -1);
+                    });
+
+                    var down = document.createElement('button');
+                    down.type = 'button';
+                    down.className = 'premiumUiOrderButton';
+                    down.textContent = '↓';
+                    down.setAttribute('aria-label', 'Bajar ' + text.textContent);
+                    down.disabled = index === state.order.length - 1;
+                    down.addEventListener('click', function () {
+                        move(index, 1);
+                    });
+
+                    actions.appendChild(up);
+                    actions.appendChild(down);
+
+                    item.appendChild(label);
+                    item.appendChild(actions);
+                    list.appendChild(item);
+                });
+            }
+
+            function move(index, delta) {
+                var target = index + delta;
+                if (target < 0 || target >= state.order.length) {
+                    return;
+                }
+
+                var value = state.order.splice(index, 1)[0];
+                state.order.splice(target, 0, value);
+                renderOrder();
+            }
+
+            function normalizeOrder(order) {
+                var result = [];
+                var input = Array.isArray(order) ? order : [];
+
+                input.forEach(function (value) {
+                    if (typeof value === 'string' && SECTION_LABELS[value] && result.indexOf(value) === -1) {
+                        result.push(value);
+                    }
+                });
+
+                DEFAULT_ORDER.forEach(function (id) {
+                    if (result.indexOf(id) === -1) {
+                        result.push(id);
+                    }
+                });
+
+                return result;
+            }
+
+            function applyConfig(config) {
+                var general = config.General || {};
+                var design = config.Design || {};
+                var home = config.Home || {};
+                var details = config.Details || {};
+                var performance = config.Performance || {};
+
+                setChecked('generalEnabled', general.Enabled !== false);
+                setChecked('generalHome', general.EnableHome !== false);
+                setChecked('generalDetails', general.EnableDetails !== false);
+
+                setValue('designTheme', design.Theme || 'cinema');
+                setValue('designCardSize', design.CardSize || 'medium');
+                setValue('designTransparency', design.Transparency == null ? 55 : design.Transparency);
+                setValue('designHeroHeight', design.HeroHeight == null ? 68 : design.HeroHeight);
+                setValue('designTransition', design.TransitionMs == null ? 220 : design.TransitionMs);
+                setValue('designHoverIntensity', design.HoverIntensity == null ? 100 : design.HoverIntensity);
+                state.accent = design.AccentColor || '';
+                syncAccentControls();
+
+                setChecked('homeHeroEnabled', home.HeroEnabled !== false);
+                setValue('homeHeroSource', home.HeroSource || 'random');
+                setValue('homeItemsPerSection', home.ItemsPerSection == null ? 12 : home.ItemsPerSection);
+                setChecked('homeMedia', home.MediaLibraries !== false);
+                setChecked('homeContinue', home.ContinueWatching !== false);
+                setChecked('homeRecent', home.RecentlyAdded !== false);
+                setChecked('homeMovies', home.Movies !== false);
+                setChecked('homeSeries', home.Series !== false);
+                setChecked('homeRecommendations', home.Recommendations !== false);
+                setChecked('homeStudiosEnabled', home.StudiosEnabled !== false);
+                state.studioNames = normalizeStudios(home.Studios);
+
+                if (state.studioNames.length === 0) {
+                    state.studioNames = DEFAULT_STUDIOS.slice();
+                }
+
+                renderStudioCount();
+
+                setChecked('detailsBackdrop', details.Backdrop !== false);
+                setChecked('detailsMetadata', details.Metadata !== false);
+                setChecked('detailsExtraInfo', details.ExtraInfo !== false);
+                setChecked('detailsRecommendations', details.Recommendations !== false);
+
+                setChecked('performancePreload', performance.Preload !== false);
+                setChecked('performanceLazy', performance.LazyLoading !== false);
+                setValue('performanceCache', performance.CacheMinutes == null ? 10 : performance.CacheMinutes);
+                setValue('performanceMotion', performance.ReducedMotion || 'auto');
+
+                state.schemaVersion = config.SchemaVersion || 0;
+                state.order = normalizeOrder(home.SectionOrder);
+                renderOrder();
+                refreshOutputs();
+            }
+
+            function collectConfig() {
+                return {
+                    SchemaVersion: state.schemaVersion,
+                    General: {
+                        Enabled: byId('generalEnabled').checked,
+                        EnableHome: byId('generalHome').checked,
+                        EnableDetails: byId('generalDetails').checked
+                    },
+                    Design: {
+                        Theme: byId('designTheme').value,
+                        Transparency: intValue('designTransparency', 55, 0, 100),
+                        HeroHeight: intValue('designHeroHeight', 68, 40, 90),
+                        CardSize: byId('designCardSize').value,
+                        TransitionMs: intValue('designTransition', 220, 0, 600),
+                        HoverIntensity: intValue('designHoverIntensity', 100, 0, 150),
+                        AccentColor: state.accent
+                    },
+                    Home: {
+                        HeroEnabled: byId('homeHeroEnabled').checked,
+                        HeroSource: byId('homeHeroSource').value,
+                        MediaLibraries: byId('homeMedia').checked,
+                        ContinueWatching: byId('homeContinue').checked,
+                        RecentlyAdded: byId('homeRecent').checked,
+                        Movies: byId('homeMovies').checked,
+                        Series: byId('homeSeries').checked,
+                        Recommendations: byId('homeRecommendations').checked,
+                        SectionOrder: state.order.slice(),
+                        ItemsPerSection: intValue('homeItemsPerSection', 12, 4, 20),
+                        StudiosEnabled: byId('homeStudiosEnabled').checked,
+                        Studios: state.studioNames.slice()
+                    },
+                    Details: {
+                        Backdrop: byId('detailsBackdrop').checked,
+                        Metadata: byId('detailsMetadata').checked,
+                        ExtraInfo: byId('detailsExtraInfo').checked,
+                        Recommendations: byId('detailsRecommendations').checked
+                    },
+                    Performance: {
+                        Preload: byId('performancePreload').checked,
+                        LazyLoading: byId('performanceLazy').checked,
+                        CacheMinutes: intValue('performanceCache', 10, 1, 120),
+                        ReducedMotion: byId('performanceMotion').value
+                    }
+                };
+            }
+
+            function refreshOutputs() {
+                updateOutput('designTransparency', '%');
+                updateOutput('designHeroHeight', '%');
+                updateOutput('designTransition', ' ms');
+                updateOutput('designHoverIntensity', '%');
+            }
+
+            function setStatus(message) {
+                var element = byId('premiumUiSaveStatus');
+                if (element) {
+                    element.textContent = message || '';
+                }
+            }
+
+            function loadConfig() {
+                if (!window.ApiClient || state.loaded) {
+                    return;
+                }
+
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(PLUGIN_ID).then(function (config) {
+                    applyConfig(config || {});
+                    state.loaded = true;
+                    updateVersion(config);
+                    Dashboard.hideLoadingMsg();
+                    loadStudios();
+                    renderStudios();
+                }).catch(function () {
+                    Dashboard.hideLoadingMsg();
+                    setStatus('No se pudo cargar la configuración.');
+                });
+            }
+
+            function updateVersion(config) {
+                // La versión real llega con el diagnóstico; el valor estático es el fallback.
+                if (window.PremiumUiPluginVersion) {
+                    byId('premiumUiVersion').textContent = 'v' + window.PremiumUiPluginVersion;
+                }
+            }
+
+            /**
+             * Comunica al frontend del plugin que la configuración cambió. Invalida
+             * la copia en memoria y pide un bootstrap nuevo, de modo que al volver a
+             * Inicio o Detalles no haga falta recargar con Ctrl+Shift+R.
+             */
+            function applySavedConfig() {
+                try {
+                    var shared = window.PremiumUI;
+
+                    if (shared && typeof shared.invalidate === 'function') {
+                        shared.invalidate();
+                    }
+
+                    if (shared && typeof shared.refresh === 'function') {
+                        var pending = shared.refresh(true);
+
+                        if (pending && typeof pending.catch === 'function') {
+                            pending.catch(function () {});
+                        }
+                    }
+
+                    document.dispatchEvent(new CustomEvent('premiumui:config-saved'));
+                } catch (error) {
+                    // Un fallo al refrescar nunca debe romper el guardado.
+                }
+            }
+
+            function saveConfig() {
+                if (!window.ApiClient) {
+                    setStatus('Jellyfin no está listo.');
+                    return;
+                }
+
+                Dashboard.showLoadingMsg();
+                setStatus('Guardando…');
+
+                ApiClient.updatePluginConfiguration(PLUGIN_ID, collectConfig()).then(function (result) {
+                    Dashboard.processPluginConfigurationUpdateResult(result);
+                    Dashboard.hideLoadingMsg();
+                    setStatus('Guardado. Se aplica al volver a Inicio o Detalles.');
+                    applySavedConfig();
+                    loadDiagnostics();
+                }).catch(function () {
+                    Dashboard.hideLoadingMsg();
+                    setStatus('Error al guardar la configuración.');
+                });
+            }
+
+            function resetConfig() {
+                if (!window.confirm('¿Restaurar la configuración predeterminada?')) {
+                    return;
+                }
+
+                applyConfig({});
+                saveConfig();
+            }
+
+            function setDiag(id, value) {
+                var element = byId(id);
+                if (element) {
+                    element.textContent = value == null || value === '' ? '—' : String(value);
+                }
+            }
+
+            function loadDiagnostics() {
+                if (!window.ApiClient) {
+                    return;
+                }
+
+                ApiClient.getJSON(ApiClient.getUrl('PremiumUI/Diagnostics')).then(function (data) {
+                    var supported = data.Supported;
+                    setDiag('diagStatus', supported ? 'Compatible' : 'No compatible');
+                    setDiag('diagServer', data.ServerVersion + ' · ABI ' + data.TargetAbi);
+                    setDiag('diagPlugin', 'v' + data.PluginVersion);
+                    if (data.PluginVersion) {
+                        byId('premiumUiVersion').textContent = 'v' + data.PluginVersion;
+                    }
+
+                    var integration = data.Integration || {};
+                    var integrationText = integration.MiddlewareRegistered
+                        ? (integration.InjectionActive ? 'Inyección activa' : 'Middleware registrado; inyección pendiente')
+                        : 'No registrado';
+                    integrationText += ' · ' + (integration.LastMessage || 'Sin mensajes');
+                    setDiag('diagIntegration', integrationText);
+
+                    var frontend = data.Frontend || {};
+                    setDiag('diagFrontend', (frontend.Status || 'Desconocido') + ' · v' + (frontend.Version || '0.0.0'));
+
+                    setDiag(
+                        'diagTraffic',
+                        'Índice ' + (integration.IndexRequests || 0)
+                        + ' · Inyecciones ' + (integration.Injections || 0)
+                        + ' · Assets ' + (integration.AssetRequests || 0)
+                        + ' (' + (integration.AssetCount || 0) + ' embebidos)'
+                        + ' · Bootstrap ' + (integration.BootstrapRequests || 0));
+
+                    var errors = data.Errors || [];
+                    var errorBox = byId('premiumUiErrors');
+                    var errorList = byId('premiumUiErrorList');
+                    errorList.textContent = '';
+                    if (errors.length) {
+                        errorBox.hidden = false;
+                        errors.forEach(function (error) {
+                            var item = document.createElement('li');
+                            item.textContent = '[' + error.Source + '] ' + error.Message;
+                            errorList.appendChild(item);
+                        });
+                    } else {
+                        errorBox.hidden = true;
+                    }
+                }).catch(function () {
+                    setDiag('diagStatus', 'Diagnóstico no disponible');
+                });
+            }
+
+            function bind() {
+                byId('premiumUiSave').addEventListener('click', saveConfig);
+
+                var filter = byId('homeStudiosFilter');
+
+                if (filter) {
+                    filter.addEventListener('input', renderStudios);
+                }
+
+                var suggested = byId('homeStudiosSuggested');
+
+                if (suggested) {
+                    suggested.addEventListener('click', function () {
+                        state.studioNames = uniqueNames(DEFAULT_STUDIOS.map(function (name) {
+                            var group = groupForName(name);
+                            return group ? group.name : name;
+                        }));
+                        setStudioStatus('');
+                        renderStudios();
+                    });
+                }
+                byId('premiumUiReset').addEventListener('click', resetConfig);
+
+                ['designTransparency', 'designHeroHeight', 'designTransition', 'designHoverIntensity'].forEach(function (id) {
+                    byId(id).addEventListener('input', refreshOutputs);
+                });
+
+                byId('designTheme').addEventListener('change', function () {
+                    if (!state.accent) {
+                        previewAccent();
+                    }
+                });
+
+                byId('designAccent').addEventListener('input', function () {
+                    if (state.accent) {
+                        state.accent = this.value;
+                        previewAccent();
+                    }
+                });
+
+                byId('designAccentEnabled').addEventListener('change', function () {
+                    state.accent = this.checked ? byId('designAccent').value : '';
+                    byId('designAccent').disabled = !this.checked;
+                    previewAccent();
+                });
+
+                page.querySelectorAll('input, select').forEach(function (element) {
+                    element.addEventListener('change', function () {
+                        setStatus('');
+                    });
+                });
+            }
+
+            if (page) {
+                page.addEventListener('pageshow', function () {
+                    if (!state.loaded) {
+                        loadConfig();
+                    }
+                    loadDiagnostics();
+                });
+
+                bind();
+                renderOrder();
+                refreshOutputs();
+
+                if (window.ApiClient) {
+                    loadDiagnostics();
+                }
+            }
+        })();
+    </script>
+</div>
+</body>
+</html>

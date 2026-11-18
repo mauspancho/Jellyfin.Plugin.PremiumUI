@@ -1,0 +1,11 @@
+bin/
+obj/
+dist/
+*.user
+*.suo
+.vs/
+.vscode/
+node_modules/
+frontend/node_modules/
+build/publish/
+.DS_Store
