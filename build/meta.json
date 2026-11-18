@@ -5,7 +5,7 @@
   "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
   "owner": "mauspancho",
   "category": "General",
-  "version": "0.23.0.0",
+  "version": "0.24.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -13,5 +13,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Inicio: hero cinematográfico, hover premium y flechas laterales en recomendaciones.\n- Estudios agrupados por marca con colección combinada de películas y series.\n- Panel completo en el Dashboard y assets de estudio incluidos en el plugin.\n- Instalación desde el catálogo de plugins de Jellyfin mediante la URL del repositorio."
+  "changelog": "- Diseño: los siete temas (Cinema, Midnight, AMOLED, Alto contraste, Noir, Aurora y Ember) cambian acento, superficies, radio y halo del hero.\n- La transparencia del panel ahora controla el alfa real de tiles, tarjetas, capas y hero.\n- Vista previa en vivo del tema y la transparencia en el panel.\n- La carga diferida de imágenes afecta a los logos de estudio y a los pósters de las colecciones."
 }

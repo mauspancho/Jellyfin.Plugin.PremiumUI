@@ -357,6 +357,22 @@ assert.equal(document.documentElement.style.getPropertyValue('--pui-hover'), '1.
 assert.equal(document.documentElement.dataset.puiMotion, 'full');
 assert.equal(document.documentElement.style.getPropertyValue('--pui-accent'), '#7aa2ff');
 assert.equal(document.documentElement.style.getPropertyValue('--pui-accent-contrast'), '#0b0b0b');
+assert.equal(document.documentElement.style.getPropertyValue('--pui-accent-rgb'), '122, 162, 255');
+assert.match(
+    document.documentElement.style.getPropertyValue('--pui-glow'),
+    /^rgba\(122, 162, 255, 0\.22\)$/,
+    'el halo del hero sigue al acento personalizado'
+);
+assert.equal(
+    document.documentElement.style.getPropertyValue('--pui-transparency'),
+    '0.55',
+    'la transparencia del panel se publica como alfa de las superficies'
+);
+assert.equal(
+    document.documentElement.dataset.puiLazy,
+    'on',
+    'la carga diferida activa imágenes lazy en los estudios'
+);
 
 // Secciones de colección por estudio: aparecen tras resolver los nombres
 // contra la API (el nombre ambiguo "Marvel" se resuelve por conteo).
@@ -397,6 +413,11 @@ assert.match(
     studioTiles[0].querySelector('img')?.src ?? '',
     /\/web\/premiumui\/studios\/marvel-studios\.webp/,
     'Marvel usa el logo curado del plugin'
+);
+assert.equal(
+    studioTiles[0].querySelector('img')?.getAttribute('loading'),
+    'lazy',
+    'con "Carga diferida" activa las imágenes de estudio no bloquean el render'
 );
 assert.equal(studioTiles[0].dataset.puiArtwork, 'marvel-studios');
 assert.equal(studioTiles[1].dataset.studioKey, 'brand:netflix');

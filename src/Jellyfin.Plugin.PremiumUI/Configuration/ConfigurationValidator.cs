@@ -16,7 +16,7 @@ public static class ConfigurationValidator
     /// <summary>
     /// Allowed theme identifiers.
     /// </summary>
-    public static readonly string[] Themes = ["cinema", "midnight", "amoled", "contrast"];
+    public static readonly string[] Themes = ["cinema", "midnight", "amoled", "contrast", "noir", "aurora", "ember"];
 
     /// <summary>
     /// Allowed card size identifiers.

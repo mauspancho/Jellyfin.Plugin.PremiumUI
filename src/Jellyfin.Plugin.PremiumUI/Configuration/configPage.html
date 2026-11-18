@@ -18,7 +18,7 @@
                     <h1 class="premiumUiTitle">Configuración</h1>
                     <p class="premiumUiSubtitle">Una capa visual cinematográfica sobre Jellyfin Web.</p>
                 </div>
-                <span class="premiumUiVersion" id="premiumUiVersion">v1.0.0.0</span>
+                <span class="premiumUiVersion" id="premiumUiVersion" hidden></span>
             </header>
 
             <section class="premiumUiCard" aria-labelledby="premiumUiGeneralTitle">
@@ -67,7 +67,11 @@
                             <option value="midnight">Midnight</option>
                             <option value="amoled">AMOLED</option>
                             <option value="contrast">Alto contraste</option>
+                            <option value="noir">Noir</option>
+                            <option value="aurora">Aurora</option>
+                            <option value="ember">Ember</option>
                         </select>
+                        <p class="premiumUiHint" id="designThemeHint"></p>
                     </div>
                     <div class="premiumUiField">
                         <label for="designAccent">Color de acento</label>
@@ -91,6 +95,7 @@
                     <div class="premiumUiField">
                         <label for="designTransparency">Transparencia <output id="designTransparencyValue">55%</output></label>
                         <input type="range" id="designTransparency" min="0" max="100" step="1">
+                        <p class="premiumUiHint">0% deja las superficies opacas; 100% las convierte en cristal sobre el fondo.</p>
                     </div>
                     <div class="premiumUiField">
                         <label for="designHeroHeight">Altura del Hero <output id="designHeroHeightValue">68%</output></label>
@@ -105,6 +110,19 @@
                         <input type="range" id="designHoverIntensity" min="0" max="150" step="5">
                         <p class="premiumUiHint">Controla la elevación, el anillo y la sombra de las tarjetas al pasar el cursor.</p>
                     </div>
+                </div>
+                <div class="premiumUiThemePreview" id="designPreview">
+                    <div class="premiumUiThemePreviewHero">
+                        <span class="premiumUiThemePreviewKicker">Hero</span>
+                        <span class="premiumUiThemePreviewTitle" id="designPreviewName">Cinema</span>
+                        <span class="premiumUiThemePreviewButton">Reproducir</span>
+                    </div>
+                    <div class="premiumUiThemePreviewTiles" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <p class="premiumUiThemePreviewHint">Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.</p>
                 </div>
             </section>
 
@@ -131,8 +149,9 @@
                         </select>
                     </div>
                     <div class="premiumUiField">
-                        <label for="homeItemsPerSection">Elementos por carrusel</label>
+                        <label for="homeItemsPerSection">Elementos en hero y recomendaciones</label>
                         <input type="number" id="homeItemsPerSection" min="4" max="20" step="1">
+                        <p class="premiumUiHint">Limita el hero y la fila de recomendaciones del plugin; los carruseles nativos conservan el número que decide Jellyfin.</p>
                     </div>
                 </div>
 
@@ -256,6 +275,7 @@
                         </select>
                     </div>
                 </div>
+                <p class="premiumUiHint">La precarga se aplica al hero: pide la imagen en alta resolución y prepara la siguiente diapositiva. La carga diferida afecta a los logos de estudio y a los pósters de las colecciones; los carruseles nativos usan el lazy loading propio de Jellyfin. "Caché" es el tiempo que el navegador reutiliza la configuración guardada antes de volver a pedirla.</p>
             </section>
 
             <section class="premiumUiCard" aria-labelledby="premiumUiDiagnosticsTitle">
@@ -734,6 +754,82 @@
             font-size: 0.82rem;
         }
 
+        /*
+         * Vista previa del tema: reproduce en miniatura el hero y las
+         * superficies usando los mismos valores que publica el plugin
+         * (--preview-* los calcula el script a partir del combo, el acento y
+         * la transparencia).
+         */
+        .premiumUiThemePreview {
+            margin-top: 18px;
+            padding: 14px;
+            border: 1px solid var(--pui-border);
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .premiumUiThemePreviewHero {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 6px;
+            min-height: 118px;
+            padding: 16px;
+            border: 2px solid var(--preview-accent, #e6b45e);
+            border-radius: var(--preview-radius, 18px);
+            background:
+                radial-gradient(120% 110% at 82% 8%, var(--preview-glow, transparent) 0%, transparent 58%),
+                linear-gradient(160deg, var(--preview-surface, rgba(14, 17, 24, 0.6)), var(--preview-strong, rgba(14, 17, 24, 0.92)));
+            color: #ffffff;
+            transition: background 160ms ease, border-color 160ms ease;
+        }
+
+        .premiumUiThemePreviewKicker {
+            color: var(--preview-accent, #e6b45e);
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .premiumUiThemePreviewTitle {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .premiumUiThemePreviewButton {
+            align-self: flex-start;
+            margin-top: 2px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            background: var(--preview-accent, #e6b45e);
+            color: #12100a;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .premiumUiThemePreviewTiles {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .premiumUiThemePreviewTiles span {
+            height: 46px;
+            border: 1px solid var(--preview-border, rgba(255, 255, 255, 0.1));
+            border-radius: calc(var(--preview-radius, 12px) * 0.6);
+            background: var(--preview-surface, rgba(14, 17, 24, 0.6));
+            transition: background 160ms ease, border-color 160ms ease;
+        }
+
+        .premiumUiThemePreviewHint {
+            margin: 10px 0 0;
+            color: var(--pui-muted);
+            font-size: 0.78rem;
+        }
+
         .premiumUiSaveBar {
             position: sticky;
             bottom: 16px;
@@ -794,12 +890,87 @@
                 estudios: 'Estudios'
             };
             var DEFAULT_ORDER = ['hero', 'estudios', 'media', 'continue', 'recent', 'movies', 'series', 'recommendations'];
-            var DEFAULT_ACCENTS = {
-                cinema: '#e6b45e',
-                midnight: '#7aa2ff',
-                amoled: '#f0c060',
-                contrast: '#ffd400'
+            /*
+             * Paletas de los temas. Deben coincidir con
+             * frontend/src/styles/base.css: la vista previa reproduce los
+             * mismos acentos, superficies y radios que la interfaz real.
+             */
+            var THEMES = {
+                cinema: {
+                    label: 'Cinema',
+                    hint: 'Dorado cálido sobre azul nocturno: el aspecto por defecto.',
+                    accent: '#e6b45e',
+                    surface: '14, 17, 24',
+                    strong: '14, 17, 24',
+                    border: '255, 255, 255',
+                    borderAlpha: 0.1,
+                    radius: '18px'
+                },
+                midnight: {
+                    label: 'Midnight',
+                    hint: 'Azul eléctrico con superficies frías y esquinas suaves.',
+                    accent: '#7aa2ff',
+                    surface: '9, 13, 22',
+                    strong: '9, 13, 22',
+                    border: '150, 178, 255',
+                    borderAlpha: 0.16,
+                    radius: '15px'
+                },
+                amoled: {
+                    label: 'AMOLED',
+                    hint: 'Negro puro para pantallas OLED; contraste máximo sin grises.',
+                    accent: '#f0c060',
+                    surface: '0, 0, 0',
+                    strong: '0, 0, 0',
+                    border: '255, 255, 255',
+                    borderAlpha: 0.12,
+                    radius: '13px'
+                },
+                contrast: {
+                    label: 'Alto contraste',
+                    hint: 'Bordes marcados y amarillo intenso para máxima legibilidad.',
+                    accent: '#ffd400',
+                    surface: '0, 0, 0',
+                    strong: '0, 0, 0',
+                    border: '255, 255, 255',
+                    borderAlpha: 0.32,
+                    radius: '7px'
+                },
+                noir: {
+                    label: 'Noir',
+                    hint: 'Blanco plateado sobre negro: cine clásico, esquinas rectas.',
+                    accent: '#e8ecf4',
+                    surface: '11, 11, 13',
+                    strong: '11, 11, 13',
+                    border: '255, 255, 255',
+                    borderAlpha: 0.16,
+                    radius: '6px'
+                },
+                aurora: {
+                    label: 'Aurora',
+                    hint: 'Turquesa con halo violeta y esquinas muy redondeadas.',
+                    accent: '#5eead4',
+                    surface: '8, 18, 24',
+                    strong: '8, 18, 24',
+                    border: '94, 234, 212',
+                    borderAlpha: 0.2,
+                    radius: '22px'
+                },
+                ember: {
+                    label: 'Ember',
+                    hint: 'Naranja incandescente sobre marrón profundo.',
+                    accent: '#ff7a45',
+                    surface: '24, 13, 10',
+                    strong: '24, 13, 10',
+                    border: '255, 122, 69',
+                    borderAlpha: 0.2,
+                    radius: '17px'
+                }
             };
+            var DEFAULT_ACCENTS = Object.keys(THEMES).reduce(function (accents, key) {
+                accents[key] = THEMES[key].accent;
+                return accents;
+            }, {});
             var DEFAULT_STUDIOS = ['Disney', 'Marvel', 'DC', 'Paramount', 'Netflix'];
             var MAX_STUDIOS = 40;
             var state = {
@@ -1157,6 +1328,41 @@
                 page.style.setProperty('--pui-accent', color);
                 page.style.setProperty('--pui-accent-soft', hexToRgba(color, 0.16));
                 setValue('designAccent', color);
+                previewTheme();
+            }
+
+            /*
+             * Reproduce el tema elegido en la tarjeta de vista previa. Usa la
+             * misma fórmula de transparencia que base.css (alfa de superficie
+             * y de superficie fuerte) para que el panel no mienta.
+             */
+            function previewTheme() {
+                var preview = byId('designPreview');
+
+                if (!preview) {
+                    return;
+                }
+
+                var theme = THEMES[byId('designTheme').value] || THEMES.cinema;
+                var transparency = intValue('designTransparency', 55, 0, 100) / 100;
+                var accent = state.accent || theme.accent;
+
+                preview.style.setProperty('--preview-accent', accent);
+                preview.style.setProperty('--preview-glow', hexToRgba(accent, 0.32));
+                preview.style.setProperty('--preview-surface', 'rgba(' + theme.surface + ', ' + (0.95 - transparency * 0.62).toFixed(3) + ')');
+                preview.style.setProperty('--preview-strong', 'rgba(' + theme.strong + ', ' + (1 - transparency * 0.45).toFixed(3) + ')');
+                preview.style.setProperty('--preview-border', 'rgba(' + theme.border + ', ' + theme.borderAlpha + ')');
+                preview.style.setProperty('--preview-radius', theme.radius);
+
+                var name = byId('designPreviewName');
+                if (name) {
+                    name.textContent = theme.label;
+                }
+
+                var hint = byId('designThemeHint');
+                if (hint) {
+                    hint.textContent = theme.hint;
+                }
             }
 
             function syncAccentControls() {
@@ -1164,6 +1370,15 @@
                 setChecked('designAccentEnabled', custom);
                 byId('designAccent').disabled = !custom;
                 previewAccent();
+            }
+
+            function setVersionLabel(version) {
+                var label = byId('premiumUiVersion');
+
+                if (label && version) {
+                    label.textContent = 'v' + version;
+                    label.hidden = false;
+                }
             }
 
             function updateOutput(id, suffix) {
@@ -1394,7 +1609,7 @@
             function updateVersion(config) {
                 // La versión real llega con el diagnóstico; el valor estático es el fallback.
                 if (window.PremiumUiPluginVersion) {
-                    byId('premiumUiVersion').textContent = 'v' + window.PremiumUiPluginVersion;
+                    setVersionLabel(window.PremiumUiPluginVersion);
                 }
             }
 
@@ -1473,7 +1688,7 @@
                     setDiag('diagServer', data.ServerVersion + ' · ABI ' + data.TargetAbi);
                     setDiag('diagPlugin', 'v' + data.PluginVersion);
                     if (data.PluginVersion) {
-                        byId('premiumUiVersion').textContent = 'v' + data.PluginVersion;
+                        setVersionLabel(data.PluginVersion);
                     }
 
                     var integration = data.Integration || {};
@@ -1537,13 +1752,21 @@
                 byId('premiumUiReset').addEventListener('click', resetConfig);
 
                 ['designTransparency', 'designHeroHeight', 'designTransition', 'designHoverIntensity'].forEach(function (id) {
-                    byId(id).addEventListener('input', refreshOutputs);
+                    byId(id).addEventListener('input', function () {
+                        refreshOutputs();
+
+                        if (id === 'designTransparency') {
+                            previewTheme();
+                        }
+                    });
                 });
 
                 byId('designTheme').addEventListener('change', function () {
                     if (!state.accent) {
                         previewAccent();
                     }
+
+                    previewTheme();
                 });
 
                 byId('designAccent').addEventListener('input', function () {
@@ -1577,6 +1800,7 @@
                 bind();
                 renderOrder();
                 refreshOutputs();
+                previewTheme();
 
                 if (window.ApiClient) {
                     loadDiagnostics();

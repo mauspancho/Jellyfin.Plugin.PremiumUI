@@ -28,6 +28,7 @@ export function applyDesign(config: PremiumUiConfig): void {
     root.style.setProperty('--pui-transition', `${clamp(design.transitionMs, 0, 1000)}ms`);
     root.style.setProperty('--pui-card-scale', String(CARD_SCALES[design.cardSize] ?? 1));
     root.style.setProperty('--pui-hover', String(clamp(design.hoverIntensity ?? 100, 0, 150) / 100));
+    root.dataset.puiLazy = config.performance.lazyLoading === false ? 'off' : 'on';
 
     applyAccent(root, design.accentColor);
 }
@@ -41,14 +42,19 @@ function applyAccent(root: HTMLElement, value: string | undefined): void {
 
     if (!color) {
         root.style.removeProperty('--pui-accent');
+        root.style.removeProperty('--pui-accent-rgb');
         root.style.removeProperty('--pui-accent-soft');
         root.style.removeProperty('--pui-accent-contrast');
+        root.style.removeProperty('--pui-glow');
         return;
     }
 
     root.style.setProperty('--pui-accent', color.hex);
+    root.style.setProperty('--pui-accent-rgb', `${color.r}, ${color.g}, ${color.b}`);
     root.style.setProperty('--pui-accent-soft', `rgba(${color.r}, ${color.g}, ${color.b}, 0.16)`);
     root.style.setProperty('--pui-accent-contrast', color.contrast);
+    // El brillo del hero y de los halos sigue al acento personalizado.
+    root.style.setProperty('--pui-glow', `rgba(${color.r}, ${color.g}, ${color.b}, 0.22)`);
 }
 
 interface AccentColor {
@@ -107,4 +113,13 @@ export function shouldReduceMotion(config: PremiumUiConfig | null): boolean {
 
 export function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(Number.isFinite(value) ? value : min, min), max);
+}
+
+
+/**
+ * La opción "Carga diferida" del panel decide si las imágenes de estudio se
+ * piden al entrar en pantalla o de inmediato.
+ */
+export function lazyImagesEnabled(): boolean {
+    return document.documentElement.dataset.puiLazy !== 'off';
 }

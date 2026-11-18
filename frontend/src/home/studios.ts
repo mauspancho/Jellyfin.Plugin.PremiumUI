@@ -1,3 +1,4 @@
+import { lazyImagesEnabled } from '../core/config';
 import { create } from '../core/dom';
 import type { HomeConfig, StudioCollection } from '../types';
 import { resolveStudioArtwork } from './studioAssets';
@@ -161,7 +162,7 @@ function buildTile(collection: StudioCollection, token: string): HTMLAnchorEleme
     if (imageUrl) {
         const image = document.createElement('img');
         image.src = imageUrl;
-        image.loading = 'lazy';
+        image.setAttribute('loading', lazyImagesEnabled() ? 'lazy' : 'eager');
         image.decoding = 'async';
         image.alt = '';
 

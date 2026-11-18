@@ -1,5 +1,6 @@
 import { create } from '../core/dom';
 import { t } from '../core/i18n';
+import { lazyImagesEnabled } from '../core/config';
 
 const PAGE_SIZE = 60;
 
@@ -273,7 +274,7 @@ function buildCard(item: MediaItem): HTMLAnchorElement {
     const poster = create('span', 'pui-overlay-poster');
     const image = document.createElement('img');
     image.src = posterUrl(item) ?? '';
-    image.loading = 'lazy';
+    image.setAttribute('loading', lazyImagesEnabled() ? 'lazy' : 'eager');
     image.decoding = 'async';
     image.alt = '';
     poster.append(image);

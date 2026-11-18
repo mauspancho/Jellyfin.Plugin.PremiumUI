@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.24.0.0",
+        "changelog": "- Diseño: los siete temas (Cinema, Midnight, AMOLED, Alto contraste, Noir, Aurora y Ember) cambian acento, superficies, radio y halo del hero.\n- La transparencia del panel ahora controla el alfa real de tiles, tarjetas, capas y hero.\n- Vista previa en vivo del tema y la transparencia en el panel.\n- La carga diferida de imágenes afecta a los logos de estudio y a los pósters de las colecciones.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.24.0/Jellyfin.PremiumUI_0.24.0.0.zip",
+        "checksum": "e767704e083c010cd74e141f947ca202",
+        "timestamp": "2026-11-18T03:13:42Z"
+      },
+      {
         "version": "0.23.0.0",
         "changelog": "- Inicio: hero cinematográfico, hover premium y flechas laterales en recomendaciones.\n- Estudios agrupados por marca con colección combinada de películas y series.\n- Panel completo en el Dashboard y assets de estudio incluidos en el plugin.\n- Instalación desde el catálogo de plugins de Jellyfin mediante la URL del repositorio.",
         "targetAbi": "12.4.0.0",

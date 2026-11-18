@@ -23,7 +23,7 @@ public sealed class IntegrationStatus
     /// <summary>
     /// Gets or sets the bundled frontend version.
     /// </summary>
-    public string FrontendVersion { get; set; } = "0.23.0";
+    public string FrontendVersion { get; set; } = "0.24.0";
 
     /// <summary>
     /// Gets or sets the number of embedded frontend assets.

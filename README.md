@@ -171,7 +171,7 @@ Secciones del panel:
 | Sección | Contenido |
 |---|---|
 | General | Activar plugin, Inicio y Detalles |
-| Diseño | Tema, color de acento, tamaño de tarjetas, transparencia, altura del Hero, transiciones, intensidad del hover |
+| Diseño | Tema (siete paletas con vista previa), color de acento, tamaño de tarjetas, transparencia, altura del Hero, transiciones, intensidad del hover |
 | Inicio | Hero (solo en Inicio), fuente del contenido, carruseles (incluida la fila de recomendaciones), orden de secciones, elementos por carrusel, colecciones por marca (checkboxes agrupados de los estudios del servidor) |
 | Detalles | Backdrop, metadatos, información adicional, contenido relacionado |
 | Rendimiento | Precarga, lazy loading, caché, movimiento reducido |
@@ -180,6 +180,22 @@ Secciones del panel:
 Los valores se validan y normalizan en el servidor antes de guardarse: los números se limitan a su rango y los valores de lista se ajustan a las opciones permitidas.
 
 Guardar no exige recargar: el panel invalida la configuración cacheada en el navegador y pide una copia nueva, así que al volver a Inicio o Detalles ya se ve lo guardado. La navegación normal entre vistas sigue reutilizando la caché con TTL para no repetir peticiones al servidor.
+
+### Temas y transparencia
+
+El tema define una paleta completa de tokens CSS —acento RGB, superficies, fondo de sombra, bordes, radios y halo— y el panel la publica como `data-pui-theme` en `<html>`. Los siete temas incluidos son:
+
+| Tema | Aspecto |
+|---|---|
+| Cinema | Dorado cálido sobre azul nocturno; el valor por defecto |
+| Midnight | Azul eléctrico con superficies frías y esquinas suaves |
+| AMOLED | Negro puro, pensado para pantallas OLED |
+| Alto contraste | Bordes marcados y amarillo intenso |
+| Noir | Blanco plateado sobre negro, esquinas rectas |
+| Aurora | Turquesa con halo violeta y esquinas muy redondeadas |
+| Ember | Naranja incandescente sobre marrón profundo |
+
+La transparencia no es un color fijo: `--pui-transparency` (0–1) se convierte en el alfa de `--pui-surface`, `--pui-surface-strong` y `--pui-scrim`, así que afecta a todo lo que el plugin pinta (hero, tiles de estudio, tarjetas de recomendaciones, capa de colección y panel de Detalles). Si eliges un color de acento personalizado, el acento y el halo del hero pasan a ese color y el resto de la paleta del tema se mantiene. El panel muestra una vista previa en vivo del tema, el acento y la transparencia; los cambios se aplican a Inicio y Detalles al guardar.
 
 ### Bibliotecas de Películas y Series
 
@@ -207,10 +223,10 @@ El check "Recomendaciones" crea una fila propia del plugin (no reemplaza ninguna
 
 | Opción | Valores | Efecto en la interfaz |
 |---|---|---|
-| Tema | `cinema`, `midnight`, `amoled`, `contrast` | Paleta de acento, superficies y contraste |
+| Tema | `cinema`, `midnight`, `amoled`, `contrast`, `noir`, `aurora`, `ember` | Paleta completa: acento, superficies, bordes, radios, sombra y halo del hero |
 | Color de acento | tema o `#rrggbb` | Sustituye el acento del tema en bordes, botones e indicadores; el contraste del texto se calcula solo |
 | Tamaño de tarjetas | `small` / `medium` / `large` | Escala ×0.86 / ×1 / ×1.18 sobre el ancho nativo; móvil conserva el nativo |
-| Transparencia | 0–100 | Opacidad de superficies y sombras |
+| Transparencia | 0–100 | Alfa real de tiles, tarjetas, capas y hero: 0 % opaco, 100 % cristal |
 | Altura del Hero | 40–90 vh | Altura mínima del hero (limitada al 54 vh en móvil) |
 | Transiciones | 0–1000 ms | Duración de hovers y animaciones |
 | Intensidad del hover | 0–150 % | Elevación, escala, anillo y sombra de las tarjetas al pasar el cursor; 0 deja solo el cambio de color |

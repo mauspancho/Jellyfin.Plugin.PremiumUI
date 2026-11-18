@@ -278,3 +278,24 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - La versión del plugin pasa a seguir la del proyecto con cuatro componentes (`0.23.0.0`), en lugar de quedarse fija en `1.0.0.0`. Así el catálogo detecta las actualizaciones y las releases coinciden con lo instalado.
 - `build/meta.json` actualiza `owner` a `mauspancho`, activa `autoUpdate` y describe el plugin para el catálogo.
 - El README explica la instalación por catálogo, la manual y el flujo de publicación de una versión nueva, incluido el aviso de no mantener dos carpetas del mismo `guid`.
+
+## 0.24.0 — Temas, transparencia y opciones que sí se aplican
+
+### Corregido
+
+- Los temas no cambiaban nada perceptible: solo variaban el acento y dos colores de superficie, y el acento personalizado tapaba incluso eso. Ahora cada tema define una paleta completa (acento RGB, superficies, color de sombra, bordes, radios, sombra y halo del hero) y se aplica de verdad en hero, tiles de estudio, tarjetas, capa de colección y Detalles.
+- La transparencia era un valor muerto: `--pui-transparency` se publicaba pero ninguna regla lo consumía. Ahora se convierte en el alfa de `--pui-surface`, `--pui-surface-strong` y `--pui-scrim` (0 % opaco, 100 % cristal).
+- "Lazy loading" no tenía efecto: las imágenes de estudio siempre se cargaban con `loading="lazy"`. Ahora la opción decide entre `lazy` y `eager` en los logos de estudio y en los pósters de la colección.
+- El halo del hero y el `--pui-accent-rgb` siguen al color de acento personalizado cuando está activo, en vez de quedarse con el color del tema.
+- La etiqueta de versión del panel aparecía fija como `v1.0.0.0`; ahora se rellena con el diagnóstico y queda oculta hasta tener el dato real.
+
+### Añadido
+
+- Tres temas nuevos: **Noir**, **Aurora** y **Ember** (siete en total).
+- Vista previa en vivo en Diseño: reproduce el hero y las superficies del tema elegido con el acento y la transparencia actuales, y muestra una descripción de cada tema.
+- Ayudas en el panel que explican qué controla realmente cada opción (elementos del hero y recomendaciones frente a carruseles nativos, precarga, carga diferida y caché).
+
+### Cambiado
+
+- "Elementos por carrusel" pasa a llamarse "Elementos en hero y recomendaciones", que es lo que el plugin controla; los carruseles nativos mantienen el tamaño que decide Jellyfin.
+- Las pruebas `smoke` comprueban el acento RGB y el halo, la transparencia publicada, el atributo de carga diferida y la reutilización de nodos; las pruebas .NET cubren los siete temas canónicos.
