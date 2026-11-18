@@ -32,7 +32,12 @@ export function applyDesign(config: PremiumUiConfig): void {
 
     applyAccent(root, design.accentColor);
     applyShadowColor(root, design.shadowColor);
-    applyBackgroundColor(root, design.backgroundColor);
+    applyBackgroundColor(
+        root,
+        design.backgroundColor,
+        design.backgroundGradient === true,
+        design.backgroundGradientDirection
+    );
 }
 
 /**
@@ -80,20 +85,86 @@ function applyShadowColor(root: HTMLElement, value: string | undefined): void {
  * válido, se elimina el estilo en línea y manda el fondo del tema de Jellyfin.
  * El contraste del texto se calcula igual que en el acento para que un fondo
  * claro no deje el texto nativo blanco sobre blanco.
+ *
+ * Con el degradado activo se publica `--pui-app-bg-image`: parte del color
+ * elegido y termina en una variante mezclada con el color de contraste (más
+ * clara sobre fondos oscuros, más oscura sobre fondos claros), así el fondo
+ * sigue siendo legible y el texto conserva el contraste del color base.
  */
-function applyBackgroundColor(root: HTMLElement, value: string | undefined): void {
+function applyBackgroundColor(
+    root: HTMLElement,
+    value: string | undefined,
+    gradient: boolean,
+    direction: string | undefined
+): void {
     const color = parseHex(value);
 
     if (!color) {
         root.style.removeProperty('--pui-app-bg');
         root.style.removeProperty('--pui-app-fg');
+        root.style.removeProperty('--pui-app-bg-image');
         root.dataset.puiBg = 'off';
+        root.dataset.puiBgGradient = 'off';
         return;
     }
 
     root.style.setProperty('--pui-app-bg', color.hex);
     root.style.setProperty('--pui-app-fg', color.contrast);
     root.dataset.puiBg = 'on';
+
+    if (!gradient) {
+        root.style.removeProperty('--pui-app-bg-image');
+        root.dataset.puiBgGradient = 'off';
+        return;
+    }
+
+    const shade = mixHex(color, color.contrast === '#ffffff' ? WHITE : NEAR_BLACK, 0.18);
+    root.style.setProperty('--pui-app-bg-image', gradientImage(direction, shade, color.hex));
+    root.dataset.puiBgGradient = 'on';
+}
+
+const WHITE = { r: 255, g: 255, b: 255 };
+const NEAR_BLACK = { r: 11, g: 11, b: 11 };
+
+const LINEAR_GRADIENTS: Record<string, string> = {
+    bottom: 'to bottom',
+    top: 'to top',
+    right: 'to right',
+    left: 'to left',
+    'bottom-right': 'to bottom right',
+    'bottom-left': 'to bottom left',
+    'top-right': 'to top right',
+    'top-left': 'to top left'
+};
+
+const RADIAL_GRADIENTS: Record<string, string> = {
+    radial: '50% 50%',
+    'radial-top': '50% 0%',
+    'radial-bottom': '50% 100%'
+};
+
+/**
+ * Construye la imagen CSS del fondo a partir de la dirección elegida. Las
+ * direcciones lineales usan las palabras clave de CSS y las radiales colocan
+ * el foco en el centro, el borde superior o el inferior. Cualquier valor
+ * desconocido cae en el degradado vertical.
+ */
+function gradientImage(direction: string | undefined, shade: string, base: string): string {
+    const key = (direction ?? '').trim().toLowerCase();
+    const radial = RADIAL_GRADIENTS[key];
+
+    if (radial) {
+        return `radial-gradient(circle at ${radial}, ${shade}, ${base})`;
+    }
+
+    return `linear-gradient(${LINEAR_GRADIENTS[key] ?? LINEAR_GRADIENTS.bottom}, ${shade}, ${base})`;
+}
+
+function mixHex(color: AccentColor, target: Rgb, ratio: number): string {
+    const mix = (from: number, to: number): number => Math.round(from + (to - from) * ratio);
+    const channel = (value: number): string => value.toString(16).padStart(2, '0');
+
+    return `#${channel(mix(color.r, target.r))}${channel(mix(color.g, target.g))}${channel(mix(color.b, target.b))}`;
 }
 
 interface AccentColor {
@@ -102,6 +173,12 @@ interface AccentColor {
     g: number;
     b: number;
     contrast: string;
+}
+
+interface Rgb {
+    r: number;
+    g: number;
+    b: number;
 }
 
 function parseHex(value: string | undefined): AccentColor | null {

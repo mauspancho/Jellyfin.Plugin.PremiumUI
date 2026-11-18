@@ -164,11 +164,10 @@ html[data-pui-motion='reduce'] {
 
 /* Fondo de la aplicación. Jellyfin pinta el color del tema en la capa fija
  * `.backgroundContainer`; el plugin la sustituye en las vistas normales
- * (Inicio, Bibliotecas, búsqueda, colecciones y Detalles), pero no en el panel
- * de administración, donde los textos tienen colores pensados para el tema
- * oscuro. El cuerpo hereda el color de contraste calculado en el frontend para
- * que un fondo claro no deje el texto nativo blanco sobre blanco. */
-html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) {
+ * (Inicio, Bibliotecas, búsqueda, colecciones y Detalles sin backdrop), pero no
+ * en el panel de administración ni cuando hay un backdrop, donde el arte de la
+ * biblioteca o del título debe seguir siendo el fondo. */
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) #reactRoot .page:not(.itemDetailPage) {
     color: var(--pui-app-fg);
 }
 
@@ -178,8 +177,14 @@ html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not
     color: var(--pui-app-fg);
 }
 
-html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) .backgroundContainer:not(.backgroundContainer-transparent) {
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) .backgroundContainer:not(.backgroundContainer-transparent):not(.withBackdrop) {
     background-color: var(--pui-app-bg) !important;
+}
+
+/* El degradado se pinta encima del color base; la dirección y la variante de
+ * la sombra las calcula el frontend a partir de la configuración. */
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg-gradient='on'] body:not(.dashboardDocument) .backgroundContainer:not(.backgroundContainer-transparent):not(.withBackdrop) {
+    background-image: var(--pui-app-bg-image) !important;
 }
 
 html[data-pui-motion='reduce'] *,

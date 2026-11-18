@@ -15,7 +15,7 @@ public class BootstrapContractTests
             "12.4.0.0",
             true,
             true,
-            new DesignBootstrapDto("cinema", 55, 68, "medium", 220, 125, "#7aa2ff", "#000000", "#101820"),
+            new DesignBootstrapDto("cinema", 55, 68, "medium", 220, 125, "#7aa2ff", "#000000", "#101820", true, "radial-top"),
             new HomeBootstrapDto(
                 true,
                 true,
@@ -45,6 +45,8 @@ public class BootstrapContractTests
         Assert.Equal("#7aa2ff", root.GetProperty("design").GetProperty("accentColor").GetString());
         Assert.Equal("#000000", root.GetProperty("design").GetProperty("shadowColor").GetString());
         Assert.Equal("#101820", root.GetProperty("design").GetProperty("backgroundColor").GetString());
+        Assert.True(root.GetProperty("design").GetProperty("backgroundGradient").GetBoolean());
+        Assert.Equal("radial-top", root.GetProperty("design").GetProperty("backgroundGradientDirection").GetString());
         Assert.Equal(68, root.GetProperty("design").GetProperty("heroHeight").GetInt32());
         Assert.Equal(125, root.GetProperty("design").GetProperty("hoverIntensity").GetInt32());
         Assert.Equal("random", root.GetProperty("home").GetProperty("heroSource").GetString());

@@ -16,6 +16,8 @@ public class PluginWiringTests
         original.Design.AccentColor = "#112233";
         original.Design.ShadowColor = "#445566";
         original.Design.BackgroundColor = "#0a0b0c";
+        original.Design.BackgroundGradient = true;
+        original.Design.BackgroundGradientDirection = "top-left";
         original.Home.SectionOrder = ["movies", "hero"];
         original.Performance.CacheMinutes = 42;
 
@@ -32,6 +34,8 @@ public class PluginWiringTests
         Assert.Equal("#112233", restored.Design.AccentColor);
         Assert.Equal("#445566", restored.Design.ShadowColor);
         Assert.Equal("#0a0b0c", restored.Design.BackgroundColor);
+        Assert.True(restored.Design.BackgroundGradient);
+        Assert.Equal("top-left", restored.Design.BackgroundGradientDirection);
         Assert.Equal(["movies", "hero"], restored.Home.SectionOrder);
         Assert.Equal(42, restored.Performance.CacheMinutes);
     }

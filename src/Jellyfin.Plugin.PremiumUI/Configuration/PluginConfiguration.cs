@@ -115,6 +115,19 @@ public sealed class DesignOptions
     /// <c>#rrggbb</c> format. Empty means the Jellyfin theme paints the background.
     /// </summary>
     public string BackgroundColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the custom background is painted
+    /// as a gradient from <see cref="BackgroundColor"/> to a derived shade.
+    /// </summary>
+    public bool BackgroundGradient { get; set; }
+
+    /// <summary>
+    /// Gets or sets the gradient direction identifier. See
+    /// <c>ConfigurationValidator.BackgroundGradientDirections</c> for the
+    /// accepted values; unknown values fall back to <c>bottom</c>.
+    /// </summary>
+    public string BackgroundGradientDirection { get; set; } = "bottom";
 }
 
 /// <summary>

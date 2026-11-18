@@ -230,7 +230,9 @@ public sealed class PremiumUiController : ControllerBase
                 normalized.Design.HoverIntensity,
                 normalized.Design.AccentColor,
                 normalized.Design.ShadowColor,
-                normalized.Design.BackgroundColor),
+                normalized.Design.BackgroundColor,
+                normalized.Design.BackgroundGradient,
+                normalized.Design.BackgroundGradientDirection),
             Home: new HomeBootstrapDto(
                 Enabled: normalized.General.EnableHome,
                 HeroEnabled: normalized.Home.HeroEnabled,
@@ -295,6 +297,8 @@ public sealed record BootstrapDto(
 /// <param name="AccentColor">Optional accent color override (#rrggbb), empty for the theme color.</param>
 /// <param name="ShadowColor">Optional card shadow color override (#rrggbb), empty for the theme color.</param>
 /// <param name="BackgroundColor">Optional application background color override (#rrggbb), empty for the theme background.</param>
+/// <param name="BackgroundGradient">Whether the custom background is painted as a gradient.</param>
+/// <param name="BackgroundGradientDirection">Gradient direction or radial origin identifier.</param>
 public sealed record DesignBootstrapDto(
     [property: JsonPropertyName("theme")] string Theme,
     [property: JsonPropertyName("transparency")] int Transparency,
@@ -304,7 +308,9 @@ public sealed record DesignBootstrapDto(
     [property: JsonPropertyName("hoverIntensity")] int HoverIntensity,
     [property: JsonPropertyName("accentColor")] string AccentColor,
     [property: JsonPropertyName("shadowColor")] string ShadowColor,
-    [property: JsonPropertyName("backgroundColor")] string BackgroundColor);
+    [property: JsonPropertyName("backgroundColor")] string BackgroundColor,
+    [property: JsonPropertyName("backgroundGradient")] bool BackgroundGradient,
+    [property: JsonPropertyName("backgroundGradientDirection")] string BackgroundGradientDirection);
 
 /// <summary>
 /// Home options for the frontend.

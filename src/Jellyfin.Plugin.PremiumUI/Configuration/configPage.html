@@ -107,6 +107,30 @@
                         <p class="premiumUiHint">Desactivado usa el fondo del tema de Jellyfin. El color se aplica detrás del contenido y ajusta el texto para mantener el contraste.</p>
                     </div>
                     <div class="premiumUiField">
+                        <label for="designBackgroundGradient">Degradado de fondo</label>
+                        <label class="premiumUiToggle premiumUiToggleInline">
+                            <input type="checkbox" id="designBackgroundGradient" disabled>
+                            <span>Activar</span>
+                        </label>
+                        <p class="premiumUiHint">Pinta el fondo con una variante más clara u oscura del mismo color. Requiere el color personalizado.</p>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="designBackgroundGradientDir">Dirección del degradado</label>
+                        <select id="designBackgroundGradientDir" disabled>
+                            <option value="bottom">Abajo</option>
+                            <option value="top">Arriba</option>
+                            <option value="right">Derecha</option>
+                            <option value="left">Izquierda</option>
+                            <option value="bottom-right">↘ Abajo-derecha</option>
+                            <option value="bottom-left">↙ Abajo-izquierda</option>
+                            <option value="top-right">↗ Arriba-derecha</option>
+                            <option value="top-left">↖ Arriba-izquierda</option>
+                            <option value="radial">Radial centro</option>
+                            <option value="radial-top">Radial arriba</option>
+                            <option value="radial-bottom">Radial abajo</option>
+                        </select>
+                    </div>
+                    <div class="premiumUiField">
                         <label for="designCardSize">Tamaño de tarjetas</label>
                         <select id="designCardSize">
                             <option value="small">Pequeño</option>
@@ -483,6 +507,12 @@
             gap: 10px;
         }
 
+        .premiumUiColorRow select {
+            flex: 1 1 auto;
+            width: auto;
+            min-width: 0;
+        }
+
         .premiumUiField input[type="color"] {
             width: 54px;
             height: 38px;
@@ -793,6 +823,7 @@
             border: 1px solid var(--pui-border);
             border-radius: 14px;
             background: var(--preview-bg, rgba(0, 0, 0, 0.2));
+            background-image: var(--preview-bg-image, none);
             transition: background 160ms ease;
         }
 
@@ -1008,6 +1039,8 @@
                 accent: '',
                 shadow: '',
                 background: '',
+                gradient: false,
+                gradientDirection: 'bottom',
                 schemaVersion: 0,
                 studioNames: [],
                 studios: [],
@@ -1350,6 +1383,101 @@
                 return 'rgba(' + red + ', ' + green + ', ' + blue + ', ' + alpha + ')';
             }
 
+            /*
+             * El degradado del fondo replica la misma fórmula del frontend:
+             * el color elegido se mezcla un 18% con blanco (fondos oscuros) o
+             * con casi negro (fondos claros), y la variante ocupa el extremo
+             * claro del degradado.
+             */
+            var GRADIENT_LINEAR = {
+                bottom: 'to bottom',
+                top: 'to top',
+                right: 'to right',
+                left: 'to left',
+                'bottom-right': 'to bottom right',
+                'bottom-left': 'to bottom left',
+                'top-right': 'to top right',
+                'top-left': 'to top left'
+            };
+            var GRADIENT_RADIAL = {
+                radial: '50% 50%',
+                'radial-top': '50% 0%',
+                'radial-bottom': '50% 100%'
+            };
+            var GRADIENT_LABELS = {
+                bottom: 'hacia abajo',
+                top: 'hacia arriba',
+                right: 'hacia la derecha',
+                left: 'hacia la izquierda',
+                'bottom-right': 'en diagonal hacia abajo-derecha',
+                'bottom-left': 'en diagonal hacia abajo-izquierda',
+                'top-right': 'en diagonal hacia arriba-derecha',
+                'top-left': 'en diagonal hacia arriba-izquierda',
+                radial: 'radial desde el centro',
+                'radial-top': 'radial desde arriba',
+                'radial-bottom': 'radial desde abajo'
+            };
+
+            function normalizeHex(value) {
+                var hex = String(value || '').replace('#', '');
+                if (hex.length === 3) {
+                    hex = hex.split('').map(function (character) {
+                        return character + character;
+                    }).join('');
+                }
+
+                return /^[0-9a-f]{6}$/i.test(hex) ? '#' + hex.toLowerCase() : '';
+            }
+
+            function mixHex(hex, target, ratio) {
+                var value = parseInt(hex.replace('#', ''), 16);
+                var mix = function (from, to) {
+                    return Math.round(from + (to - from) * ratio).toString(16).padStart(2, '0');
+                };
+
+                return '#' + mix((value >> 16) & 255, target.r)
+                    + mix((value >> 8) & 255, target.g)
+                    + mix(value & 255, target.b);
+            }
+
+            function srgbLuminance(hex) {
+                var number = parseInt(hex.replace('#', ''), 16);
+                var channel = function (value) {
+                    var normalized = value / 255;
+                    return normalized <= 0.03928
+                        ? normalized / 12.92
+                        : Math.pow((normalized + 0.055) / 1.055, 2.4);
+                };
+
+                return 0.2126 * channel((number >> 16) & 255)
+                    + 0.7152 * channel((number >> 8) & 255)
+                    + 0.0722 * channel(number & 255);
+            }
+
+            function backgroundGradient(value, direction) {
+                var base = normalizeHex(value);
+
+                if (!base) {
+                    return 'none';
+                }
+
+                // El umbral es el mismo que usa el frontend para elegir el
+                // color del texto: así la variante del degradado siempre va
+                // hacia el lado del contraste y no hacia el mismo tono.
+                var light = srgbLuminance(base) > 0.179;
+                var shade = light
+                    ? mixHex(base, { r: 11, g: 11, b: 11 }, 0.18)
+                    : mixHex(base, { r: 255, g: 255, b: 255 }, 0.18);
+                var key = String(direction || '').toLowerCase();
+
+                if (GRADIENT_RADIAL[key]) {
+                    return 'radial-gradient(circle at ' + GRADIENT_RADIAL[key] + ', ' + shade + ', ' + base + ')';
+                }
+
+                return 'linear-gradient(' + (GRADIENT_LINEAR[key] || GRADIENT_LINEAR.bottom)
+                    + ', ' + shade + ', ' + base + ')';
+            }
+
             function themeAccent() {
                 return DEFAULT_ACCENTS[byId('designTheme').value] || DEFAULT_ACCENTS.cinema;
             }
@@ -1379,11 +1507,15 @@
                 var accent = state.accent || theme.accent;
                 var shadow = state.shadow || '#000000';
                 var background = state.background || '#101010';
+                var gradient = state.background && state.gradient
+                    ? backgroundGradient(background, state.gradientDirection)
+                    : 'none';
 
                 preview.style.setProperty('--preview-accent', accent);
                 preview.style.setProperty('--preview-glow', hexToRgba(accent, 0.32));
                 preview.style.setProperty('--preview-shadow', hexToRgba(shadow, 0.72));
                 preview.style.setProperty('--preview-bg', background);
+                preview.style.setProperty('--preview-bg-image', gradient);
                 preview.style.setProperty('--preview-surface', 'rgba(' + theme.surface + ', ' + (0.95 - transparency * 0.62).toFixed(3) + ')');
                 preview.style.setProperty('--preview-strong', 'rgba(' + theme.strong + ', ' + (1 - transparency * 0.45).toFixed(3) + ')');
                 preview.style.setProperty('--preview-border', 'rgba(' + theme.border + ', ' + theme.borderAlpha + ')');
@@ -1405,7 +1537,10 @@
                 var previewHint = byId('designPreviewHint');
                 if (previewHint) {
                     var backgroundNote = state.background
-                        ? ' Fondo personalizado: ' + background + '.'
+                        ? ' Fondo personalizado: ' + background
+                            + (state.gradient
+                                ? ' (' + (GRADIENT_LABELS[state.gradientDirection] || GRADIENT_LABELS.bottom) + ').'
+                                : '.')
                         : '';
                     previewHint.textContent = (state.accent
                         ? 'Vista previa con tu acento personalizado (' + accent + '). Desactiva "Personalizado" para ver el acento del tema y el resto de su paleta.'
@@ -1433,6 +1568,10 @@
                 setChecked('designBackgroundEnabled', custom);
                 byId('designBackground').disabled = !custom;
                 setValue('designBackground', custom ? state.background : '#101010');
+                setChecked('designBackgroundGradient', custom && state.gradient);
+                byId('designBackgroundGradient').disabled = !custom;
+                byId('designBackgroundGradientDir').disabled = !custom || !state.gradient;
+                setValue('designBackgroundGradientDir', state.gradientDirection || 'bottom');
                 previewTheme();
             }
 
@@ -1557,6 +1696,8 @@
                 state.accent = design.AccentColor || '';
                 state.shadow = design.ShadowColor || '';
                 state.background = design.BackgroundColor || '';
+                state.gradient = design.BackgroundGradient === true;
+                state.gradientDirection = design.BackgroundGradientDirection || 'bottom';
                 syncAccentControls();
                 syncShadowControls();
                 syncBackgroundControls();
@@ -1613,7 +1754,9 @@
                         HoverIntensity: intValue('designHoverIntensity', 100, 0, 150),
                         AccentColor: state.accent,
                         ShadowColor: state.shadow,
-                        BackgroundColor: state.background
+                        BackgroundColor: state.background,
+                        BackgroundGradient: state.gradient && state.background.length > 0,
+                        BackgroundGradientDirection: state.gradientDirection || 'bottom'
                     },
                     Home: {
                         HeroEnabled: byId('homeHeroEnabled').checked,
@@ -1876,7 +2019,20 @@
 
                 byId('designBackgroundEnabled').addEventListener('change', function () {
                     state.background = this.checked ? byId('designBackground').value : '';
-                    byId('designBackground').disabled = !this.checked;
+                    if (!this.checked) {
+                        state.gradient = false;
+                    }
+                    syncBackgroundControls();
+                });
+
+                byId('designBackgroundGradient').addEventListener('change', function () {
+                    state.gradient = this.checked;
+                    byId('designBackgroundGradientDir').disabled = !this.checked;
+                    previewTheme();
+                });
+
+                byId('designBackgroundGradientDir').addEventListener('change', function () {
+                    state.gradientDirection = this.value || 'bottom';
                     previewTheme();
                 });
 

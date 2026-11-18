@@ -17,7 +17,9 @@ const config = {
         hoverIntensity: 125,
         accentColor: '#7aa2ff',
         shadowColor: '#000000',
-        backgroundColor: ''
+        backgroundColor: '',
+        backgroundGradient: false,
+        backgroundGradientDirection: 'bottom'
     },
     home: {
         enabled: true,
@@ -728,6 +730,53 @@ assert.equal(
     document.documentElement.dataset.puiBg,
     'on',
     'el fondo personalizado debe activarse en el documento'
+);
+
+// Degradado del fondo: dirección lineal, radial y vuelta al color plano.
+config.design.backgroundGradient = true;
+config.design.backgroundGradientDirection = 'top-left';
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.equal(
+    document.documentElement.dataset.puiBgGradient,
+    'on',
+    'el degradado debe activarse con data-pui-bg-gradient'
+);
+assert.ok(
+    document.documentElement.style
+        .getPropertyValue('--pui-app-bg-image')
+        .startsWith('linear-gradient(to top left, '),
+    'la dirección lineal debe publicarse en --pui-app-bg-image'
+);
+
+config.design.backgroundGradientDirection = 'radial-top';
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.ok(
+    document.documentElement.style
+        .getPropertyValue('--pui-app-bg-image')
+        .startsWith('radial-gradient(circle at 50% 0%, '),
+    'las direcciones radiales deben publicarse en --pui-app-bg-image'
+);
+
+config.design.backgroundGradient = false;
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.equal(
+    document.documentElement.dataset.puiBgGradient,
+    'off',
+    'sin degradado se retira data-pui-bg-gradient'
+);
+assert.equal(
+    document.documentElement.style.getPropertyValue('--pui-app-bg-image'),
+    '',
+    'sin degradado se retira --pui-app-bg-image'
 );
 
 // Los checks "Carruseles" ocultan filas nativas sin romper el hero.

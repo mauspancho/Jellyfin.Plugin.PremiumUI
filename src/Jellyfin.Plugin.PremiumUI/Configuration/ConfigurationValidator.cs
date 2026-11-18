@@ -24,6 +24,26 @@ public static class ConfigurationValidator
     public static readonly string[] CardSizes = ["small", "medium", "large"];
 
     /// <summary>
+    /// Allowed background gradient directions. Linear values use CSS
+    /// <c>to &lt;side&gt;</c> keywords and <c>radial*</c> values place the
+    /// radial origin on the top, center or bottom edge.
+    /// </summary>
+    public static readonly string[] BackgroundGradientDirections =
+    [
+        "bottom",
+        "top",
+        "right",
+        "left",
+        "bottom-right",
+        "bottom-left",
+        "top-right",
+        "top-left",
+        "radial",
+        "radial-top",
+        "radial-bottom"
+    ];
+
+    /// <summary>
     /// Allowed hero content sources.
     /// </summary>
     public static readonly string[] HeroSources = ["random", "latest", "movies", "series"];
@@ -92,7 +112,9 @@ public static class ConfigurationValidator
             HoverIntensity = Clamp(source.HoverIntensity, 0, 150),
             AccentColor = NormalizeColor(source.AccentColor),
             ShadowColor = NormalizeColor(source.ShadowColor),
-            BackgroundColor = NormalizeColor(source.BackgroundColor)
+            BackgroundColor = NormalizeColor(source.BackgroundColor),
+            BackgroundGradient = source.BackgroundGradient,
+            BackgroundGradientDirection = Canonical(source.BackgroundGradientDirection, BackgroundGradientDirections, "bottom")
         };
     }
 

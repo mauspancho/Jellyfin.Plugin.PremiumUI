@@ -6,7 +6,7 @@
   "owner": "mauspancho",
   "category": "General",
   "imageUrl": "https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/assets/cover.png",
-  "version": "0.27.0.0",
+  "version": "0.28.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -14,5 +14,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Nuevo color de fondo en Diseño: con el interruptor \"Personalizado\" se elige cualquier color y se aplica a toda la interfaz (Inicio, Bibliotecas, búsqueda, colecciones y Detalles). Desactivado usa el fondo del tema de Jellyfin.\n- El texto de la interfaz ajusta su contraste automáticamente, así que los fondos claros siguen siendo legibles.\n- La vista previa del panel muestra el fondo elegido junto al acento, la sombra y la transparencia."
+  "changelog": "- El color de fondo personalizado admite degradado con once direcciones: verticales, horizontales, diagonales y radiales desde el centro, arriba o abajo.\n- La variante del degradado se calcula a partir del color elegido y su contraste, así los fondos claros y oscuros siguen siendo legibles.\n- La vista previa del panel muestra el degradado y el resumen del fondo indica la dirección activa."
 }

@@ -8,6 +8,8 @@ export interface DesignConfig {
     accentColor: string;
     shadowColor: string;
     backgroundColor: string;
+    backgroundGradient: boolean;
+    backgroundGradientDirection: string;
 }
 
 export interface StudioCollection {

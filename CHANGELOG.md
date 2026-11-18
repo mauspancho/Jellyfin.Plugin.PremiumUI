@@ -377,3 +377,14 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - La vista previa del panel pinta el fondo elegido detrás del hero y los tiles, junto al acento, la sombra y la transparencia.
 - El panel de administración conserva el fondo del tema para no desajustar sus controles.
 - El backend normaliza el valor como `#rrggbb` (admite `#abc`); vacío o inválido usa el fondo del tema de Jellyfin.
+
+## 0.28.0 — Degradado del fondo
+
+### Añadido
+
+- El color de fondo admite degradado con un interruptor "Degradado" y una lista de once direcciones: hacia abajo, arriba, derecha e izquierda; cuatro diagonales; y radial desde el centro, desde arriba o desde abajo.
+- La variante del degradado se calcula a partir del propio color: se mezcla un 18 % con blanco en fondos oscuros o con casi negro en fondos claros, así el degradado mantiene el contraste del texto y funciona igual con fondos claros y oscuros.
+- El frontend publica la imagen como `--pui-app-bg-image` y `data-pui-bg-gradient="on"`; sin degradado se retiran ambos.
+- La vista previa del panel reproduce la dirección elegida y el resumen del fondo indica el degradado activo.
+- El fondo personalizado se limita a las vistas sin backdrop: Detalles conserva el arte del título y el tema oscuro de sus paneles, y el panel de administración mantiene su fondo, así los textos nativos no quedan ilegibles.
+- El backend normaliza la dirección (`bottom` por defecto) y la sirve en el bootstrap como `backgroundGradient` y `backgroundGradientDirection`.
