@@ -89,7 +89,10 @@ function render(section: HTMLElement, collections: StudioCollection[], token: st
 
     for (const collection of collections) {
         const existing = previous.get(collection.key);
-        const tileToken = `${token}|${collection.name}|${collection.imageItemId ?? ''}`;
+        // La carga diferida entra en la clave: si el panel la cambia, el tile
+        // se reconstruye con `loading="lazy"` o `"eager"` en vez de conservar
+        // el atributo anterior.
+        const tileToken = `${token}|${collection.name}|${collection.imageItemId ?? ''}|${lazyImagesEnabled() ? 'lazy' : 'eager'}`;
 
         desired.push(existing && existing.token === tileToken
             ? existing.element

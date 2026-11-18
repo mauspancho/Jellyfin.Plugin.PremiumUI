@@ -299,3 +299,15 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 
 - "Elementos por carrusel" pasa a llamarse "Elementos en hero y recomendaciones", que es lo que el plugin controla; los carruseles nativos mantienen el tamaño que decide Jellyfin.
 - Las pruebas `smoke` comprueban el acento RGB y el halo, la transparencia publicada, el atributo de carga diferida y la reutilización de nodos; las pruebas .NET cubren los siete temas canónicos.
+
+## 0.24.1 — Detalles, precarga y carga diferida en caliente
+
+### Corregido
+
+- El interruptor **Detalles** no apagaba nada: las reglas de backdrop, metadatos, información adicional y secciones relacionadas se aplicaban por su propio atributo aunque la sección estuviera desactivada. Ahora todas exigen `data-pui-details='on'`, así que apagar Detalles devuelve la página nativa de Jellyfin.
+- La **precarga** del hero no se respetaba: se preparaba siempre la diapositiva siguiente y cambiar la opción no actualizaba la imagen actual. Ahora la precarga decide la resolución del hero y si se prepara la siguiente diapositiva, y el cambio se aplica sin esperar a que rote.
+- Cambiar **Carga diferida** no surtía efecto hasta recargar: los tiles de estudio se reutilizaban con el `loading` anterior. La opción entra en la clave del tile, de modo que se reconstruye como `lazy` o `eager` al guardar.
+
+### Añadido
+
+- La vista previa de Diseño avisa cuando hay un acento personalizado activo y explica que ese color tapa el acento del tema.

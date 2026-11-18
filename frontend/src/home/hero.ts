@@ -313,7 +313,10 @@ export function createHero(container: HTMLElement): HeroController {
             || cardImage?.getAttribute('aria-label')?.trim()
             || '';
         const sectionTitle = item.label;
-        const key = `${item.card.dataset.id ?? ''}|${sectionTitle}|${eventKey(item.card)}`;
+        // La precarga decide si el hero pide una imagen en alta resolución o
+        // reutiliza la de la tarjeta: entra en la clave para que el cambio se
+        // aplique sin esperar a que rote la diapositiva.
+        const key = `${item.card.dataset.id ?? ''}|${sectionTitle}|${eventKey(item.card)}|${preload ? 'hi' : 'lo'}`;
 
         syncDots();
 
@@ -350,7 +353,7 @@ export function createHero(container: HTMLElement): HeroController {
             ?.getAttribute('title')?.trim();
         playLabel.textContent = playTitle || t('play');
 
-        if (sourceImage) {
+        if (sourceImage && preload) {
             preloadNext();
         }
     }

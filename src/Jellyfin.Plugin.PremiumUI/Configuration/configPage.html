@@ -122,7 +122,7 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <p class="premiumUiThemePreviewHint">Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.</p>
+                    <p class="premiumUiThemePreviewHint" id="designPreviewHint">Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.</p>
                 </div>
             </section>
 
@@ -1362,6 +1362,16 @@
                 var hint = byId('designThemeHint');
                 if (hint) {
                     hint.textContent = theme.hint;
+                }
+
+                // Con acento personalizado el borde y el botón usan ese color y
+                // no el del tema: se avisa para que el cambio de tema no parezca
+                // que "no hace nada".
+                var previewHint = byId('designPreviewHint');
+                if (previewHint) {
+                    previewHint.textContent = state.accent
+                        ? 'Vista previa con tu acento personalizado (' + accent + '). Desactiva "Personalizado" para ver el acento del tema y el resto de su paleta.'
+                        : 'Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.';
                 }
             }
 

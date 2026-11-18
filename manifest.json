@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.24.1.0",
+        "changelog": "- Detalles: el interruptor general ahora desactiva de verdad el backdrop, los metadatos, la información adicional y las secciones relacionadas.\n- La precarga del hero se respeta en caliente y solo prepara la diapositiva siguiente cuando está activa.\n- La carga diferida se aplica al cambiar de opción sin recargar: logos de estudio en lazy o eager.\n- El panel avisa cuando un acento personalizado tapa el acento del tema en la vista previa.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.24.1/Jellyfin.PremiumUI_0.24.1.0.zip",
+        "checksum": "5ee5b1a5b77baef7348a49e27f74b69d",
+        "timestamp": "2026-11-18T03:22:09Z"
+      },
+      {
         "version": "0.24.0.0",
         "changelog": "- Diseño: los siete temas (Cinema, Midnight, AMOLED, Alto contraste, Noir, Aurora y Ember) cambian acento, superficies, radio y halo del hero.\n- La transparencia del panel ahora controla el alfa real de tiles, tarjetas, capas y hero.\n- Vista previa en vivo del tema y la transparencia en el panel.\n- La carga diferida de imágenes afecta a los logos de estudio y a los pósters de las colecciones.",
         "targetAbi": "12.4.0.0",
