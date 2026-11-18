@@ -22,6 +22,7 @@ public class ConfigurationValidatorTests
         Assert.Equal(100, result.Design.HoverIntensity);
         Assert.Equal(string.Empty, result.Design.AccentColor);
         Assert.Equal(12, result.Home.ItemsPerSection);
+        Assert.Equal(12, result.Home.RecommendationsCount);
         Assert.Equal(10, result.Performance.CacheMinutes);
         Assert.Equal("auto", result.Performance.ReducedMotion);
         Assert.Equal(ConfigurationValidator.SectionIds, result.Home.SectionOrder);
@@ -205,7 +206,7 @@ public class ConfigurationValidatorTests
         var input = new PluginConfiguration
         {
             Design = new DesignOptions { Transparency = -40, HeroHeight = 400, TransitionMs = 5000, HoverIntensity = 500 },
-            Home = new HomeOptions { ItemsPerSection = 500 },
+            Home = new HomeOptions { ItemsPerSection = 500, RecommendationsCount = 1 },
             Performance = new PerformanceOptions { CacheMinutes = 0 }
         };
 
@@ -216,6 +217,7 @@ public class ConfigurationValidatorTests
         Assert.Equal(600, result.Design.TransitionMs);
         Assert.Equal(150, result.Design.HoverIntensity);
         Assert.Equal(20, result.Home.ItemsPerSection);
+        Assert.Equal(4, result.Home.RecommendationsCount);
         Assert.Equal(1, result.Performance.CacheMinutes);
     }
 

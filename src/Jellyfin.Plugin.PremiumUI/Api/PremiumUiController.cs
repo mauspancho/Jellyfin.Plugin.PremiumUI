@@ -241,6 +241,7 @@ public sealed class PremiumUiController : ControllerBase
                 MediaLibraries: normalized.Home.MediaLibraries,
                 SectionOrder: normalized.Home.SectionOrder.ToArray(),
                 ItemsPerSection: normalized.Home.ItemsPerSection,
+                RecommendationsCount: normalized.Home.RecommendationsCount,
                 StudioSections: normalized.Home.StudiosEnabled
                     ? normalized.Home.Studios.ToArray()
                     : Array.Empty<string>(),
@@ -312,7 +313,8 @@ public sealed record DesignBootstrapDto(
 /// <param name="Recommendations">Recommendations carousel.</param>
 /// <param name="MediaLibraries">Whether the "My Media" libraries row is shown.</param>
 /// <param name="SectionOrder">Section order.</param>
-/// <param name="ItemsPerSection">Items per carousel.</param>
+/// <param name="ItemsPerSection">Number of hero items.</param>
+/// <param name="RecommendationsCount">Number of recommendation cards.</param>
 /// <param name="StudioSections">Studios rendered as logo sections; empty when disabled.</param>
 /// <param name="StudioCollections">Studio groups resolved for the current configuration.</param>
 public sealed record HomeBootstrapDto(
@@ -327,6 +329,7 @@ public sealed record HomeBootstrapDto(
     [property: JsonPropertyName("mediaLibraries")] bool MediaLibraries,
     [property: JsonPropertyName("sectionOrder")] string[] SectionOrder,
     [property: JsonPropertyName("itemsPerSection")] int ItemsPerSection,
+    [property: JsonPropertyName("recommendationsCount")] int RecommendationsCount,
     [property: JsonPropertyName("studioSections")] string[] StudioSections,
     [property: JsonPropertyName("studioCollections")] IReadOnlyList<StudioCollectionBootstrapDto> StudioCollections);
 

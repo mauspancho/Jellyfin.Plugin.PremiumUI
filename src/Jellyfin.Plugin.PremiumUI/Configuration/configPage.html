@@ -149,9 +149,14 @@
                         </select>
                     </div>
                     <div class="premiumUiField">
-                        <label for="homeItemsPerSection">Elementos en hero y recomendaciones</label>
+                        <label for="homeItemsPerSection">Elementos en el hero</label>
                         <input type="number" id="homeItemsPerSection" min="4" max="20" step="1">
-                        <p class="premiumUiHint">Limita el hero y la fila de recomendaciones del plugin; los carruseles nativos conservan el número que decide Jellyfin.</p>
+                        <p class="premiumUiHint">Cuántos títulos puede rotar el hero; los carruseles nativos conservan el número que decide Jellyfin.</p>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="homeRecommendationsCount">Recomendaciones a mostrar</label>
+                        <input type="number" id="homeRecommendationsCount" min="4" max="20" step="1">
+                        <p class="premiumUiHint">Cuántas tarjetas aparecen en la fila de recomendaciones. Es independiente del número de elementos del hero.</p>
                     </div>
                 </div>
 
@@ -1506,6 +1511,7 @@
                 setChecked('homeHeroEnabled', home.HeroEnabled !== false);
                 setValue('homeHeroSource', home.HeroSource || 'random');
                 setValue('homeItemsPerSection', home.ItemsPerSection == null ? 12 : home.ItemsPerSection);
+                setValue('homeRecommendationsCount', home.RecommendationsCount == null ? 12 : home.RecommendationsCount);
                 setChecked('homeMedia', home.MediaLibraries !== false);
                 setChecked('homeContinue', home.ContinueWatching !== false);
                 setChecked('homeRecent', home.RecentlyAdded !== false);
@@ -1565,6 +1571,7 @@
                         Recommendations: byId('homeRecommendations').checked,
                         SectionOrder: state.order.slice(),
                         ItemsPerSection: intValue('homeItemsPerSection', 12, 4, 20),
+                        RecommendationsCount: intValue('homeRecommendationsCount', 12, 4, 20),
                         StudiosEnabled: byId('homeStudiosEnabled').checked,
                         Studios: state.studioNames.slice()
                     },

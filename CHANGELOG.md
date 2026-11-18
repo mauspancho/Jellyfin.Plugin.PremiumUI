@@ -325,3 +325,11 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 
 - "Continuar viendo", "Mis medios" y las filas de "Continuar escuchando/leyendo" ponían `padded-left` directamente en el `h2`, no en un contenedor. El estilo del plugin sobrescribía ese margen con el hueco de la barra de acento y el título quedaba pegado al borde izquierdo. Ahora esos títulos conservan el margen nativo (3.3 %) y se les suma el hueco de la barra; la barra se dibuja al inicio de ese margen.
 - Verificado con todas las filas de Inicio (incluidas las ocultas por estar vacías): el texto de todos los títulos empieza en el mismo píxel y la barra de acento también, a 1600 y 800 px de ancho.
+
+## 0.25.0 — Recomendaciones con número independiente
+
+### Añadido
+
+- Nueva opción **Recomendaciones a mostrar** (4–20, por defecto 12) en la sección *Inicio* del panel: controla solo cuántas tarjetas aparecen en la fila de recomendaciones.
+- El campo anterior pasa a llamarse **Elementos en el hero** y sigue controlando únicamente la rotación del hero.
+- El valor viaja como `recommendationsCount` en el bootstrap y se valida en el servidor (4–20); las configuraciones antiguas heredan 12 sin romperse.

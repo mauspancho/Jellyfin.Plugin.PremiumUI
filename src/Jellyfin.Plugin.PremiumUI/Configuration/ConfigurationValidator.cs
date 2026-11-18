@@ -148,6 +148,7 @@ public static class ConfigurationValidator
             MediaLibraries = source.MediaLibraries,
             SectionOrder = order,
             ItemsPerSection = Clamp(source.ItemsPerSection, 4, 20),
+            RecommendationsCount = Clamp(source.RecommendationsCount, 4, 20),
             StudiosEnabled = source.StudiosEnabled,
             Studios = NormalizeStudios(source.Studios, source.StudiosEnabled)
         };

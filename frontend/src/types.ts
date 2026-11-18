@@ -28,6 +28,7 @@ export interface HomeConfig {
     mediaLibraries: boolean;
     sectionOrder: string[];
     itemsPerSection: number;
+    recommendationsCount?: number;
     studioSections: string[];
     studioCollections?: StudioCollection[];
 }

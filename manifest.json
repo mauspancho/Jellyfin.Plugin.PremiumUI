@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.25.0.0",
+        "changelog": "- Número de recomendaciones independiente: el panel tiene un campo propio (\"Recomendaciones a mostrar\", 4-20) que ya no depende del número de elementos del hero.\n- El campo del hero pasa a llamarse \"Elementos en el hero\" y sigue controlando solo la rotación del hero.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.25.0/Jellyfin.PremiumUI_0.25.0.0.zip",
+        "checksum": "b280d088c100abc0dfd0f857bcf0433e",
+        "timestamp": "2026-11-18T03:58:22Z"
+      },
+      {
         "version": "0.24.3.0",
         "changelog": "- Títulos de sección alineados: \"Continuar viendo\" y \"Mis medios\" (y sus variantes) vuelven a respetar el margen nativo de Jellyfin.\n- El resto de 0.24.2: recomendaciones alineadas, Detalles desactivable, precarga y carga diferida en caliente.",
         "targetAbi": "12.4.0.0",

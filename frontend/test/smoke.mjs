@@ -29,6 +29,7 @@ const config = {
         mediaLibraries: true,
         sectionOrder: ['hero', 'continue', 'estudios', 'recent', 'movies', 'series', 'recommendations'],
         itemsPerSection: 12,
+        recommendationsCount: 12,
         studioSections: ['Marvel', 'Netflix', 'Cine Random'],
         studioCollections: [
             {
@@ -195,6 +196,7 @@ const overlayTitles = {
 };
 
 let suggestionsEmpty = false;
+let suggestionRequests = [];
 
 window.ApiClient = {
     // Cada petición devuelve una copia: así la prueba distingue la caché en
@@ -203,6 +205,7 @@ window.ApiClient = {
         const text = String(url);
 
         if (text.includes('/Items/Suggestions')) {
+            suggestionRequests.push(text);
             return suggestionsEmpty
                 ? { Items: [] }
                 : {
@@ -565,12 +568,20 @@ Object.defineProperty(recRow, 'scrollWidth', { configurable: true, value: 600 })
 recRow.dispatchEvent(new window.Event('scroll'));
 assert.equal(recButtons.hidden, true, 'sin desbordamiento no se muestran flechas');
 
-// Usuario nuevo o sin sugerencias: se muestran aleatorios de toda la biblioteca.
+// Las recomendaciones tienen su propio número: no dependen del hero.
 suggestionsEmpty = true;
-config.home.itemsPerSection = 6;
+suggestionRequests = [];
+config.home.recommendationsCount = 6;
+config.home.itemsPerSection = 20;
 window.PremiumUI.invalidate();
 await window.PremiumUI.refresh();
 await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.ok(suggestionRequests.length > 0, 'debe pedir sugerencias al servidor');
+assert.ok(
+    suggestionRequests.every((url) => url.includes('limit=6') || url.includes('Limit=6')),
+    'las recomendaciones usan su propio número aunque el hero tenga otro'
+);
 
 const fallbackTitles = [...document.querySelectorAll('#homeTab .pui-recommendations-section .pui-rec-title')]
     .map((element) => element.textContent);
@@ -581,6 +592,7 @@ assert.deepEqual(
 );
 suggestionsEmpty = false;
 config.home.itemsPerSection = 12;
+config.home.recommendationsCount = 12;
 window.PremiumUI.invalidate();
 await window.PremiumUI.refresh();
 await new Promise((resolve) => setTimeout(resolve, 300));

@@ -5,7 +5,7 @@
   "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
   "owner": "mauspancho",
   "category": "General",
-  "version": "0.24.3.0",
+  "version": "0.25.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -13,5 +13,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Títulos de sección alineados: \"Continuar viendo\" y \"Mis medios\" (y sus variantes) vuelven a respetar el margen nativo de Jellyfin.\n- El resto de 0.24.2: recomendaciones alineadas, Detalles desactivable, precarga y carga diferida en caliente."
+  "changelog": "- Número de recomendaciones independiente: el panel tiene un campo propio (\"Recomendaciones a mostrar\", 4-20) que ya no depende del número de elementos del hero.\n- El campo del hero pasa a llamarse \"Elementos en el hero\" y sigue controlando solo la rotación del hero."
 }

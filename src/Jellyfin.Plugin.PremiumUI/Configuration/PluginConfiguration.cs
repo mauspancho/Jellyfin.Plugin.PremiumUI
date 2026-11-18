@@ -158,9 +158,15 @@ public sealed class HomeOptions
     public List<string> SectionOrder { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the number of items per carousel (4-20).
+    /// Gets or sets the number of hero items (4-20).
     /// </summary>
     public int ItemsPerSection { get; set; } = 12;
+
+    /// <summary>
+    /// Gets or sets the number of recommendation cards (4-20).
+    /// Independent from <see cref="ItemsPerSection"/>, which sizes the hero.
+    /// </summary>
+    public int RecommendationsCount { get; set; } = 12;
 
     /// <summary>
     /// Gets or sets a value indicating whether studio collections are rendered.

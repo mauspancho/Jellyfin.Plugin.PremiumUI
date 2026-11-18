@@ -44,7 +44,7 @@ export function applyRecommendations(container: HTMLElement, home: HomeConfig): 
         return;
     }
 
-    const limit = Math.min(Math.max(home.itemsPerSection || 12, 4), 20);
+    const limit = Math.min(Math.max(home.recommendationsCount ?? home.itemsPerSection ?? 12, 4), 20);
     const userId = currentUserId();
     const key = `${userId}|${limit}`;
 

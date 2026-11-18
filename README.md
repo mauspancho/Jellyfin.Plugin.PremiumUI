@@ -172,7 +172,7 @@ Secciones del panel:
 |---|---|
 | General | Activar plugin, Inicio y Detalles |
 | Diseño | Tema (siete paletas con vista previa), color de acento, tamaño de tarjetas, transparencia, altura del Hero, transiciones, intensidad del hover |
-| Inicio | Hero (solo en Inicio), fuente del contenido, carruseles (incluida la fila de recomendaciones), orden de secciones, elementos por carrusel, colecciones por marca (checkboxes agrupados de los estudios del servidor) |
+| Inicio | Hero (solo en Inicio), fuente del contenido, carruseles (incluida la fila de recomendaciones), orden de secciones, elementos del hero, número de recomendaciones, colecciones por marca (checkboxes agrupados de los estudios del servidor) |
 | Detalles | Backdrop, metadatos, información adicional, contenido relacionado |
 | Rendimiento | Precarga, lazy loading, caché, movimiento reducido |
 | Diagnóstico | Versión del servidor y del plugin, estado de integración, contadores y errores recientes |
@@ -236,7 +236,8 @@ El check "Recomendaciones" crea una fila propia del plugin (no reemplaza ninguna
 | Recomendaciones | on/off | Fila propia del plugin con sugerencias según el historial del usuario; sin historial muestra películas y series aleatorias. Sin barra inferior: flechas laterales como las filas nativas. Su posición se ajusta en "Orden de secciones" |
 | Mis medios | on/off | Muestra u oculta la fila de accesos a las bibliotecas; su posición se ajusta en "Orden de secciones" |
 | Orden de secciones | lista | Reordena las filas visibles reconocidas, incluidas las envueltas en `.sectionN`; agrupa todas las filas de continuar y deja fijo el Hero. Incluye "Estudios" (si está activa) y "Mis contenidos". Las filas ocultas y las desconocidas no se mueven |
-| Elementos por carrusel | 4–20 | Sugerencias del carrusel del hero; las filas nativas conservan su límite |
+| Elementos en el hero | 4–20 | Cuántos títulos puede rotar el hero; las filas nativas conservan su límite |
+| Recomendaciones a mostrar | 4–20 | Número de tarjetas de la fila de recomendaciones, independiente del hero |
 | Colecciones por estudio | on/off + lista | Fila de logos centrada, por defecto bajo el hero; logo y vídeo curados con fallback al logo del servidor. Los estudios de una misma marca se agrupan en una sola casilla (Disney, Marvel, DC…) y el clic abre todos sus títulos juntos. Lista vacía = Disney, Marvel, DC, Paramount, Netflix; máx. 40 |
 | Backdrop de Detalles | on/off | Altura, saturación y degradados de `#itemBackdrop` |
 | Metadatos | on/off | Tipografía y espaciado de la información principal |
