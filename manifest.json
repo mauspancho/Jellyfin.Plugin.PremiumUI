@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.28.0.0",
+        "changelog": "- El color de fondo personalizado admite degradado con once direcciones: verticales, horizontales, diagonales y radiales desde el centro, arriba o abajo.\n- La variante del degradado se calcula a partir del color elegido y su contraste, así los fondos claros y oscuros siguen siendo legibles.\n- La vista previa del panel muestra el degradado y el resumen del fondo indica la dirección activa.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.28.0/Jellyfin.PremiumUI_0.28.0.0.zip",
+        "checksum": "cf57b8d040d861932ff79b0f046a70ae",
+        "timestamp": "2026-11-18T23:58:31Z"
+      },
+      {
         "version": "0.27.0.0",
         "changelog": "- Nuevo color de fondo en Diseño: con el interruptor \"Personalizado\" se elige cualquier color y se aplica a toda la interfaz (Inicio, Bibliotecas, búsqueda, colecciones y Detalles). Desactivado usa el fondo del tema de Jellyfin.\n- El texto de la interfaz ajusta su contraste automáticamente, así que los fondos claros siguen siendo legibles.\n- La vista previa del panel muestra el fondo elegido junto al acento, la sombra y la transparencia.",
         "targetAbi": "12.4.0.0",
