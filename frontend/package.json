@@ -1,7 +1,7 @@
 {
   "name": "jellyfin-premium-ui",
   "private": true,
-  "version": "0.26.1",
+  "version": "0.26.2",
   "type": "module",
   "description": "Frontend de Jellyfin Premium UI: mejora visual de Inicio y Detalles sin frameworks.",
   "scripts": {

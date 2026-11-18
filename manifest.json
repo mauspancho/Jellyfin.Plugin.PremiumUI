@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.26.2.0",
+        "changelog": "- Corregido el recorte del hover en todas las secciones: Jellyfin aplica `contain: content` (incluye pintura) a las tarjetas nativas y cortaba la sombra, el anillo y la elevación en el borde de cada tarjeta. El plugin conserva el aislamiento de layout/estilo y retira el de pintura.\n- La tarjeta bajo el cursor se pinta por encima de sus vecinas, así la siguiente tarjeta no tapa su sombra ni su halo.\n- Se elimina la reserva de espacio en los carruseles nativos: en Jellyfin Web 12.4 el scroller ya no recorta y el arreglo real era la contención de pintura de `.card`.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.26.2/Jellyfin.PremiumUI_0.26.2.0.zip",
+        "checksum": "4a84bf53c49a175da6061509c7012895",
+        "timestamp": "2026-11-18T19:39:38Z"
+      },
+      {
         "version": "0.26.1.0",
         "changelog": "- Corregido el recorte de las tarjetas al pasar el cursor: las filas con scroll reservan espacio vertical para la elevación y la sombra, sin mover el título ni el resto de la página.\n- El anillo y el halo de la sombra se dibujan ahora fuera del recorte nativo de `.cardContent`, así que se ven completos en todas las tarjetas.\n- La fila propia de recomendaciones y las filas de Detalles usan el mismo espacio reservado.",
         "targetAbi": "12.4.0.0",

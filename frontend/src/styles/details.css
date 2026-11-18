@@ -301,8 +301,8 @@ html[data-pui-details='on'][data-pui-recommendations='on'] #itemDetailPage .deta
     opacity: 0.92;
 }
 
-/* El espacio para la elevación y la sombra lo reserva la regla global de
- * `base.css` sobre `.emby-scroller`.
+/* La elevación y la sombra ya no se recortan: la regla global de `base.css`
+ * retira la contención de pintura de `.card`.
  */
 html[data-pui-details='on'][data-pui-recommendations='on'] #itemDetailPage .detailVerticalSection .emby-scrollbuttons {
     align-items: center;

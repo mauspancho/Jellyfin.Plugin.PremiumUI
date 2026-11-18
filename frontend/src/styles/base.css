@@ -236,17 +236,23 @@ html[data-pui-motion='reduce'] .card .cardScalable {
     transition: none;
 }
 
-/* Las filas horizontales nativas recortan con `overflow-y: hidden`. Se reserva
- * espacio dentro del propio scroller y se compensa con márgenes negativos: así
- * la tarjeta puede elevarse y la sombra se ve completa sin mover el diseño. */
-html[data-premiumui]:not([data-pui-state='disabled']) .emby-scroller:has(.card) {
-    padding-block: var(--pui-card-room-top) var(--pui-card-room-bottom);
-    margin-block: calc(var(--pui-card-room-top) * -1) calc(var(--pui-card-room-bottom) * -1);
+/* Jellyfin aplica `contain: content` (layout + estilo + pintura) a las
+ * tarjetas nativas. La contención de pintura recorta cualquier cosa que la
+ * tarjeta dibuje fuera de su caja: la sombra, el anillo de acento y el propio
+ * hover, que eleva y escala `.cardBox`. Por eso se veía cortada en Inicio,
+ * Bibliotecas, búsqueda, colecciones y Detalles, mientras que las filas de
+ * recomendaciones (con clases propias) sí se veían completas.
+ *
+ * Se mantiene el aislamiento de layout y estilo, que es el que aporta
+ * rendimiento, y se quita únicamente el de pintura. */
+html[data-premiumui]:not([data-pui-state='disabled']) .card {
+    contain: layout style;
 }
 
-/* El padding del scroller se solapa con el título anterior: se deja el título
- * por encima para que sus clics y su hover sigan funcionando. */
-html[data-premiumui]:not([data-pui-state='disabled']) .sectionTitleContainer {
+/* Sin el recorte, la tarjeta elevada debe quedar por encima de sus vecinas
+ * para que la siguiente tarjeta no tape su sombra ni su halo. */
+html[data-premiumui]:not([data-pui-state='disabled']) .card:hover,
+html[data-premiumui]:not([data-pui-state='disabled']) .card:focus-visible {
     position: relative;
-    z-index: 1;
+    z-index: 3;
 }

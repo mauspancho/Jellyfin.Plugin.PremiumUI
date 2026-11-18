@@ -11,7 +11,7 @@ import { mountHome } from './home/home';
 import { mountLibrary } from './library/library';
 import type { PremiumUiConfig, PremiumUiGlobal } from './types';
 
-const VERSION = '0.26.1';
+const VERSION = '0.26.2';
 const LIBRARY_PAGES = ['moviesPage', 'tvshowsPage'];
 
 let current: PremiumUiConfig | null = null;

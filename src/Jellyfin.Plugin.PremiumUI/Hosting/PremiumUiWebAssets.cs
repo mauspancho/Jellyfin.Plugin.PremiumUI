@@ -24,7 +24,7 @@ internal sealed class PremiumUiWebAssets
     /// <summary>
     /// Version of the bundled frontend.
     /// </summary>
-    public const string FrontendVersion = "0.26.1";
+    public const string FrontendVersion = "0.26.2";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PremiumUiWebAssets"/> class.

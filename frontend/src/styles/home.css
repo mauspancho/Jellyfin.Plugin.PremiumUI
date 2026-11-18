@@ -360,8 +360,8 @@ html[data-pui-home='on'] #homeTab .emby-scrollbuttons-button[disabled] {
 }
 
 /* ---------- Tarjetas ----------
- * El espacio para la elevación y la sombra del hover lo reserva la regla
- * global de `base.css` sobre `.emby-scroller`. Aquí solo se ajusta el
+ * La elevación y la sombra ya no se recortan: la regla global de `base.css`
+ * retira la contención de pintura de `.card`. Aquí solo se ajusta el
  * movimiento de la tarjeta.
  */
 

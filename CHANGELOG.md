@@ -359,3 +359,11 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - Al pasar el cursor, la tarjeta se elevaba por encima del borde del carrusel y se recortaba por arriba y por la izquierda. Las filas con scroll reservan ahora espacio vertical (compensado con márgenes negativos) para que la elevación, el anillo de acento y la sombra se vean completos, sin mover el título ni las tarjetas.
 - El anillo y el halo de la sombra se dibujaban en `.cardImageContainer`, dentro de `.cardContent`, que recorta con `overflow: hidden` + `contain: strict`. La sombra pasa a `.cardScalable`, fuera del recorte, en todas las tarjetas nativas.
 - La fila propia de recomendaciones y las filas de Detalles usan el mismo espacio reservado, así que sus tarjetas tampoco se cortan al elevarse.
+
+## 0.26.2 — Hover completo en todas las vistas
+
+### Corregido
+
+- Jellyfin aplica `contain: content` (layout, estilo y pintura) a las tarjetas nativas. La contención de pintura recortaba la sombra, el anillo de acento y la propia elevación justo en el borde de la tarjeta en Inicio, Bibliotecas, búsqueda, colecciones y Detalles; solo las filas propias de recomendaciones se veían completas. El plugin conserva el aislamiento de layout y estilo y retira únicamente el de pintura.
+- La tarjeta bajo el cursor se pinta por encima de sus vecinas, así la siguiente tarjeta no tapa su sombra ni su halo.
+- Se retira la reserva de espacio en los carruseles nativos: en Jellyfin Web 12.4 el scroller no recorta, así que el arreglo real era la contención de pintura de `.card`.
