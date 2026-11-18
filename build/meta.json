@@ -1,17 +1,17 @@
 {
   "guid": "a15478cd-8875-46af-b528-e3c020f2cd71",
   "name": "Jellyfin Premium UI",
-  "description": "Capa visual cinematográfica sobre la pantalla de inicio y las páginas de detalles de Jellyfin Web.",
-  "overview": "Mejora la pantalla de inicio y los detalles con hero, carruseles y una composición premium, sin modificar los archivos de Jellyfin Web.",
-  "owner": "maus",
+  "description": "Capa visual cinematográfica sobre Inicio y Detalles de Jellyfin Web: hero, hover premium, estudios agrupados por marca y una fila de recomendaciones propia. No modifica los archivos de Jellyfin Web ni el reproductor.",
+  "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
+  "owner": "mauspancho",
   "category": "General",
-  "version": "1.0.0.0",
+  "version": "0.23.0.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
-  "autoUpdate": false,
+  "autoUpdate": true,
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "1.0.0.0 - Fase 1: estructura del plugin, configuración persistente validada, panel de administración y diagnóstico de integración."
+  "changelog": "- Inicio: hero cinematográfico, hover premium y flechas laterales en recomendaciones.\n- Estudios agrupados por marca con colección combinada de películas y series.\n- Panel completo en el Dashboard y assets de estudio incluidos en el plugin.\n- Instalación desde el catálogo de plugins de Jellyfin mediante la URL del repositorio."
 }

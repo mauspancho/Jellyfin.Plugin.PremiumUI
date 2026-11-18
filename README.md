@@ -43,22 +43,43 @@ cd Jellyfin.Plugin.PremiumUI
 ```
 
 El script compila el frontend con Vite, lo deja en `src/Jellyfin.Plugin.PremiumUI/Web/`
-(`app.js` y `app.css`), compila el backend en Release y genera
-`dist/Jellyfin.PremiumUI_1.0.0.0.zip` con:
+(`app.js` y `app.css`), compila el backend en Release, genera
+`dist/Jellyfin.PremiumUI_<versión>.zip` y actualiza `manifest.json` con la
+versión nueva, la URL de la release y su checksum MD5:
 
 ```
 Jellyfin.Plugin.PremiumUI.dll
 meta.json
+THIRD-PARTY-NOTICES.md
 ```
 
 Opciones:
 
 ```bash
-./build/package.sh --no-build    # reutiliza la compilación Release existente
+./build/package.sh --no-build      # reutiliza la compilación Release existente
+./build/package.sh --no-manifest   # no toca manifest.json
 DOTNET=/ruta/a/dotnet ./build/package.sh
 ```
 
 Si falta `frontend/node_modules`, el script ejecuta `npm ci` automáticamente.
+
+La versión vive en dos sitios que deben coincidir: `build/meta.json` (`version`,
+cuatro componentes, p. ej. `0.23.0.0`) y el `Version`/`AssemblyVersion` del
+`.csproj`. La etiqueta de la release se deriva quitando el último componente
+(`v0.23.0`). Para publicar una versión nueva:
+
+1. Sube la versión en `build/meta.json`, el `.csproj`, `frontend/package.json`,
+   `frontend/src/main.ts`, `IntegrationStatus.cs` y `PremiumUiWebAssets.cs`.
+2. Añade la entrada al `CHANGELOG.md`.
+3. `./build/package.sh` (regenera también `manifest.json`).
+4. `git add -A && git commit -m "..." && git push`.
+5. `gh release create vX.Y.Z dist/Jellyfin.PremiumUI_X.Y.Z.0.zip`.
+6. Comprueba que la URL `sourceUrl` del manifest descarga el ZIP y que el MD5
+   coincide (`python3 build/manifest.py` lo imprime).
+
+El catálogo de Jellyfin valida el **MD5** del ZIP, no SHA256; por eso
+`manifest.py` calcula ese hash. Si se sube el ZIP a la release después de
+generar el manifest, hay que volver a ejecutar el script.
 
 ## Frontend
 
@@ -81,30 +102,61 @@ DOTNET=${DOTNET:-dotnet}
 cd frontend && npm run test:smoke
 ```
 
-## Instalación
+## Instalación desde el catálogo
 
-1. Detén Jellyfin (o prepárate para reiniciarlo).
-2. En el servidor, crea la carpeta del plugin (en 12.4 vive en el directorio de datos, no en `/config/plugins`):
+El repositorio publica un `manifest.json` compatible con el gestor de
+complementos de Jellyfin, así que no hace falta copiar archivos a mano:
 
-   ```bash
-   mkdir -p /ruta/config/data/plugins/Jellyfin.PremiumUI_1.0.0.0
+1. **Dashboard → Complementos → Repositorios** (icono de engranaje junto a
+   "Complementos").
+2. Añade un repositorio nuevo con este nombre y URL:
+
+   ```text
+   Nombre: Jellyfin Premium UI
+   URL:    https://raw.githubusercontent.com/mauspancho/Jellyfin.Plugin.PremiumUI/main/manifest.json
    ```
 
-3. Copia el contenido del ZIP dentro de esa carpeta (`Jellyfin.Plugin.PremiumUI.dll` y `meta.json`).
-4. Inicia Jellyfin.
-5. Entra en **Dashboard → Plugins** y comprueba que aparece **Jellyfin Premium UI** en estado activo.
-6. Abre su configuración y revisa la sección **Diagnóstico**.
+3. Guarda, ve a la pestaña **Catálogo** y busca **Jellyfin Premium UI**.
+4. Pulsa **Instalar** y reinicia Jellyfin cuando lo pida el Dashboard.
 
-La carpeta exacta depende de la plataforma (Docker, Linux nativo, Windows); en Docker suele ser `./config/data/plugins` dentro del volumen de configuración. También puedes descargar el ZIP de la última versión desde **GitHub → Releases**.
+El plugin queda instalado en `<config>/data/plugins/Jellyfin Premium UI_<versión>`
+y, a partir de ahí, el catálogo muestra las actualizaciones nuevas (el
+`autoUpdate` del paquete está activo, y puedes desactivarlo por plugin en la
+misma lista). El `manifest.json` incluye la URL del ZIP de la release y su
+checksum MD5, que es lo que Jellyfin valida antes de instalar.
 
-Instalación alternativa: **Dashboard → Plugins → Instalar** y subir el ZIP (requiere permisos de administrador y reinicio).
+> Solo se admiten versiones cuyo `targetAbi` sea menor o igual que el servidor.
+> Este plugin apunta a **12.4.0**, así que aparece en servidores 12.4.x.
+
+## Instalación manual
+
+1. Descarga `Jellyfin.PremiumUI_<versión>.zip` desde **GitHub → Releases**.
+2. Detén Jellyfin (o prepárate para reiniciarlo).
+3. Crea la carpeta del plugin (en 12.4 vive en el directorio de datos, no en `/config/plugins`):
+
+   ```bash
+   mkdir -p /ruta/config/data/plugins/Jellyfin.PremiumUI_<versión>
+   ```
+
+4. Copia el contenido del ZIP dentro de esa carpeta (`Jellyfin.Plugin.PremiumUI.dll` y `meta.json`).
+5. Inicia Jellyfin.
+6. Entra en **Dashboard → Plugins** y comprueba que aparece **Jellyfin Premium UI** en estado activo.
+7. Abre su configuración y revisa la sección **Diagnóstico**.
+
+La carpeta exacta depende de la plataforma (Docker, Linux nativo, Windows); en
+Docker suele ser `./config/data/plugins` dentro del volumen de configuración.
+
+> No instales el plugin por las dos vías a la vez: dos carpetas con el mismo
+> `guid` hacen que Jellyfin cargue el plugin dos veces. Si vienes de una
+> instalación manual, borra esa carpeta antes de instalar desde el catálogo.
 
 ## Desinstalación
 
-1. **Dashboard → Plugins → Jellyfin Premium UI → Desinstalar**, o elimina la carpeta del plugin:
+1. **Dashboard → Complementos → Jellyfin Premium UI → Desinstalar**, o elimina
+   la carpeta del plugin:
 
    ```bash
-   rm -rf /ruta/config/data/plugins/Jellyfin.PremiumUI_1.0.0.0
+   rm -rf "/ruta/config/data/plugins/Jellyfin Premium UI_"* /ruta/config/data/plugins/Jellyfin.PremiumUI_*
    ```
 
 2. Reinicia Jellyfin.

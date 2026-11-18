@@ -4,7 +4,8 @@
 #
 # Uso:
 #   ./build/package.sh            # compila Release y genera dist/Jellyfin.PremiumUI_<version>.zip
-#   ./build/package.sh --no-build # reutiliza la compilación Release existente
+#   ./build/package.sh --no-build   # reutiliza la compilación Release existente
+#   ./build/package.sh --no-manifest # no regenera manifest.json
 #
 set -euo pipefail
 
@@ -87,4 +88,12 @@ rm -rf "$STAGE_DIR"
 
 echo "==> Contenido del paquete"
 unzip -l "$OUT_DIR/$ZIP_NAME"
+
+# El catálogo de Jellyfin necesita manifest.json con la URL del ZIP y su MD5;
+# se regenera aquí para que nunca quede desincronizado de la release.
+if [[ " $* " != *" --no-manifest "* ]]; then
+    echo
+    python3 "$ROOT_DIR/build/manifest.py"
+fi
+
 echo "==> Listo: $OUT_DIR/$ZIP_NAME"

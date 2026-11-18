@@ -264,3 +264,17 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 
 - Las pruebas `smoke` comprueban que un refresh sin cambios reutiliza los mismos nodos (sin temblor), que la imagen y el vídeo viven dentro de la superficie estable y que la colección pide películas y series.
 - Documentación del panel y README: la colección habla de "títulos", no solo de películas.
+
+## 0.23.0 — Instalación desde el catálogo de Jellyfin
+
+### Añadido
+
+- `manifest.json` en la raíz del repositorio: permite añadir el plugin como repositorio en **Dashboard → Complementos → Repositorios** e instalarlo o actualizarlo desde el catálogo, sin copiar archivos a mano.
+- `build/manifest.py` genera ese manifest a partir de `build/meta.json` y del ZIP de `dist/`, calculando el **MD5** que Jellyfin valida antes de extraer el paquete. Conserva las versiones anteriores y deduce la etiqueta de la release (`0.23.0.0` → `v0.23.0`).
+- `build/package.sh` ejecuta el script al terminar, de modo que el manifest y el ZIP nunca se desincronizan; `--no-manifest` permite omitirlo.
+
+### Cambiado
+
+- La versión del plugin pasa a seguir la del proyecto con cuatro componentes (`0.23.0.0`), en lugar de quedarse fija en `1.0.0.0`. Así el catálogo detecta las actualizaciones y las releases coinciden con lo instalado.
+- `build/meta.json` actualiza `owner` a `mauspancho`, activa `autoUpdate` y describe el plugin para el catálogo.
+- El README explica la instalación por catálogo, la manual y el flujo de publicación de una versión nueva, incluido el aviso de no mantener dos carpetas del mismo `guid`.

@@ -50,12 +50,49 @@ public class PluginWiringTests
             resources);
     }
 
+    // El catálogo de Jellyfin compara la versión instalada con la del manifest:
+    // si el ensamblado y meta.json no coinciden, el plugin nunca se actualiza.
     [Fact]
-    public void Plugin_DeclaresSupportedAssemblyVersion()
+    public void Plugin_AssemblyVersionMatchesMetaJson()
     {
         var version = typeof(PremiumUiPlugin).Assembly.GetName().Version;
-
         Assert.NotNull(version);
-        Assert.Equal(1, version!.Major);
+
+        var meta = Path.Combine(RepositoryRoot(), "build", "meta.json");
+        Assert.True(File.Exists(meta), $"no se encontró {meta}");
+
+        using var stream = File.OpenRead(meta);
+        using var document = System.Text.Json.JsonDocument.Parse(stream);
+        var declared = document.RootElement.GetProperty("version").GetString();
+
+        Assert.Equal(new Version(declared!), version);
+    }
+
+    [Fact]
+    public void Plugin_TargetAbiMatchesCurrentJellyfin()
+    {
+        var meta = Path.Combine(RepositoryRoot(), "build", "meta.json");
+        using var stream = File.OpenRead(meta);
+        using var document = System.Text.Json.JsonDocument.Parse(stream);
+
+        Assert.Equal("12.4.0.0", document.RootElement.GetProperty("targetAbi").GetString());
+    }
+
+    private static string RepositoryRoot()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+
+        while (directory is not null)
+        {
+            if (File.Exists(Path.Combine(directory.FullName, "build", "meta.json")))
+            {
+                return directory.FullName;
+            }
+
+            directory = directory.Parent;
+        }
+
+        throw new DirectoryNotFoundException(
+            $"no se encontró build/meta.json partiendo de {AppContext.BaseDirectory}");
     }
 }
