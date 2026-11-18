@@ -575,7 +575,14 @@ html[data-pui-home='on'] #homeTab .pui-recommendations-section .sectionTitleCont
 html[data-pui-home='on'] #homeTab .pui-rec-row {
     display: flex;
     gap: 0.9rem;
-    padding: 0.25rem 1.5rem 0.9rem;
+    /* El margen lateral lo aportan `padded-left` y `padded-right`, igual que
+     * en las filas nativas de Jellyfin (3.3 % + safe-area). */
+    padding-top: 0.25rem;
+    padding-bottom: 0.9rem;
+    /* Sin esto, el anclaje de scroll alinea la primera tarjeta con el borde
+     * del contenedor y se come el margen: la fila aparecía pegada a la
+     * izquierda aunque el padding existiera. */
+    scroll-padding-inline: 3.3%;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;

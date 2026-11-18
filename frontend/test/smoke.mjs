@@ -513,6 +513,11 @@ const recLeft = recButtons?.querySelector('[data-direction="left"]');
 const recRight = recButtons?.querySelector('[data-direction="right"]');
 
 assert.ok(recRow, 'la fila de recomendaciones debe existir');
+assert.equal(
+    recRow.classList.contains('padded-left') && recRow.classList.contains('padded-right'),
+    true,
+    'la fila usa los mismos márgenes (3.3 % + safe-area) que las secciones nativas'
+);
 assert.ok(recButtons, 'la fila debe incluir la barra de botones nativa');
 assert.ok(recLeft && recRight, 'la barra debe tener los botones izquierdo y derecho');
 assert.equal(recLeft.classList.contains('emby-scrollbuttons-button'), true);

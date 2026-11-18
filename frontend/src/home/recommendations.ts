@@ -113,7 +113,10 @@ function ensureSection(container: HTMLElement, home: HomeConfig): HTMLElement {
         buildScrollButton('right', 'chevron_right', t('next'))
     );
 
-    const row = create('div', 'pui-rec-row');
+    // `padded-left`/`padded-right` son las clases de Jellyfin: aportan el
+    // 3.3 % + safe-area que usan las filas nativas, así la primera tarjeta
+    // queda alineada con Películas y Series en cualquier ancho.
+    const row = create('div', 'pui-rec-row padded-left padded-right');
     section.append(header, buttons, row);
     insertByOrder(container, section, home);
     ensureScroller(section);

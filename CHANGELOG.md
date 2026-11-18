@@ -311,3 +311,10 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 ### Añadido
 
 - La vista previa de Diseño avisa cuando hay un acento personalizado activo y explica que ese color tapa el acento del tema.
+
+## 0.24.2 — Recomendaciones alineadas con el resto de Inicio
+
+### Corregido
+
+- La fila de recomendaciones era la única pegada a los laterales: su padding era fijo (1.5 rem) y, además, el anclaje de scroll la desplazaba 53 px a la izquierda al cargar. Ahora usa las clases `padded-left`/`padded-right` de Jellyfin (3.3 % + safe-area, las mismas que las filas nativas) y `scroll-padding-inline` para que el snap respete ese margen.
+- Verificado a 1600, 1280, 1024, 800 y 500 px: la primera tarjeta y el título de Recomendaciones coinciden al píxel con los de Reciente, Mis medios y las demás secciones.

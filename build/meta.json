@@ -5,7 +5,7 @@
   "overview": "Hero en Inicio, hover premium, estudios agrupados y recomendaciones propias, sin tocar Jellyfin Web.",
   "owner": "mauspancho",
   "category": "General",
-  "version": "0.24.1.0",
+  "version": "0.24.2.0",
   "targetAbi": "12.4.0.0",
   "framework": "net10.0",
   "status": "Active",
@@ -13,5 +13,5 @@
   "artifacts": [
     "Jellyfin.Plugin.PremiumUI.dll"
   ],
-  "changelog": "- Detalles: el interruptor general ahora desactiva de verdad el backdrop, los metadatos, la información adicional y las secciones relacionadas.\n- La precarga del hero se respeta en caliente y solo prepara la diapositiva siguiente cuando está activa.\n- La carga diferida se aplica al cambiar de opción sin recargar: logos de estudio en lazy o eager.\n- El panel avisa cuando un acento personalizado tapa el acento del tema en la vista previa."
+  "changelog": "- Recomendaciones alineada con el margen de las secciones nativas (3.3 % + safe-area) en todos los anchos, incluido el anclaje de scroll.\n- El resto de 0.24.1: Detalles realmente desactivable, precarga y carga diferida en caliente."
 }
