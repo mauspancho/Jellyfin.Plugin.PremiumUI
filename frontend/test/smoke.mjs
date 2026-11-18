@@ -16,7 +16,8 @@ const config = {
         transitionMs: 180,
         hoverIntensity: 125,
         accentColor: '#7aa2ff',
-        shadowColor: '#000000'
+        shadowColor: '#000000',
+        backgroundColor: ''
     },
     home: {
         enabled: true,
@@ -700,6 +701,7 @@ assert.equal(
 // Guardado desde el panel: invalidate() + refresh() aplica lo nuevo sin recargar.
 config.design.accentColor = '#22c55e';
 config.design.shadowColor = '#112233';
+config.design.backgroundColor = '#101820';
 config.home.recentlyAdded = false;
 config.home.movies = false;
 window.PremiumUI.invalidate();
@@ -716,6 +718,16 @@ assert.equal(
     document.documentElement.style.getPropertyValue('--pui-card-shadow-rgb'),
     '17, 34, 51',
     'el color de la sombra guardado debe aplicarse sin Ctrl+Shift+R'
+);
+assert.equal(
+    document.documentElement.style.getPropertyValue('--pui-app-bg'),
+    '#101820',
+    'el color de fondo guardado debe aplicarse sin Ctrl+Shift+R'
+);
+assert.equal(
+    document.documentElement.dataset.puiBg,
+    'on',
+    'el fondo personalizado debe activarse en el documento'
 );
 
 // Los checks "Carruseles" ocultan filas nativas sin romper el hero.

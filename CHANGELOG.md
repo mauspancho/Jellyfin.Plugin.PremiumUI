@@ -367,3 +367,13 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - Jellyfin aplica `contain: content` (layout, estilo y pintura) a las tarjetas nativas. La contención de pintura recortaba la sombra, el anillo de acento y la propia elevación justo en el borde de la tarjeta en Inicio, Bibliotecas, búsqueda, colecciones y Detalles; solo las filas propias de recomendaciones se veían completas. El plugin conserva el aislamiento de layout y estilo y retira únicamente el de pintura.
 - La tarjeta bajo el cursor se pinta por encima de sus vecinas, así la siguiente tarjeta no tapa su sombra ni su halo.
 - Se retira la reserva de espacio en los carruseles nativos: en Jellyfin Web 12.4 el scroller no recorta, así que el arreglo real era la contención de pintura de `.card`.
+
+## 0.27.0 — Color de fondo personalizado
+
+### Añadido
+
+- La sección Diseño del panel incluye "Color de fondo" con interruptor "Personalizado". El color se aplica a toda la interfaz de Jellyfin (Inicio, Bibliotecas, búsqueda, colecciones y Detalles) y se sirve al frontend en el bootstrap como `backgroundColor`.
+- El texto hereda un color de contraste calculado a partir del fondo, de modo que los fondos claros no dejan el texto nativo blanco sobre blanco.
+- La vista previa del panel pinta el fondo elegido detrás del hero y los tiles, junto al acento, la sombra y la transparencia.
+- El panel de administración conserva el fondo del tema para no desajustar sus controles.
+- El backend normaliza el valor como `#rrggbb` (admite `#abc`); vacío o inválido usa el fondo del tema de Jellyfin.

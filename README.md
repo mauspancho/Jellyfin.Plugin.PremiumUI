@@ -175,7 +175,7 @@ Secciones del panel:
 | Sección | Contenido |
 |---|---|
 | General | Activar plugin, Inicio y Detalles |
-| Diseño | Tema (siete paletas con vista previa), color de acento, color de la sombra de las tarjetas, tamaño de tarjetas, transparencia, altura del Hero, transiciones, intensidad del hover |
+| Diseño | Tema (siete paletas con vista previa), color de acento, color de la sombra de las tarjetas, color de fondo, tamaño de tarjetas, transparencia, altura del Hero, transiciones, intensidad del hover |
 | Inicio | Hero (solo en Inicio), fuente del contenido, carruseles (incluida la fila de recomendaciones), orden de secciones, elementos del hero, número de recomendaciones, colecciones por marca (checkboxes agrupados de los estudios del servidor) |
 | Detalles | Backdrop, metadatos, información adicional, contenido relacionado |
 | Rendimiento | Precarga, lazy loading, caché, movimiento reducido |
@@ -199,7 +199,7 @@ El tema define una paleta completa de tokens CSS —acento RGB, superficies, fon
 | Aurora | Turquesa con halo violeta y esquinas muy redondeadas |
 | Ember | Naranja incandescente sobre marrón profundo |
 
-La transparencia no es un color fijo: `--pui-transparency` (0–1) se convierte en el alfa de `--pui-surface`, `--pui-surface-strong` y `--pui-scrim`, así que afecta a todo lo que el plugin pinta (hero, tiles de estudio, tarjetas de recomendaciones, capa de colección y panel de Detalles). Si eliges un color de acento personalizado, el acento y el halo del hero pasan a ese color y el resto de la paleta del tema se mantiene. El color de la sombra se publica como canales RGB en `--pui-card-shadow-rgb` y afecta a la sombra base y al hover de todas las tarjetas nativas, además del póster de Detalles; vacío usa el negro del tema. El panel muestra una vista previa en vivo del tema, el acento, la sombra y la transparencia; los cambios se aplican a Inicio y Detalles al guardar.
+La transparencia no es un color fijo: `--pui-transparency` (0–1) se convierte en el alfa de `--pui-surface`, `--pui-surface-strong` y `--pui-scrim`, así que afecta a todo lo que el plugin pinta (hero, tiles de estudio, tarjetas de recomendaciones, capa de colección y panel de Detalles). Si eliges un color de acento personalizado, el acento y el halo del hero pasan a ese color y el resto de la paleta del tema se mantiene. El color de la sombra se publica como canales RGB en `--pui-card-shadow-rgb` y afecta a la sombra base y al hover de todas las tarjetas nativas, además del póster de Detalles; vacío usa el negro del tema. El color de fondo se publica como `--pui-app-bg` y sustituye el fondo que Jellyfin pinta en `.backgroundContainer` en las vistas normales; el panel de administración conserva el fondo del tema para no alterar sus controles. El frontend calcula `--pui-app-fg` para que el texto mantenga el contraste, y vacío deja el fondo del tema. El panel muestra una vista previa en vivo del tema, el acento, la sombra, el fondo y la transparencia; los cambios se aplican a Inicio y Detalles al guardar.
 
 ### Bibliotecas de Películas y Series
 
@@ -230,6 +230,7 @@ El check "Recomendaciones" crea una fila propia del plugin (no reemplaza ninguna
 | Tema | `cinema`, `midnight`, `amoled`, `contrast`, `noir`, `aurora`, `ember` | Paleta completa: acento, superficies, bordes, radios, sombra y halo del hero |
 | Color de acento | tema o `#rrggbb` | Sustituye el acento del tema en bordes, botones e indicadores; el contraste del texto se calcula solo |
 | Color de la sombra | tema o `#rrggbb` | Tiñe la sombra de todas las tarjetas (Inicio, Bibliotecas, búsqueda, colecciones y Detalles) sin cambiar los desplazamientos ni el anillo del tema |
+| Color de fondo | tema o `#rrggbb` | Sustituye el fondo de Jellyfin en toda la interfaz; el texto ajusta su contraste automáticamente para que los fondos claros sigan siendo legibles |
 | Tamaño de tarjetas | `small` / `medium` / `large` | Escala ×0.86 / ×1 / ×1.18 sobre el ancho nativo; móvil conserva el nativo |
 | Transparencia | 0–100 | Alfa real de tiles, tarjetas, capas y hero: 0 % opaco, 100 % cristal |
 | Altura del Hero | 40–90 vh | Altura mínima del hero (limitada al 54 vh en móvil) |

@@ -7,6 +7,7 @@ export interface DesignConfig {
     hoverIntensity: number;
     accentColor: string;
     shadowColor: string;
+    backgroundColor: string;
 }
 
 export interface StudioCollection {

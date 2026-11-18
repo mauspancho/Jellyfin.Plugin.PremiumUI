@@ -32,6 +32,7 @@ export function applyDesign(config: PremiumUiConfig): void {
 
     applyAccent(root, design.accentColor);
     applyShadowColor(root, design.shadowColor);
+    applyBackgroundColor(root, design.backgroundColor);
 }
 
 /**
@@ -72,6 +73,27 @@ function applyShadowColor(root: HTMLElement, value: string | undefined): void {
     }
 
     root.style.setProperty('--pui-card-shadow-rgb', `${color.r}, ${color.g}, ${color.b}`);
+}
+
+/**
+ * Aplica el color de fondo elegido en el panel. Si está vacío o no es un hex
+ * válido, se elimina el estilo en línea y manda el fondo del tema de Jellyfin.
+ * El contraste del texto se calcula igual que en el acento para que un fondo
+ * claro no deje el texto nativo blanco sobre blanco.
+ */
+function applyBackgroundColor(root: HTMLElement, value: string | undefined): void {
+    const color = parseHex(value);
+
+    if (!color) {
+        root.style.removeProperty('--pui-app-bg');
+        root.style.removeProperty('--pui-app-fg');
+        root.dataset.puiBg = 'off';
+        return;
+    }
+
+    root.style.setProperty('--pui-app-bg', color.hex);
+    root.style.setProperty('--pui-app-fg', color.contrast);
+    root.dataset.puiBg = 'on';
 }
 
 interface AccentColor {

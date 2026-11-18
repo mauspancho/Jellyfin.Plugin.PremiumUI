@@ -162,6 +162,26 @@ html[data-pui-motion='reduce'] {
     --pui-transition: 0ms !important;
 }
 
+/* Fondo de la aplicación. Jellyfin pinta el color del tema en la capa fija
+ * `.backgroundContainer`; el plugin la sustituye en las vistas normales
+ * (Inicio, Bibliotecas, búsqueda, colecciones y Detalles), pero no en el panel
+ * de administración, donde los textos tienen colores pensados para el tema
+ * oscuro. El cuerpo hereda el color de contraste calculado en el frontend para
+ * que un fondo claro no deje el texto nativo blanco sobre blanco. */
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) {
+    color: var(--pui-app-fg);
+}
+
+/* La barra superior de Jellyfin (MUI) fija su propio color blanco sobre el
+ * fondo del tema; con un fondo claro necesita el color de contraste. */
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) .MuiAppBar-root {
+    color: var(--pui-app-fg);
+}
+
+html[data-premiumui]:not([data-pui-state='disabled'])[data-pui-bg='on'] body:not(.dashboardDocument) .backgroundContainer:not(.backgroundContainer-transparent) {
+    background-color: var(--pui-app-bg) !important;
+}
+
 html[data-pui-motion='reduce'] *,
 html[data-pui-motion='reduce'] *::before,
 html[data-pui-motion='reduce'] *::after {

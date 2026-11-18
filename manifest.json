@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.27.0.0",
+        "changelog": "- Nuevo color de fondo en Diseño: con el interruptor \"Personalizado\" se elige cualquier color y se aplica a toda la interfaz (Inicio, Bibliotecas, búsqueda, colecciones y Detalles). Desactivado usa el fondo del tema de Jellyfin.\n- El texto de la interfaz ajusta su contraste automáticamente, así que los fondos claros siguen siendo legibles.\n- La vista previa del panel muestra el fondo elegido junto al acento, la sombra y la transparencia.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.27.0/Jellyfin.PremiumUI_0.27.0.0.zip",
+        "checksum": "61a2420199cda86c63cb8d73e2128e81",
+        "timestamp": "2026-11-18T23:30:28Z"
+      },
+      {
         "version": "0.26.2.0",
         "changelog": "- Corregido el recorte del hover en todas las secciones: Jellyfin aplica `contain: content` (incluye pintura) a las tarjetas nativas y cortaba la sombra, el anillo y la elevación en el borde de cada tarjeta. El plugin conserva el aislamiento de layout/estilo y retira el de pintura.\n- La tarjeta bajo el cursor se pinta por encima de sus vecinas, así la siguiente tarjeta no tapa su sombra ni su halo.\n- Se elimina la reserva de espacio en los carruseles nativos: en Jellyfin Web 12.4 el scroller ya no recorta y el arreglo real era la contención de pintura de `.card`.",
         "targetAbi": "12.4.0.0",

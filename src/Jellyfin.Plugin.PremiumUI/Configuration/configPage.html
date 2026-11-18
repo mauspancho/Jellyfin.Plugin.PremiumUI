@@ -96,6 +96,17 @@
                         <p class="premiumUiHint">Desactivado usa la sombra del tema. El color tiñe la sombra de todas las tarjetas.</p>
                     </div>
                     <div class="premiumUiField">
+                        <label for="designBackground">Color de fondo</label>
+                        <div class="premiumUiColorRow">
+                            <input type="color" id="designBackground" value="#101010" aria-label="Color de fondo">
+                            <label class="premiumUiToggle premiumUiToggleInline">
+                                <input type="checkbox" id="designBackgroundEnabled">
+                                <span>Personalizado</span>
+                            </label>
+                        </div>
+                        <p class="premiumUiHint">Desactivado usa el fondo del tema de Jellyfin. El color se aplica detrás del contenido y ajusta el texto para mantener el contraste.</p>
+                    </div>
+                    <div class="premiumUiField">
                         <label for="designCardSize">Tamaño de tarjetas</label>
                         <select id="designCardSize">
                             <option value="small">Pequeño</option>
@@ -781,7 +792,8 @@
             padding: 14px;
             border: 1px solid var(--pui-border);
             border-radius: 14px;
-            background: rgba(0, 0, 0, 0.2);
+            background: var(--preview-bg, rgba(0, 0, 0, 0.2));
+            transition: background 160ms ease;
         }
 
         .premiumUiThemePreviewHero {
@@ -995,6 +1007,7 @@
                 loaded: false,
                 accent: '',
                 shadow: '',
+                background: '',
                 schemaVersion: 0,
                 studioNames: [],
                 studios: [],
@@ -1365,10 +1378,12 @@
                 var transparency = intValue('designTransparency', 55, 0, 100) / 100;
                 var accent = state.accent || theme.accent;
                 var shadow = state.shadow || '#000000';
+                var background = state.background || '#101010';
 
                 preview.style.setProperty('--preview-accent', accent);
                 preview.style.setProperty('--preview-glow', hexToRgba(accent, 0.32));
                 preview.style.setProperty('--preview-shadow', hexToRgba(shadow, 0.72));
+                preview.style.setProperty('--preview-bg', background);
                 preview.style.setProperty('--preview-surface', 'rgba(' + theme.surface + ', ' + (0.95 - transparency * 0.62).toFixed(3) + ')');
                 preview.style.setProperty('--preview-strong', 'rgba(' + theme.strong + ', ' + (1 - transparency * 0.45).toFixed(3) + ')');
                 preview.style.setProperty('--preview-border', 'rgba(' + theme.border + ', ' + theme.borderAlpha + ')');
@@ -1389,9 +1404,12 @@
                 // que "no hace nada".
                 var previewHint = byId('designPreviewHint');
                 if (previewHint) {
-                    previewHint.textContent = state.accent
+                    var backgroundNote = state.background
+                        ? ' Fondo personalizado: ' + background + '.'
+                        : '';
+                    previewHint.textContent = (state.accent
                         ? 'Vista previa con tu acento personalizado (' + accent + '). Desactiva "Personalizado" para ver el acento del tema y el resto de su paleta.'
-                        : 'Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.';
+                        : 'Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.') + backgroundNote;
                 }
             }
 
@@ -1407,6 +1425,14 @@
                 setChecked('designShadowEnabled', custom);
                 byId('designShadow').disabled = !custom;
                 setValue('designShadow', custom ? state.shadow : '#000000');
+                previewTheme();
+            }
+
+            function syncBackgroundControls() {
+                var custom = state.background.length > 0;
+                setChecked('designBackgroundEnabled', custom);
+                byId('designBackground').disabled = !custom;
+                setValue('designBackground', custom ? state.background : '#101010');
                 previewTheme();
             }
 
@@ -1530,8 +1556,10 @@
                 setValue('designHoverIntensity', design.HoverIntensity == null ? 100 : design.HoverIntensity);
                 state.accent = design.AccentColor || '';
                 state.shadow = design.ShadowColor || '';
+                state.background = design.BackgroundColor || '';
                 syncAccentControls();
                 syncShadowControls();
+                syncBackgroundControls();
 
                 setChecked('homeHeroEnabled', home.HeroEnabled !== false);
                 setValue('homeHeroSource', home.HeroSource || 'random');
@@ -1584,7 +1612,8 @@
                         TransitionMs: intValue('designTransition', 220, 0, 600),
                         HoverIntensity: intValue('designHoverIntensity', 100, 0, 150),
                         AccentColor: state.accent,
-                        ShadowColor: state.shadow
+                        ShadowColor: state.shadow,
+                        BackgroundColor: state.background
                     },
                     Home: {
                         HeroEnabled: byId('homeHeroEnabled').checked,
@@ -1835,6 +1864,19 @@
                 byId('designShadowEnabled').addEventListener('change', function () {
                     state.shadow = this.checked ? byId('designShadow').value : '';
                     byId('designShadow').disabled = !this.checked;
+                    previewTheme();
+                });
+
+                byId('designBackground').addEventListener('input', function () {
+                    if (state.background) {
+                        state.background = this.value;
+                        previewTheme();
+                    }
+                });
+
+                byId('designBackgroundEnabled').addEventListener('change', function () {
+                    state.background = this.checked ? byId('designBackground').value : '';
+                    byId('designBackground').disabled = !this.checked;
                     previewTheme();
                 });
 

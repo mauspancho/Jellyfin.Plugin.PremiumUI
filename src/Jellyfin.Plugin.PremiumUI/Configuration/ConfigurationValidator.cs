@@ -91,7 +91,8 @@ public static class ConfigurationValidator
             TransitionMs = Clamp(source.TransitionMs, 0, 600),
             HoverIntensity = Clamp(source.HoverIntensity, 0, 150),
             AccentColor = NormalizeColor(source.AccentColor),
-            ShadowColor = NormalizeColor(source.ShadowColor)
+            ShadowColor = NormalizeColor(source.ShadowColor),
+            BackgroundColor = NormalizeColor(source.BackgroundColor)
         };
     }
 

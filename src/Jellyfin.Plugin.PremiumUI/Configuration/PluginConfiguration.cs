@@ -109,6 +109,12 @@ public sealed class DesignOptions
     /// Empty means the selected theme defines the shadow color (black).
     /// </summary>
     public string ShadowColor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the optional application background color override in
+    /// <c>#rrggbb</c> format. Empty means the Jellyfin theme paints the background.
+    /// </summary>
+    public string BackgroundColor { get; set; } = string.Empty;
 }
 
 /// <summary>
