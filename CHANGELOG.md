@@ -351,3 +351,11 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - La sombra de las tarjetas pasa a ser global: Inicio, Bibliotecas, búsqueda, colecciones y Detalles comparten la sombra base y el aumento al pasar el cursor. Se conservan la elevación, la escala, el brillo y el anillo de acento de cada vista.
 - El póster de Detalles usa el mismo color de sombra configurable que el resto de tarjetas.
 - Las pruebas .NET cubren la normalización y el contrato del nuevo campo; las smoke comprueban que el color se aplica y se actualiza en caliente.
+
+## 0.26.1 — Hover sin recortes
+
+### Corregido
+
+- Al pasar el cursor, la tarjeta se elevaba por encima del borde del carrusel y se recortaba por arriba y por la izquierda. Las filas con scroll reservan ahora espacio vertical (compensado con márgenes negativos) para que la elevación, el anillo de acento y la sombra se vean completos, sin mover el título ni las tarjetas.
+- El anillo y el halo de la sombra se dibujaban en `.cardImageContainer`, dentro de `.cardContent`, que recorta con `overflow: hidden` + `contain: strict`. La sombra pasa a `.cardScalable`, fuera del recorte, en todas las tarjetas nativas.
+- La fila propia de recomendaciones y las filas de Detalles usan el mismo espacio reservado, así que sus tarjetas tampoco se cortan al elevarse.

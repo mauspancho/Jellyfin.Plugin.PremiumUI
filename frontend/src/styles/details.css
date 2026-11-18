@@ -301,14 +301,9 @@ html[data-pui-details='on'][data-pui-recommendations='on'] #itemDetailPage .deta
     opacity: 0.92;
 }
 
-/* La fila nativa recorta en vertical: se reserva espacio para la elevación y
- * la sombra del hover, compensado con margen negativo para no mover el diseño.
+/* El espacio para la elevación y la sombra lo reserva la regla global de
+ * `base.css` sobre `.emby-scroller`.
  */
-html[data-pui-details='on'][data-pui-recommendations='on'] #itemDetailPage .detailVerticalSection .scrollSlider {
-    padding-block: 1.6rem;
-    margin-block: -1.6rem;
-}
-
 html[data-pui-details='on'][data-pui-recommendations='on'] #itemDetailPage .detailVerticalSection .emby-scrollbuttons {
     align-items: center;
     gap: 0.45em;

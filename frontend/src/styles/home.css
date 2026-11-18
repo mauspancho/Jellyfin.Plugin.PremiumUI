@@ -360,19 +360,10 @@ html[data-pui-home='on'] #homeTab .emby-scrollbuttons-button[disabled] {
 }
 
 /* ---------- Tarjetas ----------
- * La fila nativa (.scrollSlider) recorta en vertical con overflow-y: hidden,
- * así que la elevación y la sombra del hover se cortaban en el borde. Se
- * reserva espacio dentro del propio scroller y se compensa con margen
- * negativo para no mover el diseño.
+ * El espacio para la elevación y la sombra del hover lo reserva la regla
+ * global de `base.css` sobre `.emby-scroller`. Aquí solo se ajusta el
+ * movimiento de la tarjeta.
  */
-
-html[data-pui-home='on'] #homeTab .scrollSlider {
-    /* La sombra del hover baja hasta ~37px (8 de desplazamiento + 19 de difusión
-     * + 10 de extensión). Se reserva ese aire y se compensa con margen negativo
-     * para que la fila no crezca ni se corte la sombra. */
-    padding-block: 2.4rem;
-    margin-block: -2.4rem;
-}
 
 html[data-pui-home='on'] :is(#homeTab, [data-pui-library]) .card > .cardBox {
     transition: transform var(--pui-transition) ease, filter var(--pui-transition) ease;
@@ -560,9 +551,13 @@ html[data-pui-home='on'] #homeTab .pui-rec-row {
     display: flex;
     gap: 0.9rem;
     /* El margen lateral lo aportan `padded-left` y `padded-right`, igual que
-     * en las filas nativas de Jellyfin (3.3 % + safe-area). */
-    padding-top: 0.25rem;
-    padding-bottom: 0.9rem;
+     * en las filas nativas de Jellyfin (3.3 % + safe-area). El espacio
+     * vertical extra deja elevar la tarjeta sin que el scroll la recorte;
+     * los márgenes negativos mantienen la fila en su sitio. */
+    padding-top: var(--pui-card-room-top);
+    padding-bottom: var(--pui-card-room-bottom);
+    margin-top: calc(0.25rem - var(--pui-card-room-top));
+    margin-bottom: calc(0.9rem - var(--pui-card-room-bottom));
     /* Sin esto, el anclaje de scroll alinea la primera tarjeta con el borde
      * del contenedor y se come el margen: la fila aparecía pegada a la
      * izquierda aunque el padding existiera. */

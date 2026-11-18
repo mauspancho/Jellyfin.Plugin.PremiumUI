@@ -8,6 +8,14 @@
     "category": "General",
     "versions": [
       {
+        "version": "0.26.1.0",
+        "changelog": "- Corregido el recorte de las tarjetas al pasar el cursor: las filas con scroll reservan espacio vertical para la elevación y la sombra, sin mover el título ni el resto de la página.\n- El anillo y el halo de la sombra se dibujan ahora fuera del recorte nativo de `.cardContent`, así que se ven completos en todas las tarjetas.\n- La fila propia de recomendaciones y las filas de Detalles usan el mismo espacio reservado.",
+        "targetAbi": "12.4.0.0",
+        "sourceUrl": "https://github.com/mauspancho/Jellyfin.Plugin.PremiumUI/releases/download/v0.26.1/Jellyfin.PremiumUI_0.26.1.0.zip",
+        "checksum": "24984f6b42236a1ddb48c12c1923a1d8",
+        "timestamp": "2026-11-18T16:39:19Z"
+      },
+      {
         "version": "0.26.0.0",
         "changelog": "- Color de la sombra configurable en Diseño: selector con opción \"Personalizado\" que tiñe la sombra base y el hover de todas las tarjetas nativas (Inicio, Bibliotecas, búsqueda, colecciones y Detalles).\n- La sombra de las tarjetas ahora es global y aumenta al pasar el cursor, sin sustituir la elevación, la escala ni el anillo de acento existentes.\n- La vista previa de Diseño muestra el color de la sombra elegido.",
         "targetAbi": "12.4.0.0",

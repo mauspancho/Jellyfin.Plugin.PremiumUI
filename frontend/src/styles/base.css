@@ -39,6 +39,11 @@
     --pui-card-shadow-rgb: 0, 0, 0;
     --pui-card-shadow: 8px 8px 13px 3px rgba(var(--pui-card-shadow-rgb), 0.72);
     --pui-card-shadow-hover: 8px 8px 19px 10px rgba(var(--pui-card-shadow-rgb), 0.9);
+    /* Espacio vertical que reservan las filas con scroll para que la tarjeta
+     * pueda elevarse y proyectar la sombra sin que el borde del scroller la
+     * recorte. Se compensa con márgenes negativos para no mover el diseño. */
+    --pui-card-room-top: 1.5rem;
+    --pui-card-room-bottom: 2rem;
 
     /* Transparencia: 0 = superficies opacas, 1 = cristal. `applyDesign` publica
      * un número entre 0 y 1 y aquí se convierte en el alfa de cada capa. */
@@ -187,17 +192,25 @@ html[data-premiumui] .pui-hero-button:focus-visible {
  * búsqueda, colecciones, Detalles…) recibe la sombra del tema. Al pasar el
  * cursor o enfocar con teclado la sombra crece y se añade el halo de acento,
  * sin sustituir el resto de efectos hover de cada vista.
+ *
+ * La sombra va en `.cardScalable` y no en `.cardImageContainer` porque el
+ * `.cardContent` nativo usa `overflow: hidden` + `contain: strict` (paint) y
+ * recortaba el anillo y el halo justo por el borde de la imagen.
  */
 
 html[data-premiumui]:not([data-pui-state='disabled']) .card > .cardBox,
-html[data-premiumui]:not([data-pui-state='disabled']) .card > .cardScalable {
+html[data-premiumui]:not([data-pui-state='disabled']) .card > .cardBox > .cardScalable {
     border-radius: var(--pui-radius-md);
+}
+
+html[data-premiumui]:not([data-pui-state='disabled']) .card .cardScalable {
+    border-radius: var(--pui-radius-md);
+    box-shadow: var(--pui-card-shadow);
+    transition: box-shadow var(--pui-transition) ease;
 }
 
 html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer {
     border-radius: var(--pui-radius-md);
-    box-shadow: var(--pui-card-shadow);
-    transition: box-shadow var(--pui-transition) ease;
 }
 
 html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer::after {
@@ -210,8 +223,8 @@ html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer:
 }
 
 @media (hover: hover) {
-    html[data-premiumui]:not([data-pui-state='disabled']) .card:hover .cardImageContainer,
-    html[data-premiumui]:not([data-pui-state='disabled']) .card:focus-visible .cardImageContainer {
+    html[data-premiumui]:not([data-pui-state='disabled']) .card:hover .cardScalable,
+    html[data-premiumui]:not([data-pui-state='disabled']) .card:focus-visible .cardScalable {
         box-shadow:
             0 0 0 clamp(1px, calc(3px * var(--pui-hover, 1)), 6px) var(--pui-accent),
             var(--pui-card-shadow-hover),
@@ -219,6 +232,21 @@ html[data-premiumui]:not([data-pui-state='disabled']) .card .cardImageContainer:
     }
 }
 
-html[data-pui-motion='reduce'] .card .cardImageContainer {
+html[data-pui-motion='reduce'] .card .cardScalable {
     transition: none;
+}
+
+/* Las filas horizontales nativas recortan con `overflow-y: hidden`. Se reserva
+ * espacio dentro del propio scroller y se compensa con márgenes negativos: así
+ * la tarjeta puede elevarse y la sombra se ve completa sin mover el diseño. */
+html[data-premiumui]:not([data-pui-state='disabled']) .emby-scroller:has(.card) {
+    padding-block: var(--pui-card-room-top) var(--pui-card-room-bottom);
+    margin-block: calc(var(--pui-card-room-top) * -1) calc(var(--pui-card-room-bottom) * -1);
+}
+
+/* El padding del scroller se solapa con el título anterior: se deja el título
+ * por encima para que sus clics y su hover sigan funcionando. */
+html[data-premiumui]:not([data-pui-state='disabled']) .sectionTitleContainer {
+    position: relative;
+    z-index: 1;
 }
