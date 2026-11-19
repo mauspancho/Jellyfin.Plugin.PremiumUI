@@ -114,7 +114,8 @@ public static class ConfigurationValidator
             ShadowColor = NormalizeColor(source.ShadowColor),
             BackgroundColor = NormalizeColor(source.BackgroundColor),
             BackgroundGradient = source.BackgroundGradient,
-            BackgroundGradientDirection = Canonical(source.BackgroundGradientDirection, BackgroundGradientDirections, "bottom")
+            BackgroundGradientDirection = Canonical(source.BackgroundGradientDirection, BackgroundGradientDirections, "bottom"),
+            BackgroundGradientColor = NormalizeColor(source.BackgroundGradientColor)
         };
     }
 

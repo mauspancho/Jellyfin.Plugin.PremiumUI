@@ -388,3 +388,12 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - La vista previa del panel reproduce la dirección elegida y el resumen del fondo indica el degradado activo.
 - El fondo personalizado se limita a las vistas sin backdrop: Detalles conserva el arte del título y el tema oscuro de sus paneles, y el panel de administración mantiene su fondo, así los textos nativos no quedan ilegibles.
 - El backend normaliza la dirección (`bottom` por defecto) y la sirve en el bootstrap como `backgroundGradient` y `backgroundGradientDirection`.
+
+## 0.29.0 — Color del degradado
+
+### Añadido
+
+- El degradado del fondo incluye "Color del degradado" con interruptor "Personalizado": el segundo extremo se elige libremente en lugar de derivarse del color de fondo. Así un fondo blanco o muy claro también puede generar un degradado visible.
+- El color de fondo ocupa el extremo inicial del degradado y el color elegido el final, siguiendo la dirección marcada; en los radiales el fondo queda en el foco y el color elegido en los bordes.
+- Vacío o desactivado mantiene la variante automática (18 % hacia el color de contraste) y el backend normaliza el valor como `#rrggbb` (`backgroundGradientColor` en el bootstrap).
+- La vista previa del panel pinta el segundo color y el resumen del fondo lo menciona cuando está definido.

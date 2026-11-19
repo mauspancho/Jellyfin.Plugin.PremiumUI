@@ -36,7 +36,8 @@ export function applyDesign(config: PremiumUiConfig): void {
         root,
         design.backgroundColor,
         design.backgroundGradient === true,
-        design.backgroundGradientDirection
+        design.backgroundGradientDirection,
+        design.backgroundGradientColor
     );
 }
 
@@ -86,16 +87,19 @@ function applyShadowColor(root: HTMLElement, value: string | undefined): void {
  * El contraste del texto se calcula igual que en el acento para que un fondo
  * claro no deje el texto nativo blanco sobre blanco.
  *
- * Con el degradado activo se publica `--pui-app-bg-image`: parte del color
- * elegido y termina en una variante mezclada con el color de contraste (más
- * clara sobre fondos oscuros, más oscura sobre fondos claros), así el fondo
- * sigue siendo legible y el texto conserva el contraste del color base.
+ * Con el degradado activo se publica `--pui-app-bg-image`: parte del color de
+ * fondo y termina en el color de degradado elegido en el panel. Si no se elige
+ * ninguno, el segundo extremo es una variante mezclada con el color de
+ * contraste (más clara sobre fondos oscuros, más oscura sobre fondos claros),
+ * así el fondo sigue siendo legible y el texto conserva el contraste del color
+ * base.
  */
 function applyBackgroundColor(
     root: HTMLElement,
     value: string | undefined,
     gradient: boolean,
-    direction: string | undefined
+    direction: string | undefined,
+    gradientColor: string | undefined
 ): void {
     const color = parseHex(value);
 
@@ -118,8 +122,9 @@ function applyBackgroundColor(
         return;
     }
 
-    const shade = mixHex(color, color.contrast === '#ffffff' ? WHITE : NEAR_BLACK, 0.18);
-    root.style.setProperty('--pui-app-bg-image', gradientImage(direction, shade, color.hex));
+    const second = parseHex(gradientColor)?.hex
+        ?? mixHex(color, color.contrast === '#ffffff' ? WHITE : NEAR_BLACK, 0.18);
+    root.style.setProperty('--pui-app-bg-image', gradientImage(direction, color.hex, second));
     root.dataset.puiBgGradient = 'on';
 }
 
@@ -144,20 +149,20 @@ const RADIAL_GRADIENTS: Record<string, string> = {
 };
 
 /**
- * Construye la imagen CSS del fondo a partir de la dirección elegida. Las
- * direcciones lineales usan las palabras clave de CSS y las radiales colocan
- * el foco en el centro, el borde superior o el inferior. Cualquier valor
- * desconocido cae en el degradado vertical.
+ * Construye la imagen CSS del fondo a partir de la dirección elegida. El color
+ * de fondo ocupa el extremo inicial y el color de degradado el final: en el
+ * degradado radial, el fondo queda en el foco y el segundo color en los bordes.
+ * Cualquier dirección desconocida cae en el degradado vertical.
  */
-function gradientImage(direction: string | undefined, shade: string, base: string): string {
+function gradientImage(direction: string | undefined, start: string, end: string): string {
     const key = (direction ?? '').trim().toLowerCase();
     const radial = RADIAL_GRADIENTS[key];
 
     if (radial) {
-        return `radial-gradient(circle at ${radial}, ${shade}, ${base})`;
+        return `radial-gradient(circle at ${radial}, ${start}, ${end})`;
     }
 
-    return `linear-gradient(${LINEAR_GRADIENTS[key] ?? LINEAR_GRADIENTS.bottom}, ${shade}, ${base})`;
+    return `linear-gradient(${LINEAR_GRADIENTS[key] ?? LINEAR_GRADIENTS.bottom}, ${start}, ${end})`;
 }
 
 function mixHex(color: AccentColor, target: Rgb, ratio: number): string {

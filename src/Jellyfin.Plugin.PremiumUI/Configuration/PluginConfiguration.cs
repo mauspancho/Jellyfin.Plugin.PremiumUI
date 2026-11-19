@@ -128,6 +128,12 @@ public sealed class DesignOptions
     /// accepted values; unknown values fall back to <c>bottom</c>.
     /// </summary>
     public string BackgroundGradientDirection { get; set; } = "bottom";
+
+    /// <summary>
+    /// Gets or sets the optional second gradient color in <c>#rrggbb</c> format.
+    /// Empty means the plugin derives a shade from <see cref="BackgroundColor"/>.
+    /// </summary>
+    public string BackgroundGradientColor { get; set; } = string.Empty;
 }
 
 /// <summary>

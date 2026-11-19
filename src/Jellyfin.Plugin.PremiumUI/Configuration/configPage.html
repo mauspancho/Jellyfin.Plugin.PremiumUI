@@ -131,6 +131,17 @@
                         </select>
                     </div>
                     <div class="premiumUiField">
+                        <label for="designBackgroundGradientColor">Color del degradado</label>
+                        <div class="premiumUiColorRow">
+                            <input type="color" id="designBackgroundGradientColor" value="#ffffff" aria-label="Color del degradado">
+                            <label class="premiumUiToggle premiumUiToggleInline">
+                                <input type="checkbox" id="designBackgroundGradientColorEnabled">
+                                <span>Personalizado</span>
+                            </label>
+                        </div>
+                        <p class="premiumUiHint">Segundo extremo del degradado. Desactivado calcula una variante automática del color de fondo. Elige un tono que mantenga legible el texto.</p>
+                    </div>
+                    <div class="premiumUiField">
                         <label for="designCardSize">Tamaño de tarjetas</label>
                         <select id="designCardSize">
                             <option value="small">Pequeño</option>
@@ -168,8 +179,8 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <p class="premiumUiThemePreviewHint" id="designPreviewHint">Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.</p>
                 </div>
+                <p class="premiumUiThemePreviewHint" id="designPreviewHint">Vista previa del acento, las superficies y la transparencia. Se aplica a Inicio y Detalles al guardar.</p>
             </section>
 
             <section class="premiumUiCard" aria-labelledby="premiumUiHomeTitle">
@@ -836,7 +847,8 @@
             padding: 16px;
             border: 2px solid var(--preview-accent, #e6b45e);
             border-radius: var(--preview-radius, 18px);
-            background:
+            background-color: #0b0d12;
+            background-image:
                 radial-gradient(120% 110% at 82% 8%, var(--preview-glow, transparent) 0%, transparent 58%),
                 linear-gradient(160deg, var(--preview-surface, rgba(14, 17, 24, 0.6)), var(--preview-strong, rgba(14, 17, 24, 0.92)));
             color: #ffffff;
@@ -1041,6 +1053,7 @@
                 background: '',
                 gradient: false,
                 gradientDirection: 'bottom',
+                gradientColor: '',
                 schemaVersion: 0,
                 studioNames: [],
                 studios: [],
@@ -1454,28 +1467,33 @@
                     + 0.0722 * channel(number & 255);
             }
 
-            function backgroundGradient(value, direction) {
+            function backgroundGradient(value, direction, secondColor) {
                 var base = normalizeHex(value);
 
                 if (!base) {
                     return 'none';
                 }
 
-                // El umbral es el mismo que usa el frontend para elegir el
-                // color del texto: así la variante del degradado siempre va
-                // hacia el lado del contraste y no hacia el mismo tono.
-                var light = srgbLuminance(base) > 0.179;
-                var shade = light
-                    ? mixHex(base, { r: 11, g: 11, b: 11 }, 0.18)
-                    : mixHex(base, { r: 255, g: 255, b: 255 }, 0.18);
+                var end = normalizeHex(secondColor);
+
+                if (!end) {
+                    // El umbral es el mismo que usa el frontend para elegir el
+                    // color del texto: así la variante automática siempre va
+                    // hacia el lado del contraste y no hacia el mismo tono.
+                    var light = srgbLuminance(base) > 0.179;
+                    end = light
+                        ? mixHex(base, { r: 11, g: 11, b: 11 }, 0.18)
+                        : mixHex(base, { r: 255, g: 255, b: 255 }, 0.18);
+                }
+
                 var key = String(direction || '').toLowerCase();
 
                 if (GRADIENT_RADIAL[key]) {
-                    return 'radial-gradient(circle at ' + GRADIENT_RADIAL[key] + ', ' + shade + ', ' + base + ')';
+                    return 'radial-gradient(circle at ' + GRADIENT_RADIAL[key] + ', ' + base + ', ' + end + ')';
                 }
 
                 return 'linear-gradient(' + (GRADIENT_LINEAR[key] || GRADIENT_LINEAR.bottom)
-                    + ', ' + shade + ', ' + base + ')';
+                    + ', ' + base + ', ' + end + ')';
             }
 
             function themeAccent() {
@@ -1508,7 +1526,7 @@
                 var shadow = state.shadow || '#000000';
                 var background = state.background || '#101010';
                 var gradient = state.background && state.gradient
-                    ? backgroundGradient(background, state.gradientDirection)
+                    ? backgroundGradient(background, state.gradientDirection, state.gradientColor)
                     : 'none';
 
                 preview.style.setProperty('--preview-accent', accent);
@@ -1539,7 +1557,8 @@
                     var backgroundNote = state.background
                         ? ' Fondo personalizado: ' + background
                             + (state.gradient
-                                ? ' (' + (GRADIENT_LABELS[state.gradientDirection] || GRADIENT_LABELS.bottom) + ').'
+                                ? ' (' + (GRADIENT_LABELS[state.gradientDirection] || GRADIENT_LABELS.bottom)
+                                    + (state.gradientColor ? ', hasta ' + state.gradientColor : '') + ').'
                                 : '.')
                         : '';
                     previewHint.textContent = (state.accent
@@ -1572,6 +1591,16 @@
                 byId('designBackgroundGradient').disabled = !custom;
                 byId('designBackgroundGradientDir').disabled = !custom || !state.gradient;
                 setValue('designBackgroundGradientDir', state.gradientDirection || 'bottom');
+                syncGradientColorControls();
+            }
+
+            function syncGradientColorControls() {
+                var custom = state.gradientColor.length > 0;
+                var active = state.background.length > 0 && state.gradient;
+                setChecked('designBackgroundGradientColorEnabled', custom);
+                byId('designBackgroundGradientColorEnabled').disabled = !active;
+                byId('designBackgroundGradientColor').disabled = !active || !custom;
+                setValue('designBackgroundGradientColor', custom ? state.gradientColor : '#ffffff');
                 previewTheme();
             }
 
@@ -1698,6 +1727,7 @@
                 state.background = design.BackgroundColor || '';
                 state.gradient = design.BackgroundGradient === true;
                 state.gradientDirection = design.BackgroundGradientDirection || 'bottom';
+                state.gradientColor = design.BackgroundGradientColor || '';
                 syncAccentControls();
                 syncShadowControls();
                 syncBackgroundControls();
@@ -1756,7 +1786,8 @@
                         ShadowColor: state.shadow,
                         BackgroundColor: state.background,
                         BackgroundGradient: state.gradient && state.background.length > 0,
-                        BackgroundGradientDirection: state.gradientDirection || 'bottom'
+                        BackgroundGradientDirection: state.gradientDirection || 'bottom',
+                        BackgroundGradientColor: state.gradientColor
                     },
                     Home: {
                         HeroEnabled: byId('homeHeroEnabled').checked,
@@ -2033,6 +2064,19 @@
 
                 byId('designBackgroundGradientDir').addEventListener('change', function () {
                     state.gradientDirection = this.value || 'bottom';
+                    previewTheme();
+                });
+
+                byId('designBackgroundGradientColor').addEventListener('input', function () {
+                    if (state.gradientColor) {
+                        state.gradientColor = this.value;
+                        previewTheme();
+                    }
+                });
+
+                byId('designBackgroundGradientColorEnabled').addEventListener('change', function () {
+                    state.gradientColor = this.checked ? byId('designBackgroundGradientColor').value : '';
+                    byId('designBackgroundGradientColor').disabled = !this.checked;
                     previewTheme();
                 });
 

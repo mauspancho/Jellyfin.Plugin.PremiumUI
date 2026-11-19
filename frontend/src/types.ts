@@ -10,6 +10,7 @@ export interface DesignConfig {
     backgroundColor: string;
     backgroundGradient: boolean;
     backgroundGradientDirection: string;
+    backgroundGradientColor: string;
 }
 
 export interface StudioCollection {

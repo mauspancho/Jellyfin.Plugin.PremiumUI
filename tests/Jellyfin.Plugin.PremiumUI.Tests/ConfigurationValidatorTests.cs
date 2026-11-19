@@ -25,6 +25,7 @@ public class ConfigurationValidatorTests
         Assert.Equal(string.Empty, result.Design.BackgroundColor);
         Assert.False(result.Design.BackgroundGradient);
         Assert.Equal("bottom", result.Design.BackgroundGradientDirection);
+        Assert.Equal(string.Empty, result.Design.BackgroundGradientColor);
         Assert.Equal(12, result.Home.ItemsPerSection);
         Assert.Equal(12, result.Home.RecommendationsCount);
         Assert.Equal(10, result.Performance.CacheMinutes);
@@ -328,6 +329,23 @@ public class ConfigurationValidatorTests
 
         Assert.True(result.Design.BackgroundGradient);
         Assert.Equal(expected, result.Design.BackgroundGradientDirection);
+    }
+
+    [Theory]
+    [InlineData("#22d3ee", "#22d3ee")]
+    [InlineData("#ABC", "#aabbcc")]
+    [InlineData("", "")]
+    [InlineData(null, "")]
+    public void Normalize_Design_BackgroundGradientColorIsValidHex(string? color, string expected)
+    {
+        var input = new PluginConfiguration
+        {
+            Design = new DesignOptions { BackgroundGradient = true, BackgroundGradientColor = color! }
+        };
+
+        var result = ConfigurationValidator.Normalize(input);
+
+        Assert.Equal(expected, result.Design.BackgroundGradientColor);
     }
 
     [Theory]

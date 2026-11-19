@@ -19,7 +19,8 @@ const config = {
         shadowColor: '#000000',
         backgroundColor: '',
         backgroundGradient: false,
-        backgroundGradientDirection: 'bottom'
+        backgroundGradientDirection: 'bottom',
+        backgroundGradientColor: ''
     },
     home: {
         enabled: true,
@@ -732,9 +733,11 @@ assert.equal(
     'el fondo personalizado debe activarse en el documento'
 );
 
-// Degradado del fondo: dirección lineal, radial y vuelta al color plano.
+// Degradado del fondo: color propio, dirección lineal, radial, variante
+// automática y vuelta al color plano.
 config.design.backgroundGradient = true;
 config.design.backgroundGradientDirection = 'top-left';
+config.design.backgroundGradientColor = '#22d3ee';
 window.PremiumUI.invalidate();
 await window.PremiumUI.refresh();
 await new Promise((resolve) => setTimeout(resolve, 400));
@@ -744,11 +747,10 @@ assert.equal(
     'on',
     'el degradado debe activarse con data-pui-bg-gradient'
 );
-assert.ok(
-    document.documentElement.style
-        .getPropertyValue('--pui-app-bg-image')
-        .startsWith('linear-gradient(to top left, '),
-    'la dirección lineal debe publicarse en --pui-app-bg-image'
+assert.equal(
+    document.documentElement.style.getPropertyValue('--pui-app-bg-image'),
+    'linear-gradient(to top left, #101820, #22d3ee)',
+    'el color del degradado debe ser el segundo extremo de la imagen'
 );
 
 config.design.backgroundGradientDirection = 'radial-top';
@@ -756,11 +758,22 @@ window.PremiumUI.invalidate();
 await window.PremiumUI.refresh();
 await new Promise((resolve) => setTimeout(resolve, 400));
 
-assert.ok(
-    document.documentElement.style
-        .getPropertyValue('--pui-app-bg-image')
-        .startsWith('radial-gradient(circle at 50% 0%, '),
+assert.equal(
+    document.documentElement.style.getPropertyValue('--pui-app-bg-image'),
+    'radial-gradient(circle at 50% 0%, #101820, #22d3ee)',
     'las direcciones radiales deben publicarse en --pui-app-bg-image'
+);
+
+config.design.backgroundGradientColor = '';
+config.design.backgroundGradientDirection = 'bottom';
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.match(
+    document.documentElement.style.getPropertyValue('--pui-app-bg-image'),
+    /^linear-gradient\(to bottom, #101820, #[0-9a-f]{6}\)$/,
+    'sin color de degradado debe derivarse una variante del color de fondo'
 );
 
 config.design.backgroundGradient = false;
