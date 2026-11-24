@@ -29,6 +29,7 @@ public class BootstrapContractTests
                 ["hero", "continue"],
                 12,
                 12,
+                16,
                 ["Disney", "Marvel"],
                 []),
             new DetailsBootstrapDto(true, true, true, true, true),
@@ -55,6 +56,7 @@ public class BootstrapContractTests
         Assert.Equal(2, root.GetProperty("home").GetProperty("sectionOrder").GetArrayLength());
         Assert.Equal(12, root.GetProperty("home").GetProperty("itemsPerSection").GetInt32());
         Assert.Equal(12, root.GetProperty("home").GetProperty("recommendationsCount").GetInt32());
+        Assert.Equal(16, root.GetProperty("home").GetProperty("recentlyAddedCount").GetInt32());
         Assert.Equal(
             ["Disney", "Marvel"],
             root.GetProperty("home").GetProperty("studioSections").EnumerateArray().Select(e => e.GetString()!).ToArray());

@@ -397,3 +397,15 @@ Todas las versiones siguen `MAJOR.MINOR.PATCH.BUILD`, el formato de Jellyfin.
 - El color de fondo ocupa el extremo inicial del degradado y el color elegido el final, siguiendo la dirección marcada; en los radiales el fondo queda en el foco y el color elegido en los bordes.
 - Vacío o desactivado mantiene la variante automática (18 % hacia el color de contraste) y el backend normaliza el valor como `#rrggbb` (`backgroundGradientColor` en el bootstrap).
 - La vista previa del panel pinta el segundo color y el resumen del fondo lo menciona cuando está definido.
+
+## 0.30.0 — Tarjetas de recién agregados
+
+### Añadido
+
+- Nuevo ajuste "Tarjetas en agregado recientemente" en la sección Inicio del panel: elige entre 4 y 30 tarjetas para las filas nativas "Agregado recientemente en Películas" y "Agregado recientemente en Series"; 16 por defecto.
+- El frontend eleva a 30 el límite de las peticiones `/Items/Latest` de Jellyfin y oculta en el DOM el excedente con `pui-card-trimmed`. Así el número se puede subir o bajar desde el panel y el cambio se aplica al instante, sin `Ctrl+Shift+R`.
+- El valor se guarda como `RecentlyAddedCount` (normalizado a 4–30, con 16 cuando falta) y se sirve en el bootstrap como `recentlyAddedCount`.
+
+### Notas
+
+- Solo afecta a las filas de recién agregados; el resto de carruseles nativos conserva su comportamiento.

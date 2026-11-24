@@ -34,6 +34,7 @@ export interface HomeConfig {
     sectionOrder: string[];
     itemsPerSection: number;
     recommendationsCount?: number;
+    recentlyAddedCount?: number;
     studioSections: string[];
     studioCollections?: StudioCollection[];
 }

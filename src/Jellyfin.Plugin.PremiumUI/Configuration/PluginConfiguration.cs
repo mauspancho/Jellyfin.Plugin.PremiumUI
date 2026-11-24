@@ -200,6 +200,13 @@ public sealed class HomeOptions
     public int RecommendationsCount { get; set; } = 12;
 
     /// <summary>
+    /// Gets or sets the number of cards shown in the native "Recently added"
+    /// rows (4-30). Jellyfin always requests 16; the frontend asks for up to 30
+    /// and hides the surplus, so the change applies without reloading.
+    /// </summary>
+    public int RecentlyAddedCount { get; set; } = 16;
+
+    /// <summary>
     /// Gets or sets a value indicating whether studio collections are rendered.
     /// </summary>
     public bool StudiosEnabled { get; set; } = true;

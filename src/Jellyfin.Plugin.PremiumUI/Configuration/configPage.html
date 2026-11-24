@@ -208,12 +208,17 @@
                     <div class="premiumUiField">
                         <label for="homeItemsPerSection">Elementos en el hero</label>
                         <input type="number" id="homeItemsPerSection" min="4" max="20" step="1">
-                        <p class="premiumUiHint">Cuántos títulos puede rotar el hero; los carruseles nativos conservan el número que decide Jellyfin.</p>
+                        <p class="premiumUiHint">Cuántos títulos puede rotar el hero. Las tarjetas de recién agregados se ajustan aparte.</p>
                     </div>
                     <div class="premiumUiField">
                         <label for="homeRecommendationsCount">Recomendaciones a mostrar</label>
                         <input type="number" id="homeRecommendationsCount" min="4" max="20" step="1">
                         <p class="premiumUiHint">Cuántas tarjetas aparecen en la fila de recomendaciones. Es independiente del número de elementos del hero.</p>
+                    </div>
+                    <div class="premiumUiField">
+                        <label for="homeRecentlyAddedCount">Tarjetas en "Agregado recientemente"</label>
+                        <input type="number" id="homeRecentlyAddedCount" min="4" max="30" step="1">
+                        <p class="premiumUiHint">Cuántas tarjetas muestran las filas nativas de recién agregados (Películas y Series). Se piden hasta 30 al servidor y se recortan al número elegido; el cambio se aplica al instante.</p>
                     </div>
                 </div>
 
@@ -1736,6 +1741,7 @@
                 setValue('homeHeroSource', home.HeroSource || 'random');
                 setValue('homeItemsPerSection', home.ItemsPerSection == null ? 12 : home.ItemsPerSection);
                 setValue('homeRecommendationsCount', home.RecommendationsCount == null ? 12 : home.RecommendationsCount);
+                setValue('homeRecentlyAddedCount', home.RecentlyAddedCount == null ? 16 : home.RecentlyAddedCount);
                 setChecked('homeMedia', home.MediaLibraries !== false);
                 setChecked('homeContinue', home.ContinueWatching !== false);
                 setChecked('homeRecent', home.RecentlyAdded !== false);
@@ -1801,6 +1807,7 @@
                         SectionOrder: state.order.slice(),
                         ItemsPerSection: intValue('homeItemsPerSection', 12, 4, 20),
                         RecommendationsCount: intValue('homeRecommendationsCount', 12, 4, 20),
+                        RecentlyAddedCount: intValue('homeRecentlyAddedCount', 16, 4, 30),
                         StudiosEnabled: byId('homeStudiosEnabled').checked,
                         Studios: state.studioNames.slice()
                     },

@@ -2,6 +2,10 @@ import type { HomeConfig } from '../types';
 import { classifySection, sectionFlags, type SectionKind } from './classify';
 
 const HIDDEN_CLASS = 'pui-section-hidden';
+const TRIMMED_CLASS = 'pui-card-trimmed';
+const DEFAULT_RECENT_LIMIT = 16;
+const MIN_RECENT_LIMIT = 4;
+const MAX_RECENT_LIMIT = 30;
 
 /**
  * Reordena las filas movibles de Inicio según el orden del panel.
@@ -126,5 +130,42 @@ export function applySectionVisibility(container: HTMLElement, home: HomeConfig)
             || (flags.recommendations && !home.recommendations);
 
         section.classList.toggle(HIDDEN_CLASS, hidden);
+    }
+}
+
+/**
+ * Recorta las filas nativas de "Agregado recientemente" al número elegido.
+ *
+ * Jellyfin pide siempre 16 tarjetas; `latestLimit.ts` eleva la petición a 30 y
+ * aquí se oculta el excedente con una clase, sin borrar nodos: el cambio se
+ * aplica al instante y es reversible al subir el número desde el panel.
+ */
+export function applyRecentLimit(container: HTMLElement, home: HomeConfig): void {
+    const value = home.recentlyAddedCount;
+    const limit = typeof value === 'number' && Number.isFinite(value)
+        ? Math.min(MAX_RECENT_LIMIT, Math.max(MIN_RECENT_LIMIT, Math.round(value)))
+        : DEFAULT_RECENT_LIMIT;
+
+    for (const section of getHomeSections(container)) {
+        if (!sectionFlags(section).recent) {
+            continue;
+        }
+
+        const slider = section.querySelector<HTMLElement>('.scrollSlider, .itemsContainer');
+
+        if (!slider) {
+            continue;
+        }
+
+        const direct = Array.from(slider.children).filter(
+            (child): child is HTMLElement => child instanceof HTMLElement && child.classList.contains('card')
+        );
+        const cards = direct.length > 0
+            ? direct
+            : Array.from(slider.querySelectorAll<HTMLElement>('.card'));
+
+        cards.forEach((card, index) => {
+            card.classList.toggle(TRIMMED_CLASS, index >= limit);
+        });
     }
 }

@@ -223,6 +223,10 @@ La fila nativa de accesos a las bibliotecas ("Mis contenidos" en español de Esp
 
 El check "Recomendaciones" crea una fila propia del plugin (no reemplaza ninguna fila nativa) con películas y series sugeridas para el usuario de la sesión. La lista se pide a `Items/Suggestions` con su `userId`; si el usuario acaba de crearse, no tiene historial o la API no devuelve resultados, el plugin consulta `Items?SortBy=Random&IncludeItemTypes=Movie,Series` sobre toda la biblioteca, de modo que la fila siempre tiene contenido si hay títulos con imagen. Las tarjetas llevan póster (o `Thumb` como respaldo), título, año y duración, abren la ficha del título y comparten el hover de acento de Inicio. La fila no muestra barra de desplazamiento inferior: usa los mismos botones laterales que Películas y Series (chevrons en la esquina superior derecha), que avanzan un 80 % del ancho visible, se deshabilitan en los extremos y se ocultan si no hay desbordamiento; el desplazamiento nativo con rueda, trackpad, teclado y gesto táctil sigue funcionando. La respuesta se guarda en memoria con el TTL de "Caché" por usuario y número de elementos; no hay polling ni peticiones fuera de ese intervalo, las imágenes usan carga diferida y con movimiento reducido se desactiva la elevación. Si ambas peticiones fallan, la fila se retira para no dejar un hueco. La fila aparece al final del orden por defecto y se puede mover como cualquier otra sección.
 
+### Recién agregados
+
+Las filas nativas "Agregado recientemente en Películas" y "Agregado recientemente en Series" tienen su propio número de tarjetas. Jellyfin pide siempre 16 a `/Items/Latest`; el plugin eleva esa petición a 30 y oculta en el DOM el excedente con la clase `pui-card-trimmed`, sin borrar nodos. Por eso el ajuste "Tarjetas en agregado recientemente" (4–30, 16 por defecto) se aplica al instante desde el panel, tanto al bajar como al subir el número, y no afecta a los demás carruseles.
+
 ### Efecto de cada opción
 
 | Opción | Valores | Efecto en la interfaz |
@@ -244,8 +248,9 @@ El check "Recomendaciones" crea una fila propia del plugin (no reemplaza ninguna
 | Recomendaciones | on/off | Fila propia del plugin con sugerencias según el historial del usuario; sin historial muestra películas y series aleatorias. Sin barra inferior: flechas laterales como las filas nativas. Su posición se ajusta en "Orden de secciones" |
 | Mis medios | on/off | Muestra u oculta la fila de accesos a las bibliotecas; su posición se ajusta en "Orden de secciones" |
 | Orden de secciones | lista | Reordena las filas visibles reconocidas, incluidas las envueltas en `.sectionN`; agrupa todas las filas de continuar y deja fijo el Hero. Incluye "Estudios" (si está activa) y "Mis contenidos". Las filas ocultas y las desconocidas no se mueven |
-| Elementos en el hero | 4–20 | Cuántos títulos puede rotar el hero; las filas nativas conservan su límite |
+| Elementos en el hero | 4–20 | Cuántos títulos puede rotar el hero; las tarjetas de recién agregados se ajustan aparte |
 | Recomendaciones a mostrar | 4–20 | Número de tarjetas de la fila de recomendaciones, independiente del hero |
+| Tarjetas en agregado recientemente | 4–30 | Número de tarjetas de las filas nativas "Agregado recientemente en Películas/Series". El plugin pide hasta 30 al servidor y oculta el excedente, así el cambio se aplica al instante sin recargar; 16 por defecto |
 | Colecciones por estudio | on/off + lista | Fila de logos centrada, por defecto bajo el hero; logo y vídeo curados con fallback al logo del servidor. Los estudios de una misma marca se agrupan en una sola casilla (Disney, Marvel, DC…) y el clic abre todos sus títulos juntos. Lista vacía = Disney, Marvel, DC, Paramount, Netflix; máx. 40 |
 | Backdrop de Detalles | on/off | Altura, saturación y degradados de `#itemBackdrop` |
 | Metadatos | on/off | Tipografía y espaciado de la información principal |

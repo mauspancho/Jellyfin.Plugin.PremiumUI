@@ -1,6 +1,6 @@
 import type { PremiumUiConfig } from '../types';
 import { createHero, type HeroController } from './hero';
-import { applySectionVisibility, getHomeSections, orderSections } from './sections';
+import { applySectionVisibility, applyRecentLimit, getHomeSections, orderSections } from './sections';
 import { applyRecommendations } from './recommendations';
 import { applyStudioSections } from './studios';
 
@@ -103,6 +103,7 @@ function refresh(state: HomeState): void {
 
         applySectionVisibility(sections, state.config.home);
         orderSections(sections, state.config.home.sectionOrder);
+        applyRecentLimit(sections, state.config.home);
         state.hero.update(getHomeSections(sections), state.config);
         applyStudioSections(sections, state.config.home);
         applyRecommendations(sections, state.config.home);

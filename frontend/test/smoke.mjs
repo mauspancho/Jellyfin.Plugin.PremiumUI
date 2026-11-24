@@ -35,6 +35,7 @@ const config = {
         sectionOrder: ['hero', 'continue', 'estudios', 'recent', 'movies', 'series', 'recommendations'],
         itemsPerSection: 12,
         recommendationsCount: 12,
+        recentlyAddedCount: 16,
         studioSections: ['Marvel', 'Netflix', 'Cine Random'],
         studioCollections: [
             {
@@ -860,6 +861,56 @@ await new Promise((resolve) => setTimeout(resolve, 400));
 assert.equal(document.querySelector('#homeTab > .pui-hero')?.hidden, true, 'el hero de Inicio se oculta');
 assert.equal(document.querySelector('#moviesPage .pui-hero'), null, 'las bibliotecas nunca tienen hero');
 assert.equal(document.querySelector('#moviesPage').dataset.puiLibrary, 'movies', 'la biblioteca sigue marcada');
+
+// Número configurable de tarjetas en "Agregado recientemente": se piden hasta
+// 30 al servidor y el excedente se oculta sin recargar la vista.
+function addRecentCards(title, count) {
+    const section = [...document.querySelectorAll('#homeTab .verticalSection')]
+        .find((element) => element.querySelector('.sectionTitle')?.textContent === title);
+    const container = section?.querySelector('.itemsContainer');
+
+    if (!container) {
+        return null;
+    }
+
+    for (let index = 0; index < count; index += 1) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.id = `extra-${title}-${index}`;
+        card.innerHTML = '<div class="cardImageContainer"></div>';
+        container.appendChild(card);
+    }
+
+    return container;
+}
+
+const movieRecent = addRecentCards('Añadidos recientemente', 9);
+const seriesRecent = addRecentCards('Reciente en Series', 8);
+
+assert.ok(movieRecent && seriesRecent, 'deben existir las filas nativas de recién agregados');
+assert.equal(movieRecent.querySelectorAll('.card').length, 10);
+assert.equal(seriesRecent.querySelectorAll('.card').length, 9);
+
+config.home.recentlyAdded = true;
+config.home.movies = true;
+config.home.recentlyAddedCount = 6;
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+const visibleCards = (container) => [...container.querySelectorAll('.card')]
+    .filter((card) => !card.classList.contains('pui-card-trimmed'));
+
+assert.equal(visibleCards(movieRecent).length, 6, 'la fila de películas respeta el número configurado');
+assert.equal(visibleCards(seriesRecent).length, 6, 'la fila de series respeta el número configurado');
+
+config.home.recentlyAddedCount = 20;
+window.PremiumUI.invalidate();
+await window.PremiumUI.refresh();
+await new Promise((resolve) => setTimeout(resolve, 400));
+
+assert.equal(visibleCards(movieRecent).length, 10, 'al subir el número se recuperan las tarjetas ocultas');
+assert.equal(visibleCards(seriesRecent).length, 9, 'al subir el número se recuperan las tarjetas ocultas');
 
 assert.deepEqual(failures, [], 'no debe haber rechazos sin manejar');
 

@@ -365,6 +365,12 @@ html[data-pui-home='on'] #homeTab .emby-scrollbuttons-button[disabled] {
  * movimiento de la tarjeta.
  */
 
+/* Tarjetas sobrantes de las filas nativas de recién agregados: se ocultan
+ * por encima del número elegido, sin borrarlas del DOM. */
+html[data-pui-home='on'] #homeTab .card.pui-card-trimmed {
+    display: none !important;
+}
+
 html[data-pui-home='on'] :is(#homeTab, [data-pui-library]) .card > .cardBox {
     transition: transform var(--pui-transition) ease, filter var(--pui-transition) ease;
 }

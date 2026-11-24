@@ -174,6 +174,10 @@ public static class ConfigurationValidator
             SectionOrder = order,
             ItemsPerSection = Clamp(source.ItemsPerSection, 4, 20),
             RecommendationsCount = Clamp(source.RecommendationsCount, 4, 20),
+            RecentlyAddedCount = Clamp(
+                source.RecentlyAddedCount <= 0 ? 16 : source.RecentlyAddedCount,
+                4,
+                30),
             StudiosEnabled = source.StudiosEnabled,
             Studios = NormalizeStudios(source.Studios, source.StudiosEnabled)
         };

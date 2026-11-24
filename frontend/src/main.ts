@@ -8,10 +8,15 @@ import { applyDesign } from './core/config';
 import { onNavigate } from './core/router';
 import { mountDetails } from './details/details';
 import { mountHome } from './home/home';
+import { installLatestLimitHook } from './home/latestLimit';
 import { mountLibrary } from './library/library';
 import type { PremiumUiConfig, PremiumUiGlobal } from './types';
 
-const VERSION = '0.29.0';
+// Se instala de inmediato: Jellyfin pide `/Items/Latest` con un límite fijo y
+// el parche debe existir antes de que se monte Inicio.
+installLatestLimitHook();
+
+const VERSION = '0.30.0';
 const LIBRARY_PAGES = ['moviesPage', 'tvshowsPage'];
 
 let current: PremiumUiConfig | null = null;

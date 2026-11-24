@@ -28,6 +28,7 @@ public class ConfigurationValidatorTests
         Assert.Equal(string.Empty, result.Design.BackgroundGradientColor);
         Assert.Equal(12, result.Home.ItemsPerSection);
         Assert.Equal(12, result.Home.RecommendationsCount);
+        Assert.Equal(16, result.Home.RecentlyAddedCount);
         Assert.Equal(10, result.Performance.CacheMinutes);
         Assert.Equal("auto", result.Performance.ReducedMotion);
         Assert.Equal(ConfigurationValidator.SectionIds, result.Home.SectionOrder);
@@ -140,6 +141,29 @@ public class ConfigurationValidatorTests
         });
 
         Assert.False(disabled.Home.MediaLibraries);
+    }
+
+    [Fact]
+    public void Normalize_RecentlyAddedCount_ClampsToRange()
+    {
+        Assert.Equal(16, ConfigurationValidator.Normalize(null).Home.RecentlyAddedCount);
+
+        var low = ConfigurationValidator.Normalize(new PluginConfiguration
+        {
+            Home = new HomeOptions { RecentlyAddedCount = 2 }
+        });
+        var high = ConfigurationValidator.Normalize(new PluginConfiguration
+        {
+            Home = new HomeOptions { RecentlyAddedCount = 99 }
+        });
+        var zero = ConfigurationValidator.Normalize(new PluginConfiguration
+        {
+            Home = new HomeOptions { RecentlyAddedCount = 0 }
+        });
+
+        Assert.Equal(4, low.Home.RecentlyAddedCount);
+        Assert.Equal(30, high.Home.RecentlyAddedCount);
+        Assert.Equal(16, zero.Home.RecentlyAddedCount);
     }
 
     [Fact]
